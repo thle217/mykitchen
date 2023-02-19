@@ -389,3 +389,12 @@ input[type=radio], input[type=checkbox] {
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.button-add {
+    font-size: 12pt;
+    margin-left: 15pt;
+    font-weight: normal;
+    background-color: #584747;
+    padding: 7pt;
+    border-radius: 5pt;
+}

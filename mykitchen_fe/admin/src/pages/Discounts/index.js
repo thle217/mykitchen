@@ -1,53 +1,66 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import DataTable from "../../components/DataTable";
 
 function DiscountList() {
+    const nameAPI = "products";
+    const detailsPage = "/discount-details";
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "product_id",
+            align: "center"
+        },
+        {
+            title: "Tên chương trình",
+            dataIndex: "category_name"
+        },
+        {
+            title: "Mã giảm giá",
+            dataIndex: "product_name"
+        },
+        {
+            title: "Phần trăm giảm",
+            dataIndex: "status"
+        },
+        {
+            title: "Ngày bắt đầu",
+            dataIndex: "country"
+        },
+        {
+            title: "Ngày kết thúc",
+            dataIndex: "country"
+        },
+        {
+            title: "Trạng thái",
+            dataIndex: "country"
+        },
+    ];
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
                 <div className="col-md">
                     <div className="rounded p-4 mb-4 bg-secondary">
-                        <h4 className="text-dark">
-                            QUẢN LÝ KHUYẾN MÃI
-                            {/* <a href="" className="text-dark" style={{fontSize: '14px', fontWeight: '100', marginLeft: '5px'}}>Hiển thị tất cả</a> */}
-                        </h4>
-                        <div className="user-page-button-wrapper">
-                            <Link to="/discount-details">
-                                <button className="btn-add btn btn-dark m-2">THÊM KHUYẾN MÃI</button>
-                            </Link>
+                        <div className="d-flex">
+                            <div>
+                                <h4 className="text-dark">QUẢN LÝ KHUYẾN MÃI</h4>
+                            </div>
+                            <div>
+                                <span className="button-add">
+                                    <Link to={detailsPage} className="text-secondary">Thêm mới</Link>
+                                </span>
+                            </div>
                         </div>
-                        <div className="table-responsive mt-3">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="text-dark">STT</th>
-                                        <th scope="col" className="text-dark">Tên chương trình</th>
-                                        <th scope="col" className="text-dark">Mã giảm giá</th>
-                                        <th scope="col" className="text-dark">Phần trăm giảm</th>
-                                        <th scope="col" className="text-dark">Ngày bắt đầu</th>
-                                        <th scope="col" className="text-dark">Ngày kết thúc</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xóa</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th className="text-dark" scope="row">stt</th>
-                                        <td className="text-dark">tên chương trình</td>
-                                        <td className="text-dark">mã giảm giá</td>
-                                        <td className="text-dark">phần trăm giảm</td>
-                                        <td className="text-dark">ngày bắt đầu</td>
-                                        <td className="text-dark">ngày kết thúc</td>
-                                        <td className="text-dark" style={{textAlign: 'center'}}><button type="button" className="btn-delete btn-light" value="<?php echo $list[$i]['user_id'] ?>">Xóa</button></td>
-                                        <td style={{textAlign: 'center'}}>
-                                            <Link to="/discount-details">
-                                                <i className="text-dark"><FontAwesomeIcon icon={faBars}/></i>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="row mt-5">
+                            <div className="table-responsive col-md mt-4">
+                                <div className="table">
+                                    <DataTable
+                                        nameAPI={nameAPI}
+                                        detailsPage={detailsPage} 
+                                        columns={columns}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

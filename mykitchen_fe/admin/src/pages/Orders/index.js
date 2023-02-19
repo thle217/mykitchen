@@ -1,46 +1,51 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import DataTable from "../../components/DataTable";
 
 function OrderList() {
+    const nameAPI = "products";
+    const detailsPage = "/order-details";
+    const columns = [
+        {
+            title: "Mã đơn hàng",
+            dataIndex: "product_id"
+        },
+        {
+            title: "Tên khách hàng",
+            dataIndex: "category_name"
+        },
+        {
+            title: "Tổng tiền",
+            dataIndex: "product_name"
+        },
+        {
+            title: "Ngày đặt",
+            dataIndex: "status"
+        },
+        {
+            title: "Trạng thái",
+            dataIndex: "country"
+        }
+    ];
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
                 <div className="col-md">
                     <div className="rounded p-4 mb-4 bg-secondary">
-                        <h4 className="text-dark">
-                            QUẢN LÝ ĐƠN HÀNG
-                            {/* <a href="" className="text-dark" style={{fontSize: '14px', fontWeight: '100', marginLeft: '5px'}}>Hiển thị tất cả</a> */}
-                        </h4>
-                        <div className="table-responsive mt-5">
-                            <table className="table mt-4">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="text-dark">STT</th>
-                                        <th scope="col" className="text-dark">Mã đơn</th>
-                                        <th scope="col" className="text-dark">Tên khách hàng</th>
-                                        <th scope="col" className="text-dark">Tổng tiền</th>
-                                        <th scope="col" className="text-dark">Ngày đặt</th>
-                                        <th scope="col" className="text-dark">Trạng thái</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th className="text-dark" scope="row">stt</th>
-                                        <td className="text-dark">id</td>
-                                        <td className="text-dark">tên khách</td>
-                                        <td className="text-dark">tổng tiền</td>
-                                        <td className="text-dark">ngày đặt</td>
-                                        <td className="text-success">trạng thái</td>
-                                        <td style={{textAlign: 'center'}}>
-                                            <Link to="/order-details">
-                                                <i className="text-dark"><FontAwesomeIcon icon={faBars}/></i>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="d-flex">
+                            <h4 className="text-dark">QUẢN LÝ ĐƠN HÀNG</h4>
+                        </div>
+                        <div className="row mt-5">
+                            <div className="table-responsive col-md mt-4">
+                                <div className="table">
+                                    <DataTable
+                                        nameAPI={nameAPI} 
+                                        detailsPage={detailsPage}
+                                        columns={columns}
+                                        isOrderTable={true}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,55 +66,55 @@ function OrderDetails() {
                             <div className="row mb-3">
                                 <div className="col-3">
                                     <label htmlFor="inputOrderId" className="col-form-label">Mã đơn hàng</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputOrderId" name="txt-order-id" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputOrderId" name="txt-order-id" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputDate" className="col-form-label">Ngày đặt hàng</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputDate" name="txt-date" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputDate" name="txt-date" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputPaymentMethod" className="col-form-label">PT thanh toán</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputPaymentMethod" name="txt-payment" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputPaymentMethod" name="txt-payment" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputStatus" className="col-form-label">Trạng thái</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext text-danger" id="inputStatus" name="txt-status" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext text-danger" id="inputStatus" name="txt-status" value=""/>
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <div className="col-3">
                                     <label htmlFor="inputUserId" className="col-form-label">Mã khách hàng</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputUserId" name="txt-user-id" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputUserId" name="txt-user-id" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputUserName" className="col-form-label">Họ tên khách hàng</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputUserName" name="txt-user-name" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputUserName" name="txt-user-name" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputReceiver" className="col-form-label">Họ tên người nhận</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputReceiver" name="txt-receiver" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputReceiver" name="txt-receiver" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputPhone" className="col-form-label">Số điện thoại người nhận</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputPhone" name="txt-phone" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputPhone" name="txt-phone" value=""/>
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <div className="col-3">
                                     <label htmlFor="inputStreet" className="col-form-label">Số nhà và tên đường</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputStreet" name="txt-street" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputStreet" name="txt-street" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputWard" className="col-form-label">Phường/Xã</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputWard" name="txt-ward" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputWard" name="txt-ward" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputDistrict" className="col-form-label">Quận/Huyện</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputDistrict" name="txt-district" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputDistrict" name="txt-district" value=""/>
                                 </div>
                                 <div className="col-3">
                                     <label htmlFor="inputCity" className="col-form-label">Thành phố/Tỉnh</label>
-                                    <input type="text" readonly style={{border: '0px !important'}} className="form-control-plaintext" id="inputCity" name="txt-city" value=""/>
+                                    <input type="text" readOnly style={{border: '0px !important'}} className="form-control-plaintext" id="inputCity" name="txt-city" value=""/>
                                 </div>
                             </div>
                             <div className="row mb-5">
@@ -136,7 +141,7 @@ function OrderDetails() {
                                             </tbody>
                                             <tfoot className="bg-light">
                                                 <tr>
-                                                    <th scope="col" className="text-dark fs-5" colspan="4">TỔNG TIỀN HÓA ĐƠN</th>
+                                                    <th scope="col" className="text-dark fs-5" colSpan="4">TỔNG TIỀN HÓA ĐƠN</th>
                                                     <th scope="col" className="text-dark fs-5">tổng tiền</th>
                                                 </tr>
                                             </tfoot>

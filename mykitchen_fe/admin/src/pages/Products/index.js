@@ -1,51 +1,68 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import DataTable from "../../components/DataTable";
 
 function ProductList() {
+    const nameAPI = "products";
+    const detailsPage = "/product-details";
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "product_id",
+            align: "center"
+        },
+        {
+            title: "Loại",
+            dataIndex: "category_name"
+        },
+        {
+            title: "Tên sản phẩm",
+            dataIndex: "product_name"
+        },
+        {
+            title: "Trạng Thái",
+            dataIndex: "status"
+        },
+        {
+            title: "Nơi sản xuất",
+            dataIndex: "country"
+        },
+    ];
+
+    const handleDelete = (record) => {
+        console.log('xóa', record);
+    }
+
+    const handleEdit = (record) => {
+        console.log('sửa', record);
+    }
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
                 <div className="col-md">
                     <div className="rounded p-4 mb-4 bg-secondary">
-                        <h4 className="text-dark">
-                            QUẢN LÝ SẢN PHẨM
-                            {/* <a href="" className="text-dark" style={{fontSize: '14px', fontWeight: '100', marginLeft: '5px'}}>Hiển thị tất cả</a> */}
-                        </h4>
-                        <div className="product-page-button-wrapper">
-                            <Link to="/product-details">
-                                <button className="btn-add btn btn-dark m-2">THÊM SẢN PHẨM</button>
-                            </Link>
+                        <div className="d-flex">
+                            <div>
+                                <h4 className="text-dark">QUẢN LÝ SẢN PHẨM</h4>
+                            </div>
+                            <div>
+                                <span className="button-add">
+                                    <Link to={detailsPage} className="text-secondary">Thêm mới</Link>
+                                </span>
+                            </div>
                         </div>
-                        <div className="table-responsive mt-3">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="text-dark">STT</th>
-                                        <th scope="col" className="text-dark">Loại</th>
-                                        <th scope="col" className="text-dark">Tên sản phẩm</th>
-                                        <th scope="col" className="text-dark">Tr. Thái</th>
-                                        <th scope="col" className="text-dark">Nơi sản xuất</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xóa</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th className="text-dark" scope="row">stt</th>
-                                        <td className="text-dark">tên loại sản phẩm</td>
-                                        <td className="text-dark">tên sản phẩm</td>
-                                        <td className="text-success">active</td>
-                                        <td className="text-dark">nơi sản xuất</td>
-                                        <td className="text-dark" style={{textAlign: 'center'}}><button type="button" className="btn-delete btn-light" value="<?php echo $list[$i]['product_id'] ?>">Xóa</button></td>
-                                        <td style={{textAlign: 'center'}}>
-                                            <Link to="/product-details">
-                                                <i className="text-dark"><FontAwesomeIcon icon={faBars}/></i>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="row mt-5">
+                            <div className="table-responsive col-md mt-4">
+                                <div className="table">
+                                    <DataTable
+                                        nameAPI={nameAPI} 
+                                        detailsPage={detailsPage}
+                                        columns={columns}
+                                        handleDelete={handleDelete}
+                                        handleEdit={handleEdit}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,6 +72,11 @@ function ProductList() {
 }
 
 function ProductDetails() {
+    const handleCreate = (e) => {
+        e.preventDefault();
+        console.log('create nè');
+    }
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row bg-light rounded justify-content-center mx-0">
@@ -67,7 +89,7 @@ function ProductDetails() {
                             echo '<h6 className="text-danger">CHÚ Ý: Thương hiệu - Loại sản phẩm - Tên sản phẩm - Đơn giá không được trống !</h6>';
                         }
                         ?> */}
-                        <form action="product-insert-controller.php" method="post">
+                        <form action="" method="post" onSubmit={e => handleCreate(e)}>
                             <div className="row mb-3">
                                 <div className="col-4">
                                     <label htmlFor="inputBrand" className="col-form-label">Thương hiệu</label>

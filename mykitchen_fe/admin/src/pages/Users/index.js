@@ -1,53 +1,62 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import DataTable from "../../components/DataTable";
 
 function UserList() {
+    const nameAPI = "products";
+    const detailsPage = "/user-details";
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "product_id",
+            align: "center"
+        },
+        {
+            title: "Vai trò",
+            dataIndex: "category_name"
+        },
+        {
+            title: "Tên người dùng",
+            dataIndex: "product_name"
+        },
+        {
+            title: "Giới tính",
+            dataIndex: "status"
+        },
+        {
+            title: "Ngày sinh",
+            dataIndex: "country"
+        },
+        {
+            title: "Username",
+            dataIndex: "country"
+        },
+    ];
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
                 <div className="col-md">
                     <div className="rounded p-4 mb-4 bg-secondary">
-                        <h4 className="text-dark">
-                            QUẢN LÝ NGƯỜI DÙNG
-                            {/* <a href="" className="text-dark" style={{fontSize: '14px', fontWeight: '100', marginLeft: '5px'}}>Hiển thị tất cả</a> */}
-                        </h4>
-                        <div className="user-page-button-wrapper">
-                            <Link to="/user-details">
-                                <button className="btn-add btn btn-dark m-2">THÊM NGƯỜI DÙNG</button>
-                            </Link>
+                        <div className="d-flex">
+                            <div>
+                                <h4 className="text-dark">QUẢN LÝ NGƯỜI DÙNG</h4>
+                            </div>
+                            <div>
+                                <span className="button-add">
+                                    <Link to={detailsPage} className="text-secondary">Thêm mới</Link>
+                                </span>
+                            </div>
                         </div>
-                        <div className="table-responsive mt-3">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="text-dark">STT</th>
-                                        <th scope="col" className="text-dark">Vai trò</th>
-                                        <th scope="col" className="text-dark">Tên người dùng</th>
-                                        <th scope="col" className="text-dark">Giới tính</th>
-                                        <th scope="col" className="text-dark">Ngày sinh</th>
-                                        <th scope="col" className="text-dark">Username</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xóa</th>
-                                        <th scope="col" className="text-dark" style={{textAlign: 'center'}}>Xem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th className="text-dark" scope="row">stt</th>
-                                        <td className="text-dark">vai trò</td>
-                                        <td className="text-dark">họ tên</td>
-                                        <td className="text-dark">giới tính</td>
-                                        <td className="text-dark">ngày sinh</td>
-                                        <td className="text-dark">tên đăng nhập</td>
-                                        <td className="text-dark" style={{textAlign: 'center'}}><button type="button" className="btn-delete btn-light" value="<?php echo $list[$i]['user_id'] ?>">Xóa</button></td>
-                                        <td style={{textAlign: 'center'}}>
-                                            <Link to="/user-details">
-                                                <i className="text-dark"><FontAwesomeIcon icon={faBars}/></i>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="row mt-5">
+                            <div className="table-responsive col-md mt-4">
+                                <div className="table">
+                                    <DataTable
+                                        nameAPI={nameAPI}
+                                        detailsPage={detailsPage}
+                                        columns={columns}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +83,7 @@ function UserDetails() {
                                 <div className="col-4">
                                     <label htmlFor="inputRole" className="col-form-label">Vai trò</label>
                                     <select className="form-select" aria-label="Default select example" id="inputRole" name="option-user-role">
-                                        <option selected>Chọn vai trò</option>
+                                        <option>Chọn vai trò</option>
                                         <option value="1">Khách hàng</option>
                                         <option value="2">Nhân viên</option>
                                         <option value="3">Quản trị viên</option>

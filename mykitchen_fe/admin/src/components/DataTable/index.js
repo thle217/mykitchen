@@ -1,28 +1,10 @@
-import axios from "axios";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Table, Button, Popconfirm } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 function DataTable(props) {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const getData = async () => {
-            try{
-                setLoading(true);
-                const respone = await axios.get(`http://localhost:8080/api/data-${props.nameAPI}`);
-                setData(respone.data.data);
-                setLoading(false);
-            }
-            catch(err){
-                throw new Error(err);
-            }
-        };
-        getData(); 
-    },[]);
 
     //COLUMNS Ở NHỮNG TRANG BÌNH THƯỜNG
     let columns = [
@@ -45,14 +27,15 @@ function DataTable(props) {
             dataIndex: "",
             align: "center",
             render: (_, record) => (
-                <Link to={props.detailsPage}>
-                    <Button className="bg-light" onClick={() => props.handleEdit(record)}>
+                <Link to={props.detailsPage} state={{ record }}>
+                    <Button className="bg-light">
                         <FontAwesomeIcon icon={faEdit} className="text-dark"/>
                     </Button>
                 </Link>
             )
         },
     ];
+
 
     //COLUMNS Ở TRANG QUẢN LÝ ĐƠN HÀNG: KHÔNG CÓ XÓA ĐƠN
     if(props.isOrderTable) {
@@ -73,12 +56,12 @@ function DataTable(props) {
         ];
     }
 
+
     return (
         <Table
             columns={columns}
-            dataSource={data}
+            dataSource={props.list}
             bordered
-            loading={loading}
             rowKey={columns[0].dataIndex} //prop key
         />
     )

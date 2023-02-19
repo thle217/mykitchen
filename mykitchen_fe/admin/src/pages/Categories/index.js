@@ -1,7 +1,27 @@
+import { useEffect, useState } from "react";
 import DataTable from "../../components/DataTable";
+import categoryAPI from "../../services/categoryAPI";
 
 function CategoryList() {
-    const nameAPI = "categories";
+
+
+    //CALL API
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        const getAllProducts = async () => {
+            try{
+                const response = await categoryAPI.getAll();
+                setList(response.data.data);
+            }
+            catch(err){
+                throw new Error(err);
+            }
+        };
+        getAllProducts(); 
+    },[]);
+
+
+    //ĐỊNH DẠNG DATATABLE
     const columns = [
         {
             title: "ID",
@@ -13,6 +33,7 @@ function CategoryList() {
             dataIndex: "category_name"
         }
     ];
+
 
     return (
         <div className="container-fluid pt-4 px-4">
@@ -26,8 +47,8 @@ function CategoryList() {
                             <div className="table-responsive col-md-7 mt-4">
                                 <div className="table">
                                     <DataTable
+                                        list={list}
                                         columns={columns}
-                                        nameAPI={nameAPI}
                                     />
                                 </div>
                             </div>
@@ -39,6 +60,10 @@ function CategoryList() {
         </div>
     )
 }
+
+
+//--------------------
+
 
 function CategoryDetails() {
     return (

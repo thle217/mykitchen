@@ -9,9 +9,9 @@ const sequelize = new Sequelize("mykitchen_db", "root", null, {
 let connet = async () => {
   try {
     await sequelize.authenticate();
-    console.log("kết nối thánh công");
+    console.log("kết nối thành công");
   } catch (e) {
-    console.error("kêt nói thất bại");
+    console.error("kêt nối thất bại");
   }
 };
 export default connet;

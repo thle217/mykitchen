@@ -1,7 +1,27 @@
+import { useEffect, useState } from "react";
 import DataTable from "../../components/DataTable";
+import brandAPI from "../../services/brandAPI";
 
 function BrandList() {
-    const nameAPI = "brands";
+
+
+    //CALL API
+    const [list, setList] = useState([]);
+    useEffect(() => {
+        const getAllProducts = async () => {
+            try{
+                const response = await brandAPI.getAll();
+                setList(response.data.data);
+            }
+            catch(err){
+                throw new Error(err);
+            }
+        };
+        getAllProducts(); 
+    },[]);
+
+
+    //ĐỊNH DẠNG DATATABLE
     const columns = [
         {
             title: "ID",
@@ -18,6 +38,7 @@ function BrandList() {
         },
     ];
 
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
@@ -30,7 +51,7 @@ function BrandList() {
                             <div className="table-responsive col-md-7 mt-4">
                                 <div className="table">
                                     <DataTable
-                                        nameAPI={nameAPI} 
+                                        list={list}
                                         columns={columns}
                                     />
                                 </div>
@@ -43,6 +64,10 @@ function BrandList() {
         </div>
     )
 }
+
+
+//--------------------
+
 
 function BrandDetails() {
     return (

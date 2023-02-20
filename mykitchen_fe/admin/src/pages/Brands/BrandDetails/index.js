@@ -25,7 +25,7 @@ function BrandDetails() {
     const handleOnChangeUrl = e => {
         setUrl(e.target.value);
     };
-
+    
 
     return (
         <div className="col-md-5 mt-4">

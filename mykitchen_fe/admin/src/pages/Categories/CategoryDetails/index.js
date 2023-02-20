@@ -20,7 +20,7 @@ function CategoryDetails() {
     const handleOnChange = e => {
         setName(e.target.value);
     };
-
+    
 
     return (
         <div className="col-md-5 mt-4">

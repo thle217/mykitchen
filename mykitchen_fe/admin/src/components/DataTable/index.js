@@ -17,9 +17,12 @@ function DataTable(props) {
     }
 
 
-    //COLUMNS Ở TRANG QUẢN LÝ PRODUCTS, DISCOUNTS, USERS
+    //COLUMNS Ở CÁC TRANG BÌNH THƯỜNG
     let columns = [
         ...props.columns,
+        props.isOrderTable? //TRANG ĐƠN HÀNG THÌ KHÔNG CÓ BUTTON XÓA
+        {}
+        : //CÁC TRANG KHÁC THÌ CÓ BUTTON XÓA
         {
             title: "Xóa",
             dataIndex: "",
@@ -33,6 +36,18 @@ function DataTable(props) {
             )
             
         },
+        props.isBrandCategoryTable? //TRANG CỦA BRANDS/CATEGORIES
+        {
+            title: "Xem",
+            dataIndex: "",
+            align: "center",
+            render: (_, record) => (
+                <Button className="bg-light" onClick={() => handleSaveToStore(record)}>
+                    <FontAwesomeIcon icon={faEdit} className="text-dark"/>
+                </Button>
+            )
+        }
+        : //CÁC TRANG KHÁC
         {
             title: "Xem",
             dataIndex: "",
@@ -46,57 +61,6 @@ function DataTable(props) {
             )
         },
     ];
-
-    
-    //COLUMNS Ở TRANG QUẢN LÝ BRANDS, CATEGORIES
-    if(props.isBrandCategoryTable) {
-        columns = [
-            ...props.columns,
-            {
-                title: "Xóa",
-                dataIndex: "",
-                align: "center",
-                render: (_, record) => (
-                    <Popconfirm title="Bạn có muốn xóa?" onConfirm={()=> props.handleDelete(record)}>
-                        <Button className="bg-light">
-                            <FontAwesomeIcon icon={faTrashAlt} className="text-dark"/>
-                        </Button>
-                    </Popconfirm>
-                )
-                
-            },
-            {
-                title: "Xem",
-                dataIndex: "",
-                align: "center",
-                render: (_, record) => (
-                    <Button className="bg-light" onClick={() => handleSaveToStore(record)}>
-                        <FontAwesomeIcon icon={faEdit} className="text-dark"/>
-                    </Button>
-                )
-            },
-        ];
-    }
-
-
-    //COLUMNS Ở TRANG QUẢN LÝ ĐƠN HÀNG: KHÔNG CÓ XÓA ĐƠN
-    if(props.isOrderTable) {
-        columns = [
-            ...props.columns,
-            {
-                title: "Xem",
-                dataIndex: "",
-                align: "center",
-                render: () => (
-                    <Link to={props.detailsPage}>
-                        <Button className="bg-light">
-                            <FontAwesomeIcon icon={faEdit} className="text-dark"/>
-                        </Button>
-                    </Link>
-                )
-            },
-        ];
-    }
 
 
     return (

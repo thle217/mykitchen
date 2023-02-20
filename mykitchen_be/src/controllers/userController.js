@@ -23,6 +23,27 @@ let getUserById = async (req, res) => {
   }
 };
 
+let loginUser = async (req, res) => {
+  const sql = `select * from users where username = "${req.body.username}"`;
+  const user = await sequelize.query(sql, {
+    type: sequelize.QueryTypes.SELECT,
+  });
+  if (user.length > 0) {
+    const checkPassword = bcrypt.compareSync(
+      req.body.password,
+      user[0].password
+    );
+    if (checkPassword) {
+      const { password, ...data } = user[0];
+      return res.status(200).json({ data });
+    } else {
+      return res.status(400).json({ result: "Incorrect account or password" });
+    }
+  } else {
+    return res.status(404).json({ result: "User not found" });
+  }
+};
+
 let creatUser = async (req, res) => {
   const sql1 = `select * from users where username = "${req.body.username}"`;
   const user = await sequelize.query(sql1, {
@@ -32,15 +53,16 @@ let creatUser = async (req, res) => {
     return res.status(400).json({ result: "User already exists" });
   } else {
     if (
-      req.body.role === undefined ||
       req.body.username === undefined ||
-      req.body.password === undefined
+      req.body.password === undefined ||
+      req.body.email === undefined ||
+      req.body.name === undefined
     ) {
       return res.status(400).json({ result: "incomplete information" });
     } else {
       const hashPass = await hashPassword(req.body.password);
-      const sql = `INSERT INTO users(role_id, username,password)
-            VALUES ('${req.body.role}','${req.body.username}','${hashPass}')`;
+      const sql = `INSERT INTO users(role_id, username,password,user_name,email)
+            VALUES ('1','${req.body.username}','${hashPass}','${req.body.name}','${req.body.email}')`;
       await sequelize.query(sql, {
         type: sequelize.QueryTypes.INSERT,
       });
@@ -101,6 +123,8 @@ let UpdateUser = async (req, res) => {
     } else {
       return res.status(400).json({ result: "Update failed" });
     }
+  } else {
+    return res.status(400).json({ result: "User does not exist" });
   }
 };
 
@@ -129,4 +153,11 @@ let hashPassword = (password) => {
   });
 };
 
-module.exports = { getAllUser, creatUser, getUserById, UpdateUser, DeleteUser };
+module.exports = {
+  getAllUser,
+  creatUser,
+  getUserById,
+  UpdateUser,
+  DeleteUser,
+  loginUser,
+};

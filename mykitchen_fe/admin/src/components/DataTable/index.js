@@ -1,14 +1,28 @@
 import { Link } from "react-router-dom";
 import { Table, Button, Popconfirm } from "antd";
+import { useDispatch } from "react-redux";
+import { setInfo } from "../../slices/commonSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+
 
 function DataTable(props) {
 
 
-    //COLUMNS Ở NHỮNG TRANG BÌNH THƯỜNG
+    //XỬ LÝ LƯU RECORD CẦN XEM/SỬA VÀO STORE - TRANG BRAND VÀ CATEGORY
+    const dispatch = useDispatch();
+    const handleSaveToStore = (record) => {
+        const action = setInfo(record);
+        dispatch(action);
+    }
+
+
+    //COLUMNS Ở CÁC TRANG BÌNH THƯỜNG
     let columns = [
         ...props.columns,
+        props.isOrderTable? //TRANG ĐƠN HÀNG THÌ KHÔNG CÓ BUTTON XÓA
+        {}
+        : //CÁC TRANG KHÁC THÌ CÓ BUTTON XÓA
         {
             title: "Xóa",
             dataIndex: "",
@@ -22,6 +36,18 @@ function DataTable(props) {
             )
             
         },
+        props.isBrandCategoryTable? //TRANG CỦA BRANDS/CATEGORIES
+        {
+            title: "Xem",
+            dataIndex: "",
+            align: "center",
+            render: (_, record) => (
+                <Button className="bg-light" onClick={() => handleSaveToStore(record)}>
+                    <FontAwesomeIcon icon={faEdit} className="text-dark"/>
+                </Button>
+            )
+        }
+        : //CÁC TRANG KHÁC
         {
             title: "Xem",
             dataIndex: "",
@@ -35,26 +61,6 @@ function DataTable(props) {
             )
         },
     ];
-
-
-    //COLUMNS Ở TRANG QUẢN LÝ ĐƠN HÀNG: KHÔNG CÓ XÓA ĐƠN
-    if(props.isOrderTable) {
-        columns = [
-            ...props.columns,
-            {
-                title: "Xem",
-                dataIndex: "",
-                align: "center",
-                render: () => (
-                    <Link to={props.detailsPage}>
-                        <Button className="bg-light">
-                            <FontAwesomeIcon icon={faEdit} className="text-dark"/>
-                        </Button>
-                    </Link>
-                )
-            },
-        ];
-    }
 
 
     return (

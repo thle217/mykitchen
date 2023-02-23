@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import productSlice from "../slices/Products/index";
+import commonSlice from "../slices/commonSlice";
 
 const rootReducer = {
-    product: productSlice
+    common: commonSlice
 };
 
 const store = configureStore({

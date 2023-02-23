@@ -1,11 +1,15 @@
 import Login from "../pages/Login";
 import Home from "../pages/Home";
-import { BrandList } from "../pages/Brands";
-import { CategoryList } from "../pages/Categories";
-import { ProductDetails, ProductList } from "../pages/Products";
-import { UserDetails, UserList } from "../pages/Users";
-import { OrderDetails, OrderList } from "../pages/Orders";
-import { DiscountDetails, DiscountList } from "../pages/Discounts";
+import BrandList from "../pages/Brands/BrandList";
+import CategoryList from "../pages/Categories/CategoryList";
+import ProductList from "../pages/Products/ProductList";
+import ProductDetails from "../pages/Products/ProductDetails";
+import UserList from "../pages/Users/UserList";
+import UserDetails from "../pages/Users/UserDetails";
+import OrderList from "../pages/Orders/OrderList";
+import OrderDetails from "../pages/Orders/OrderDetails";
+import DiscountList from "../pages/Discounts/DiscountList";
+import DiscountDetails from "../pages/Discounts/DiscountDetails";
 
 const publicRoutes = [
     {

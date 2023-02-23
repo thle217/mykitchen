@@ -80,51 +80,68 @@ let UpdateUser = async (req, res) => {
     const sql = `UPDATE users SET ${
       req.body.username
         ? "user_name='" + req.body.username + "',"
+        : user[0].user_name === null
+        ? "user_name=" + user[0].user_name + ","
         : "user_name='" + user[0].user_name + "',"
     }${
       req.body.gender
         ? "gender='" + req.body.gender + "',"
+        : user[0].gender === null
+        ? "gender=" + user[0].gender + ","
         : "gender='" + user[0].gender + "',"
     }${
       req.body.dob
         ? "dob='" + req.body.dob + "',"
+        : user[0].dob === null
+        ? "dob=" + user[0].dob + ","
         : "dob='" + user[0].dob + "',"
     }${
       req.body.phone
         ? "phone='" + req.body.phone + "',"
+        : user[0].phone === null
+        ? "phone=" + user[0].phone + ","
         : "phone='" + user[0].phone + "',"
     }${
       req.body.street
         ? "street='" + req.body.street + "',"
+        : user[0].street === null
+        ? "street=" + user[0].street + ","
         : "street='" + user[0].street + "',"
     }${
       req.body.ward
         ? "ward='" + req.body.ward + "',"
+        : user[0].ward === null
+        ? "ward=" + user[0].ward + ","
         : "ward='" + user[0].ward + "',"
     }${
       req.body.district
         ? "district='" + req.body.district + "',"
+        : user[0].district === null
+        ? "district=" + user[0].district + ","
         : "district='" + user[0].district + "',"
     }${
       req.body.city
         ? "city='" + req.body.city + "',"
+        : user[0].city === null
+        ? "city=" + user[0].city + ","
         : "city='" + user[0].city + "',"
     }${
       req.body.email
         ? "email='" + req.body.email + "',"
+        : user[0].email === null
+        ? "email=" + user[0].email + ""
         : "email='" + user[0].email + "'"
-    }WHERE user_id =${req.params.id}`;
-
+    } WHERE user_id = ${req.params.id}`;
     const [result, update] = await sequelize.query(sql, {
       type: sequelize.QueryTypes.UPDATE,
     });
     if (update) {
       return res.status(200).json({ result: "Update successful" });
     } else {
-      return res.status(400).json({ result: "Update failed" });
+      return res.status(403).json({ result: "Update failed" });
     }
   } else {
-    return res.status(400).json({ result: "User does not exist" });
+    return res.status(404).json({ result: "User does not exist" });
   }
 };
 
@@ -138,7 +155,7 @@ let DeleteUser = async (req, res) => {
     await sequelize.query(sql);
     return res.status(200).json({ result: "Delete successful" });
   } else {
-    return res.status(400).json({ result: "User does not exist" });
+    return res.status(404).json({ result: "User does not exist" });
   }
 };
 

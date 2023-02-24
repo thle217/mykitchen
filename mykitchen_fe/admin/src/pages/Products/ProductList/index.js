@@ -18,7 +18,7 @@ function ProductList() {
                 throw new Error(err);
             }
         };
-        getAllProducts(); 
+        getAllProducts();
     },[]);
 
 

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import brandAPI from "../../../services/brandAPI";
+import categoryAPI from "../../../services/categoryAPI";
 
 function ProductDetails() {
 
 
-    //XỬ LÝ LƯU THÔNG TIN SẢN PHẨM VỪA CHỌN
+    //XỬ LÝ LƯU THÔNG TIN SẢN PHẨM VỪA CHỌN Ở DATATABLE
     const { state } = useLocation();
     let product = null;
     if(state) { //nếu có state thì lưu, không thì giữ nguyên là null
@@ -13,9 +15,9 @@ function ProductDetails() {
 
 
     //TẠO STATE CHO CÁC THÔNG TIN
-    const [brand, setBrand] = useState("");
+    const [brandName, setBrandName] = useState(product?product.brand_name:"");
     const [name, setName] = useState(product?product.product_name:"")
-    const [catgory, setCategory] = useState("");
+    const [catgoryName, setCategoryName] = useState("");
     const [price, setPrice] = useState(product?product.price:"");
     const [url, setUrl] = useState("");
     const [size, setSize] = useState(product?product.size:"");
@@ -26,6 +28,25 @@ function ProductDetails() {
     const [country, setCountry] = useState(product?product.country:"");
     const [description, setDescription] = useState(product?product.description:"");
     const [status, setStatus] = useState("");
+
+
+    //XỬ LÝ LẤY API CATEGORY VÀ BRAND
+    const [brandList, setBrandList] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+
+    useEffect(() => {
+        const getAllBrands = async () => {
+            const res = await brandAPI.getAll();
+            setBrandList(res.data.data);
+        };
+        const getAllCategories = async () => {
+            const res = await categoryAPI.getAll();
+            setCategoryList(res.data.data);
+        };
+
+        getAllBrands();
+        getAllCategories();
+    }, []);
 
 
     //XỬ LÝ CREATE
@@ -52,14 +73,18 @@ function ProductDetails() {
                                 <div className="col-4">
                                     <label htmlFor="inputBrand" className="col-form-label">Thương hiệu</label>
                                     <select className="form-select" aria-label="Default select example" id="inputBrand" name="option-product-brand">
-                                        <option>Chọn thương hiệu</option>
-                                        {/* <?php
-                                        foreach($brandList as $brand) {
-                                        ?>
-                                        <option value="<?php echo $brand['brand_id']?>"><?php echo $brand['brand_name'] ?></option>
-                                        <?php
+                                        {
+                                            brandList.map(brand => {
+                                                return (
+                                                    <option
+                                                        value={brand.brand_id}
+                                                        key={brand.brand_id}
+                                                    >
+                                                        {brand.brand_name}
+                                                    </option>
+                                                )
+                                            })
                                         }
-                                        ?> */}
                                     </select>
                                 </div>
                                 <div className="col-8">
@@ -77,14 +102,11 @@ function ProductDetails() {
                                 <div className="col-4">
                                     <label htmlFor="inputCategory" className="col-form-label">Loại sản phẩm</label>
                                     <select className="form-select" aria-label="Default select example" id="inputCategory" name="option-product-category">
-                                        <option>Chọn loại sản phẩm</option>
-                                        {/* <?php
-                                        foreach($categoryList as $category) {
-                                        ?>
-                                        <option value="<?php echo $category['category_id']?>"><?php echo $category['category_name'] ?></option>
-                                        <?php
+                                        {
+                                            categoryList.map(category => {
+                                                return <option value={category.category_id} key={category.category_id}>{category.category_name}</option>
+                                            })
                                         }
-                                        ?> */}
                                     </select>
                                 </div>
                                 <div className="col-4">

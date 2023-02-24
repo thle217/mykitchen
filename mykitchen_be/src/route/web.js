@@ -11,10 +11,18 @@ let initWebRotes = (app) => {
     res.send("backend mykitchen");
   });
 
-  //API ROUTES
-  router.get("/api/get-all-products", productController.getAllProducts);
-  router.get("/api/get-all-brands", brandController.getAllBrands);
-  router.get("/api/get-all-categories", categoryController.getAllCategories);
+  //Product
+  router.get("/api/product/get-all", productController.getAllProducts);
+  router.get("/api/product/:product_id", productController.getProductById);
+  router.post("/api/product/create", productController.createProduct);
+  router.put("/api/product/update/:product_id", productController.updateProduct);
+  router.delete("/api/product/delete/:product_id", productController.deleteProduct);
+
+  //Brand
+  router.get("/api/brand/get-all", brandController.getAllBrands);
+
+  //Category
+  router.get("/api/category/get-all", categoryController.getAllCategories);
 
   //User
   router.get("/api/user/get-all", userController.getAllUser);

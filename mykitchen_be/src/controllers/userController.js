@@ -71,6 +71,41 @@ let creatUser = async (req, res) => {
   }
 };
 
+let creatAdmin = async (req, res) => {
+  const sql1 = `select * from users where username = "${req.body.username}"`;
+  const user = await sequelize.query(sql1, {
+    type: sequelize.QueryTypes.SELECT,
+  });
+  if (user.length > 0) {
+    return res.status(400).json({ result: "User already exists" });
+  } else {
+    if (
+      req.body.role === undefined ||
+      req.body.name === undefined ||
+      req.body.gender === undefined ||
+      req.body.dob === undefined ||
+      req.body.phone === undefined ||
+      req.body.street === undefined ||
+      req.body.ward === undefined ||
+      req.body.district === undefined ||
+      req.body.city === undefined ||
+      req.body.username === undefined ||
+      req.body.password === undefined
+    ) {
+      return res.status(400).json({ result: "incomplete information" });
+    } else {
+      const hashPass = await hashPassword(req.body.password);
+      const sql = `INSERT INTO users(role_id, user_name, gender, dob, phone, street, ward, district, city, username, password) 
+      VALUES ('${req.body.role}','${req.body.name}','${req.body.gender}','${req.body.dob}','${req.body.phone}','${req.body.street}',
+      '${req.body.ward}','${req.body.district}','${req.body.city}','${req.body.username}','${hashPass}')`;
+      await sequelize.query(sql, {
+        type: sequelize.QueryTypes.INSERT,
+      });
+      return res.status(200).json({ result: "Create successful" });
+    }
+  }
+};
+
 let UpdateUser = async (req, res) => {
   const sql1 = `select * from users where user_id = "${req.params.id}"`;
   const user = await sequelize.query(sql1, {
@@ -177,4 +212,5 @@ module.exports = {
   UpdateUser,
   DeleteUser,
   loginUser,
+  creatAdmin,
 };

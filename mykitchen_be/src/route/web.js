@@ -20,6 +20,7 @@ let initWebRotes = (app) => {
   router.get("/api/user/get-all", userController.getAllUser);
   router.get("/api/user/get-id/:id", userController.getUserById);
   router.post("/api/user/create", userController.creatUser);
+  router.post("/api/user/create-admin", userController.creatAdmin);
   router.delete("/api/user/delete/:id", userController.DeleteUser);
   router.put("/api/user/update/:id", userController.UpdateUser);
   router.post("/api/user/login", userController.loginUser);

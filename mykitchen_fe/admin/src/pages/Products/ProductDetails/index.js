@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import brandAPI from "../../../services/brandAPI";
 import categoryAPI from "../../../services/categoryAPI";
+import productAPI from "../../../services/productAPI";
+import { successDialog } from "../../../components/Dialog";
 
 function ProductDetails() {
 
@@ -15,25 +18,29 @@ function ProductDetails() {
 
 
     //TẠO STATE CHO CÁC THÔNG TIN
-    const [brandName, setBrandName] = useState(product?product.brand_name:"");
-    const [name, setName] = useState(product?product.product_name:"")
-    const [catgoryName, setCategoryName] = useState("");
-    const [price, setPrice] = useState(product?product.price:"");
-    const [url, setUrl] = useState("");
-    const [size, setSize] = useState(product?product.size:"");
-    const [weight, setWeight] = useState(product?product.weight:"");
-    const [capacity, setCapacity] = useState(product?product.capacity:"");
-    const [wattage, setWattage] = useState(product?product.wattage:"");
-    const [material, setMaterial] = useState(product?product.material:"");
-    const [country, setCountry] = useState(product?product.country:"");
-    const [description, setDescription] = useState(product?product.description:"");
-    const [status, setStatus] = useState("");
-
-
-    //XỬ LÝ LẤY API CATEGORY VÀ BRAND
+    const initialValues = {
+        brand_id: product ? product.brand_id : "",
+        category_id: product ? product.category_id : "",
+        brand_name: product ? product.brand_name : "",
+        category_name: product ? product.category_name : "",
+        product_name: product ? product.product_name : "",
+        price: product ? product.price : "",
+        url: product ? product.url : "",
+        size: product ? product.size : "",
+        weight: product ? product.weight : "",
+        capacity: product ? product.capacity : "",
+        wattage: product ? product.wattage : "",
+        material: product ? product.material : "",
+        country: product ? product.country : "",
+        description: product ? product.description : "",
+        status: product ? product.status : "", 
+    }
+    const [values, setValues] = useState(initialValues);
     const [brandList, setBrandList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
 
+
+    //XỬ LÝ LẤY API BRAND - CATEGORY
     useEffect(() => {
         const getAllBrands = async () => {
             const res = await brandAPI.getAll();
@@ -49,10 +56,123 @@ function ProductDetails() {
     }, []);
 
 
-    //XỬ LÝ CREATE
-    const handleCreate = (e) => {
+    //XỬ LÝ THAY ĐỔI INPUT
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setValues({
+            ...values,
+            [name]: value,
+        })
+    }
+
+
+    //XỬ LÝ THAY ĐỔI BRAND - CATEGOTY 
+    const handleChangeBrandCategory = (e) => {
+        const { id, name } = e.target;
+        const index = e.target.selectedIndex;
+        const el = e.target.childNodes[index];
+
+        setValues({
+            ...values,
+            [id]: el.getAttribute('id'),
+            [name]: el.getAttribute('value')
+        })
+    }
+
+
+    //XỬ LÝ SUBMIT
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('create nè');
+
+        let obj = {
+            brand_id: values.brand_id,
+            category_id: values.category_id,
+            product_name: values.product_name,
+            size: values.size,
+            weight: values.weight,
+            material: values.material,
+            country: values.country,
+            price: values.price,
+            status: values.status,
+            description: values.description,
+            capacity: values.capacity,
+            wattage: values.wattage,
+            url: values.url
+        }
+
+        Swal.fire({
+            title: 'BẠN CÓ MUỐN LƯU THÔNG TIN?',
+            confirmButtonText: 'Lưu',
+            showCancelButton: true,
+            cancelButtonText: 'Hủy',
+            customClass: {
+                title: 'fs-5 text-dark',
+                confirmButton: 'bg-primary shadow-none',
+                cancelButton: 'bg-light shadow-none'
+            }
+        })
+        .then(result => {
+            if(result.isConfirmed) {
+
+                //UPDATE
+                if(product) {
+                    updateProduct(obj);
+                }
+
+                //CREATE
+                else {
+                    createProduct(obj);
+                }
+            }
+        });
+    }
+
+
+    //XỬ LÝ CREATE
+    const createProduct = async (obj) => {
+        await productAPI.create(obj)
+        .then(res => {
+            if(res.status === 201) {
+                successDialog();
+            }
+        });
+    }
+
+
+    //XỬ LÝ UPDATE
+    const updateProduct = async (obj) => {
+        obj = {
+            ...obj,
+            product_id: product.product_id
+        }
+        await productAPI.update(product.product_id, obj)
+        .then(res => {
+            if(res.status === 200) {
+                successDialog();
+            }
+        });
+    }
+
+
+    //XỬ LÝ CLEAR INPUT
+    const handleClear = () => {
+        setValues({
+            brand_id: "",
+            category_id: "",
+            brand_name: "",
+            category_name: "",
+            product_name: "",
+            price: "",
+            url: "",
+            size: "",
+            weight: "",
+            capacity: "",
+            wattage: "",
+            material: "",
+            country: "",
+            description: "",
+            status: "", 
+        })
     }
 
 
@@ -63,22 +183,26 @@ function ProductDetails() {
                     <div className="rounded p-4 mb-4 bg-secondary">
                         <Link to="/product-list" className="text-dark">Quay lại</Link>
                         <h6 className="mb-4 text-dark" style={{marginTop: '20px'}}>CHI TIẾT SẢN PHẨM</h6>
-                        {/* <?php
-                        if ($error) {
-                            echo '<h6 className="text-danger">CHÚ Ý: Thương hiệu - Loại sản phẩm - Tên sản phẩm - Đơn giá không được trống !</h6>';
-                        }
-                        ?> */}
-                        <form action="" method="post" onSubmit={e => handleCreate(e)}>
+                        <form action="" method="post" onSubmit={handleSubmit}>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="inputBrand" className="col-form-label">Thương hiệu</label>
-                                    <select className="form-select" aria-label="Default select example" id="inputBrand" name="option-product-brand">
+                                    <label htmlFor="brand_id" className="col-form-label">Thương hiệu</label>
+                                    <select
+                                        value={values.brand_name ? values.brand_name : "choose"}
+                                        onChange={handleChangeBrandCategory}
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        id="brand_id"
+                                        name="brand_name"
+                                    >
+                                        <option value="choose">Chọn thương hiệu</option>
                                         {
                                             brandList.map(brand => {
                                                 return (
                                                     <option
-                                                        value={brand.brand_id}
+                                                        value={brand.brand_name}
                                                         key={brand.brand_id}
+                                                        id={brand.brand_id}
                                                     >
                                                         {brand.brand_name}
                                                     </option>
@@ -93,18 +217,35 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputName"
-                                        name="txt-product-name"
-                                        defaultValue={name}
+                                        name="product_name"
+                                        value={values.product_name}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="inputCategory" className="col-form-label">Loại sản phẩm</label>
-                                    <select className="form-select" aria-label="Default select example" id="inputCategory" name="option-product-category">
+                                    <label htmlFor="category_id" className="col-form-label">Loại sản phẩm</label>
+                                    <select
+                                        value={values.category_name ? values.category_name : "choose"}
+                                        onChange={handleChangeBrandCategory}
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        id="category_id"
+                                        name="category_name"
+                                    >
+                                        <option value="choose">Chọn loại sản phẩm</option>
                                         {
                                             categoryList.map(category => {
-                                                return <option value={category.category_id} key={category.category_id}>{category.category_name}</option>
+                                                return (
+                                                    <option
+                                                        value={category.category_name}
+                                                        key={category.category_id}
+                                                        id={category.category_id}
+                                                    >
+                                                        {category.category_name}
+                                                    </option>
+                                                ) 
                                             })
                                         }
                                     </select>
@@ -115,13 +256,21 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputPrice"
-                                        name="txt-product-price"
-                                        defaultValue={price}
+                                        name="price"
+                                        value={values.price}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="col-4">
                                     <label htmlFor="inputUrl" className="col-form-label">URL Hình</label>
-                                    <input type="text" className="form-control" id="inputUrl" name="txt-product-url"/>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="inputUrl"
+                                        name="url"
+                                        value={values.url}
+                                        onChange={handleInputChange}
+                                    />
                                 </div>
                             </div>
                             <div className="row mb-3">
@@ -131,8 +280,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputSize"
-                                        name="txt-product-size"
-                                        defaultValue={size}
+                                        name="size"
+                                        value={values.size}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -141,8 +291,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputWeight"
-                                        name="txt-product-weight"
-                                        defaultValue={weight}
+                                        name="weight"
+                                        value={values.weight}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -151,8 +302,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputCapacity"
-                                        name="txt-product-capacity"
-                                        defaultValue={capacity}
+                                        name="capacity"
+                                        value={values.capacity}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -163,8 +315,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputWattage"
-                                        name="txt-product-wattage"
-                                        defaultValue={wattage}
+                                        name="wattage"
+                                        value={values.wattage}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -173,8 +326,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputMaterial"
-                                        name="txt-product-material"
-                                        defaultValue={material}
+                                        name="material"
+                                        value={values.material}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -183,8 +337,9 @@ function ProductDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputCountry"
-                                        name="txt-product-country"
-                                        defaultValue={country}
+                                        name="country"
+                                        value={values.country}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -196,24 +351,42 @@ function ProductDetails() {
                                             className="form-control"
                                             id="inputDescription"
                                             style={{height: '200px'}}
-                                            name="txt-product-description"
-                                            defaultValue={description}
+                                            name="description"
+                                            value={values.description}
+                                            onChange={handleInputChange}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-4">
                                     <label htmlFor="inputStatus" className="col-form-label">Trạng thái</label>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" id="status1" value="Active" defaultChecked name="rdo-product-status"/>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="status1"
+                                            name="rdo-product-status"
+                                            value="Active"
+                                            />
                                         <label className="form-check-label" htmlFor="status1">Active</label>
                                     </div>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" id="status2" value="Inactive" name="rdo-product-status"/>
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            id="status2"
+                                            name="rdo-product-status"
+                                            value="Inactive"
+                                        />
                                         <label className="form-check-label" htmlFor="status2">Inactive</label>
                                     </div>
                                 </div>
                             </div>
-                            <input type="reset" value="HỦY" className="btn btn-light product-insert-btn"/>
+                            <input
+                                type="button"
+                                value="CLEAR"
+                                className="btn btn-light product-insert-btn"
+                                onClick={handleClear}
+                            />
                             <input type="submit" value="LƯU" className="btn btn-dark product-insert-btn"/>
                         </form>
                     </div>

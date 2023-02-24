@@ -128,7 +128,7 @@ let updateProduct = async (req, res) => {
         const product = await sequelize.query(sql1, {type: QueryTypes.SELECT});
 
         if(product.length > 0) {
-            const sql2 = `UPDATE products SET
+            const sql2 = `UPDATE products SET 
             brand_id = '${req.body.brand_id === "" ? product[0].brand_id: req.body.brand_id}',
             category_id = '${req.body.category_id === "" ? product[0].category_id: req.body.category_id}',
             product_name = '${req.body.product_name  === "" ? product[0].product_name: req.body.product_name}',
@@ -141,7 +141,7 @@ let updateProduct = async (req, res) => {
             description = '${req.body.description}',
             capacity = '${req.body.capacity}',
             wattage = '${req.body.wattage}',
-            url = '${req.body.url}'
+            url = '${req.body.url}' 
             WHERE product_id = '${req.params.product_id}'`;
 
             await sequelize.query(sql2, {type: QueryTypes.UPDATE});

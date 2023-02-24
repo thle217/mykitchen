@@ -8,19 +8,21 @@ function ProductList() {
 
     //CALL API
     const [list, setList] = useState([]);
+
+    const getAllProducts = async () => {
+        try{
+            const response = await productAPI.getAll();
+            setList(response.data.data);
+        }
+        catch(err){
+            throw new Error(err);
+        }
+    };
+
     useEffect(() => {
-        const getAllProducts = async () => {
-            try{
-                const response = await productAPI.getAll();
-                setList(response.data.data);
-            }
-            catch(err){
-                throw new Error(err);
-            }
-        };
         getAllProducts();
     },[]);
-
+    
 
     //ĐỊNH DẠNG DATATABLE
     const detailsPage = "/product-details";
@@ -50,8 +52,9 @@ function ProductList() {
 
 
     //XỬ LÝ DELETE
-    const handleDelete = (record) => {
-        console.log('xóa sản phẩm', record);
+    const handleDelete = async (product_id) => {
+        await productAPI.delete(product_id);
+        getAllProducts();
     }
 
 

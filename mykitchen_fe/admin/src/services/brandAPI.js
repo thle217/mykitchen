@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:9000/api";
+const baseUrl = "http://localhost:9000/api/brand";
 
 const brandAPI = {
     getAll: () => {
-        return axios.get(`${baseUrl}/get-all-brands`);
+        return axios.get(`${baseUrl}/get-all`);
     }
 }
 

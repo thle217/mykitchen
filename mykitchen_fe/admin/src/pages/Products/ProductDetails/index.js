@@ -38,7 +38,6 @@ function ProductDetails() {
     const [values, setValues] = useState(initialValues);
     const [brandList, setBrandList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
-    const [isChecked, setIsChecked] = useState(true);
 
 
     //XỬ LÝ LẤY API BRAND - CATEGORY

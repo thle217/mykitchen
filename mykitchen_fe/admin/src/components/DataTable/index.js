@@ -17,7 +17,7 @@ function DataTable(props) {
     }
 
 
-    //COLUMNS Ở CÁC TRANG BÌNH THƯỜNG
+    //ĐỊNH DẠNG COLUMNS
     let columns = [
         ...props.columns,
         props.isOrderTable? //TRANG ĐƠN HÀNG THÌ KHÔNG CÓ BUTTON XÓA

@@ -16,7 +16,7 @@ function ProductDetails() {
         product = state.record;
     }
 
-
+    console.log(product);
     //TẠO STATE CHO CÁC THÔNG TIN
     const initialValues = {
         brand_id: product ? product.brand_id : "",
@@ -38,6 +38,7 @@ function ProductDetails() {
     const [values, setValues] = useState(initialValues);
     const [brandList, setBrandList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
+    const [isChecked, setIsChecked] = useState(true);
 
 
     //XỬ LÝ LẤY API BRAND - CATEGORY
@@ -57,7 +58,7 @@ function ProductDetails() {
 
 
     //XỬ LÝ THAY ĐỔI INPUT
-    const handleInputChange = (e) => {
+    const handleChangeInput = (e) => {
         const { name, value } = e.target;
         setValues({
             ...values,
@@ -116,12 +117,12 @@ function ProductDetails() {
 
                 //UPDATE
                 if(product) {
-                    updateProduct(obj);
+                    handleUpdate(obj);
                 }
 
                 //CREATE
                 else {
-                    createProduct(obj);
+                    handleCreate(obj);
                 }
             }
         });
@@ -129,7 +130,7 @@ function ProductDetails() {
 
 
     //XỬ LÝ CREATE
-    const createProduct = async (obj) => {
+    const handleCreate = async (obj) => {
         await productAPI.create(obj)
         .then(res => {
             if(res.status === 201) {
@@ -140,7 +141,7 @@ function ProductDetails() {
 
 
     //XỬ LÝ UPDATE
-    const updateProduct = async (obj) => {
+    const handleUpdate = async (obj) => {
         obj = {
             ...obj,
             product_id: product.product_id
@@ -219,7 +220,7 @@ function ProductDetails() {
                                         id="inputName"
                                         name="product_name"
                                         value={values.product_name}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                             </div>
@@ -258,7 +259,7 @@ function ProductDetails() {
                                         id="inputPrice"
                                         name="price"
                                         value={values.price}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -269,7 +270,7 @@ function ProductDetails() {
                                         id="inputUrl"
                                         name="url"
                                         value={values.url}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                             </div>
@@ -282,7 +283,7 @@ function ProductDetails() {
                                         id="inputSize"
                                         name="size"
                                         value={values.size}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -293,7 +294,7 @@ function ProductDetails() {
                                         id="inputWeight"
                                         name="weight"
                                         value={values.weight}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -304,7 +305,7 @@ function ProductDetails() {
                                         id="inputCapacity"
                                         name="capacity"
                                         value={values.capacity}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                             </div>
@@ -317,7 +318,7 @@ function ProductDetails() {
                                         id="inputWattage"
                                         name="wattage"
                                         value={values.wattage}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -328,7 +329,7 @@ function ProductDetails() {
                                         id="inputMaterial"
                                         name="material"
                                         value={values.material}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                                 <div className="col-4">
@@ -339,7 +340,7 @@ function ProductDetails() {
                                         id="inputCountry"
                                         name="country"
                                         value={values.country}
-                                        onChange={handleInputChange}
+                                        onChange={handleChangeInput}
                                     />
                                 </div>
                             </div>
@@ -353,7 +354,7 @@ function ProductDetails() {
                                             style={{height: '200px'}}
                                             name="description"
                                             value={values.description}
-                                            onChange={handleInputChange}
+                                            onChange={handleChangeInput}
                                         />
                                     </div>
                                 </div>
@@ -364,8 +365,11 @@ function ProductDetails() {
                                             className="form-check-input"
                                             type="radio"
                                             id="status1"
-                                            name="rdo-product-status"
+                                            name="status"
                                             value="Active"
+                                            onChange={handleChangeInput}
+                                            defaultChecked={values.status === "Active" || values.status === "" ? true : false}
+
                                             />
                                         <label className="form-check-label" htmlFor="status1">Active</label>
                                     </div>
@@ -374,8 +378,10 @@ function ProductDetails() {
                                             className="form-check-input"
                                             type="radio"
                                             id="status2"
-                                            name="rdo-product-status"
+                                            name="status"
                                             value="Inactive"
+                                            onChange={handleChangeInput}
+                                            defaultChecked={values.status === "Inactive" ? true : false}
                                         />
                                         <label className="form-check-label" htmlFor="status2">Inactive</label>
                                     </div>

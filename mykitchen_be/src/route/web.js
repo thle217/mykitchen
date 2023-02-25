@@ -3,6 +3,7 @@ import productController from "../controllers/productController";
 import brandController from "../controllers/brandController";
 import categoryController from "../controllers/categoryController";
 import userController from "../controllers/userController";
+import discountsController from "../controllers/discountsController";
 
 let router = express.Router();
 
@@ -32,6 +33,13 @@ let initWebRotes = (app) => {
   router.delete("/api/user/delete/:id", userController.DeleteUser);
   router.put("/api/user/update/:id", userController.UpdateUser);
   router.post("/api/user/login", userController.loginUser);
+  
+   //Discounts
+   router.get("/api/discounts/get-all",discountsController.getAllDiscounts);
+   router.get("/api/discounts/get-id/:id", discountsController.getDiscountsById);
+   router.post("/api/discounts/create", discountsController.creatDiscounts);
+   router.put("/api/discounts/update/:id",discountsController.updateDiscounts);
+   router.delete("/api/discounts/delete/:id",discountsController.deleteDiscounts)
 
   return app.use("/", router);
 };

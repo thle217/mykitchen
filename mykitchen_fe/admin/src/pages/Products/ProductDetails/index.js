@@ -16,7 +16,7 @@ function ProductDetails() {
         product = state.record;
     }
 
-    console.log(product);
+
     //TẠO STATE CHO CÁC THÔNG TIN
     const initialValues = {
         brand_id: product ? product.brand_id : "",

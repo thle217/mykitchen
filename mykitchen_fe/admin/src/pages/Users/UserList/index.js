@@ -1,36 +1,60 @@
 import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataTable";
+import userAPI from "../../../services/userAPI";
+import { useState, useEffect } from "react";
 
 function UserList() {
-    const nameAPI = "products";
+    const [listUser, setList] = useState([]);
+
+    const getAllUser = async () => {
+        try {
+            const response = await userAPI.getAll();
+            setList(response.data.data);
+        } catch (err) {
+            throw new Error(err);
+        }
+    };
+
+    useEffect(() => {
+        getAllUser();
+    }, []);
+
+    // const nameAPI = "products";
     const detailsPage = "/user-details";
+
     const columns = [
         {
             title: "ID",
-            dataIndex: "product_id",
-            align: "center"
+            dataIndex: "user_id",
+            align: "center",
         },
         {
             title: "Vai trò",
-            dataIndex: "category_name"
+            dataIndex: "role_id",
         },
         {
             title: "Tên người dùng",
-            dataIndex: "product_name"
+            dataIndex: "user_name",
         },
         {
             title: "Giới tính",
-            dataIndex: "status"
+            dataIndex: "gender",
         },
         {
             title: "Ngày sinh",
-            dataIndex: "country"
+            dataIndex: "dob",
         },
         {
             title: "Username",
-            dataIndex: "country"
+            dataIndex: "username",
         },
     ];
+
+    // XỬ LÝ DELETE
+    // const handleDelete = async (user_id) => {
+    //     await userAPI.delete(user_id);
+    //     getAllUser();
+    // };
 
     return (
         <div className="container-fluid pt-4 px-4">
@@ -39,11 +63,18 @@ function UserList() {
                     <div className="rounded p-4 mb-4 bg-secondary">
                         <div className="d-flex">
                             <div>
-                                <h4 className="text-dark">QUẢN LÝ NGƯỜI DÙNG</h4>
+                                <h4 className="text-dark">
+                                    QUẢN LÝ NGƯỜI DÙNG
+                                </h4>
                             </div>
                             <div>
                                 <span className="button-add">
-                                    <Link to={detailsPage} className="text-secondary">Thêm mới</Link>
+                                    <Link
+                                        to={detailsPage}
+                                        className="text-secondary"
+                                    >
+                                        Thêm mới
+                                    </Link>
                                 </span>
                             </div>
                         </div>
@@ -51,9 +82,10 @@ function UserList() {
                             <div className="table-responsive col-md mt-4">
                                 <div className="table">
                                     <DataTable
-                                        nameAPI={nameAPI}
+                                        list={listUser}
                                         detailsPage={detailsPage}
                                         columns={columns}
+                                        // handleDelete={handleDelete}
                                     />
                                 </div>
                             </div>
@@ -62,7 +94,7 @@ function UserList() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default UserList;

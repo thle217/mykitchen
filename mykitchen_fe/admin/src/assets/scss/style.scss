@@ -398,3 +398,18 @@ input[type=radio], input[type=checkbox] {
     padding: 7pt;
     border-radius: 5pt;
 }
+
+a#nav-dropdown-dark-example {
+    margin: auto;
+}
+.image-avatar {
+    padding: 2px}
+
+.content .navbar .dropdown-toggle::after {
+        margin-left: 6px;
+        vertical-align: middle;
+        /* border: none; */
+        /* content: "\f107"; */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        transition: 0.5s;}

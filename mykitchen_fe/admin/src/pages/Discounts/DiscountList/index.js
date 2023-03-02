@@ -1,38 +1,65 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataTable";
+import discountAPI from "../../../services/discountAPI";
 
 function DiscountList() {
-    const nameAPI = "products";
+
+
+    //CALL API
+    const [list, setList] = useState([]);
+
+    const getAll = async () => {
+        try {
+            const response = await discountAPI.getAll();
+            setList(response.data.data);
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    useEffect(() => {
+        getAll();
+    }, []);
+
+ //XỬ LÝ DELETE
+ const handleDelete = async (record) => {
+    await discountAPI.delete(record.discount_id);
+    getAll();
+}
+    //ĐỊNH DẠNG COLUMNS CHO DATATABLE
+    const nameAPI = "discount";
     const detailsPage = "/discount-details";
     const columns = [
         {
             title: "ID",
-            dataIndex: "product_id",
+            dataIndex: "discount_id",
             align: "center"
         },
         {
             title: "Tên chương trình",
-            dataIndex: "category_name"
+            dataIndex: "title"
         },
         {
             title: "Mã giảm giá",
-            dataIndex: "product_name"
-        },
+            dataIndex: "code"
+        },      
         {
             title: "Phần trăm giảm",
-            dataIndex: "status"
+            dataIndex: "percent"
         },
         {
             title: "Ngày bắt đầu",
-            dataIndex: "country"
+            dataIndex: "start_date"
         },
         {
             title: "Ngày kết thúc",
-            dataIndex: "country"
+            dataIndex: "end_date"
         },
         {
-            title: "Trạng thái",
-            dataIndex: "country"
+            title: "Điều kiện giảm",
+            dataIndex: "condition"
         },
     ];
 
@@ -58,6 +85,8 @@ function DiscountList() {
                                         nameAPI={nameAPI}
                                         detailsPage={detailsPage} 
                                         columns={columns}
+                                        list={list}
+                                        handleDelete={handleDelete}
                                     />
                                 </div>
                             </div>

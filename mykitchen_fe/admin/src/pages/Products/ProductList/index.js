@@ -52,8 +52,8 @@ function ProductList() {
 
 
     //XỬ LÝ DELETE
-    const handleDelete = async (product_id) => {
-        await productAPI.delete(product_id);
+    const handleDelete = async (record) => {
+        await productAPI.delete(record.product_id);
         getAllProducts();
     }
 

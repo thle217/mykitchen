@@ -11,10 +11,10 @@ function Footer() {
                     <p className="mb-4">ThS. Trần Văn Hùng</p>
                     <p className="mb-2 font-weight-bold">Nhóm sinh viên thực hiện</p>
                     <p className="mb-2">DH51903543 - Lê Thị Hậu</p>
-                    <p className="mb-2">DH51903543 - Lê Thị Hậu</p>
-                    <p className="mb-2">DH51903543 - Lê Thị Hậu</p>
-                    <p className="mb-2">DH51903543 - Lê Thị Hậu</p>
-                    <p className="mb-2">DH51903543 - Lê Thị Hậu</p>
+                    <p className="mb-2">DH51903591 - Phan Trọng Hiếu</p>
+                    <p className="mb-2">DH51903919 - Nguyễn Thành Long</p>
+                    <p className="mb-2">DH51903286 - Dương Nguyên Cơ</p>
+                    <p className="mb-2">DH51904922 - Lưu Đình Vọng</p>
                 </div>
             </div>
             <div className="row border-top border-light mx-xl-5 py-4">

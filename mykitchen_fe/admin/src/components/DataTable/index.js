@@ -28,7 +28,7 @@ function DataTable(props) {
             dataIndex: "",
             align: "center",
             render: (_, record) => (
-                <Popconfirm title="Bạn có muốn xóa?" onConfirm={()=> props.handleDelete(record.product_id)}>
+                <Popconfirm title="Bạn có muốn xóa?" onConfirm={()=> props.handleDelete(record)}>
                     <Button className="bg-light">
                         <FontAwesomeIcon icon={faTrashAlt} className="text-dark"/>
                     </Button>

@@ -1,16 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import { successDialog } from "../../../components/Dialog";
-import discountAPI from "../../../services/discountAPI";
+import { useState } from "react";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import discountAPI from "../../../services/discountAPI";
 
 function DiscountDetails() {
+
+
     //XỬ LÝ LƯU THÔNG TIN KHUYẾN MÃI VỪA CHỌN Ở DATATABLE
     const { state } = useLocation();
     let discount = null;
     if (state) { //nếu có state thì lưu, không thì giữ nguyên là null
         discount = state.record;
     }
+
+
     const initialValues = {
         discount_id: discount ? discount.discount_id : "",
         title: discount ? discount.title : "",
@@ -33,6 +37,9 @@ function DiscountDetails() {
             [name]: value,
         })
     }
+
+
+    //XỬ LÝ SUBMIT
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -72,15 +79,20 @@ function DiscountDetails() {
                 }
             });
     }
+
+
     //XỬ LÝ CREATE
     const handleCreate = async (obj) => {
         await discountAPI.create(obj)
             .then(res => {
-                if (res.status === 201) {
+                if (res.status === 200) {
                     successDialog();
+                    handleClear();
                 }
             });
     }
+
+
     //XỬ LÝ UPDATE
     const handleUpdate = async (obj) => {
         await discountAPI.update(discount.discount_id, obj)
@@ -90,6 +102,8 @@ function DiscountDetails() {
                 }
             });
     }
+
+
     //XỬ LÝ CLEAR INPUT
     const handleClear = () => {
         setValues({
@@ -103,6 +117,7 @@ function DiscountDetails() {
         })
     }
 
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row bg-light rounded justify-content-center mx-0 mb-4">
@@ -110,11 +125,6 @@ function DiscountDetails() {
                     <div className="rounded p-4 bg-secondary">
                         <Link to="/discount-list" className="text-dark">Quay lại</Link>
                         <h6 className="mb-4 text-dark" style={{ marginTop: '20px' }}>CHI TIẾT KHUYẾN MÃI</h6>
-                        {/* <?php
-                        if ($error) {
-                            echo '<h6 className="text-danger">CHÚ Ý: Vai trò - Username - Password không được trống !</h6>';
-                        }
-                        ?> */}
                         <form action="user-insert-controller.php" method="post" onSubmit={handleSubmit}>
                             <div className="row mb-3">
                                 <div className="col-4">

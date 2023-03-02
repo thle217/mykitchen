@@ -8,11 +8,14 @@ function ProductList() {
 
     //CALL API
     const [list, setList] = useState([]);
-
+    const [loading, setLoading] = useState(false);
+    
     const getAllProducts = async () => {
         try{
+            setLoading(true);
             const response = await productAPI.getAll();
             setList(response.data.data);
+            setLoading(false);
         }
         catch(err){
             throw new Error(err);
@@ -81,6 +84,7 @@ function ProductList() {
                                         detailsPage={detailsPage}
                                         columns={columns}
                                         handleDelete={handleDelete}
+                                        loading={loading}
                                     />
                                 </div>
                             </div>

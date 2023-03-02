@@ -69,6 +69,7 @@ function DataTable(props) {
             dataSource={props.list}
             bordered
             rowKey={columns[0].dataIndex} //prop key
+            loading={props.loading}
         />
     )
 }

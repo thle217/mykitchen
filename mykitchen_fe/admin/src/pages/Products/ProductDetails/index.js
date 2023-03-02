@@ -134,6 +134,7 @@ function ProductDetails() {
         .then(res => {
             if(res.status === 201) {
                 successDialog();
+                handleClear();
             }
         });
     }
@@ -141,10 +142,6 @@ function ProductDetails() {
 
     //XỬ LÝ UPDATE
     const handleUpdate = async (obj) => {
-        obj = {
-            ...obj,
-            product_id: product.product_id
-        }
         await productAPI.update(product.product_id, obj)
         .then(res => {
             if(res.status === 200) {

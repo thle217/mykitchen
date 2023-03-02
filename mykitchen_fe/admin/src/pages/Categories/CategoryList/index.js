@@ -8,11 +8,15 @@ function CategoryList() {
 
     //CALL API
     const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const getAllProducts = async () => {
             try{
+                setLoading(true);
                 const response = await categoryAPI.getAll();
                 setList(response.data.data);
+                setLoading(false);
             }
             catch(err){
                 throw new Error(err);
@@ -58,6 +62,7 @@ function CategoryList() {
                                         columns={columns}
                                         isBrandCategoryTable={true}
                                         handleDelete={handleDelete}
+                                        loading={loading}
                                     />
                                 </div>
                             </div>

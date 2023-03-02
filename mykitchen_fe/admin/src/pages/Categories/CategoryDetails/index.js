@@ -12,7 +12,6 @@ function CategoryDetails() {
     //SET LẠI GIÁ TRỊ CHO STATE KHI DỮ LIỆU TỪ STORE THAY ĐỔI (KHI CHỌN RECORD KHÁC)
     useEffect(() => {
         setName(category.category_name);
-        console.log('rerender nè');
     }, [category]);
 
 

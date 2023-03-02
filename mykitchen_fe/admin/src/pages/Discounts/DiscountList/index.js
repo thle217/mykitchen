@@ -8,11 +8,14 @@ function DiscountList() {
 
     //CALL API
     const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const getAll = async () => {
         try {
+            setLoading(true);
             const response = await discountAPI.getAll();
             setList(response.data.data);
+            setLoading(false);
         }
         catch (err) {
             throw new Error(err);
@@ -23,11 +26,14 @@ function DiscountList() {
         getAll();
     }, []);
 
- //XỬ LÝ DELETE
- const handleDelete = async (record) => {
-    await discountAPI.delete(record.discount_id);
-    getAll();
-}
+
+    //XỬ LÝ DELETE
+    const handleDelete = async (record) => {
+        await discountAPI.delete(record.discount_id);
+        getAll();
+    }
+
+
     //ĐỊNH DẠNG COLUMNS CHO DATATABLE
     const nameAPI = "discount";
     const detailsPage = "/discount-details";
@@ -63,6 +69,7 @@ function DiscountList() {
         },
     ];
 
+
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row rounded justify-content-center mx-0">
@@ -87,6 +94,7 @@ function DiscountList() {
                                         columns={columns}
                                         list={list}
                                         handleDelete={handleDelete}
+                                        loading={loading}
                                     />
                                 </div>
                             </div>

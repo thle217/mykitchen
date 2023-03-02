@@ -4,12 +4,17 @@ import userAPI from "../../../services/userAPI";
 import { useState, useEffect } from "react";
 
 function UserList() {
+
+
     const [listUser, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const getAllUser = async () => {
         try {
+            setLoading(true);
             const response = await userAPI.getAll();
             setList(response.data.data);
+            setLoading(false);
         } catch (err) {
             throw new Error(err);
         }
@@ -86,6 +91,7 @@ function UserList() {
                                         detailsPage={detailsPage}
                                         columns={columns}
                                         // handleDelete={handleDelete}
+                                        loading={loading}
                                     />
                                 </div>
                             </div>

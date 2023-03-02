@@ -14,7 +14,6 @@ function BrandDetails() {
     useEffect(() => {
         setName(brand.brand_name);
         setUrl(brand.url);
-        console.log('rerender nè');
     }, [brand]);
 
 

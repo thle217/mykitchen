@@ -1,9 +1,24 @@
 import React from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import RelatedProducts from "../../components/RelatedProducts";
 
 function ProductDetails() {
+
+
+    //LẤY THÔNG TIN SẢN PHẨM VỪA CHỌN
+    let { state } = useLocation();
+    console.log(state);
+
+
+    //SCROLL MÀN HÌNH LÊN ĐẦU TRANG
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
+
     return (
         <React.Fragment>
             <div className="container-fluid py-5">
@@ -12,16 +27,7 @@ function ProductDetails() {
                         <div id="product-carousel" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner border">
                                 <div className="p-5 carousel-item active">
-                                    <img className="w-100 h-100" src="https://i.imgur.com/FgLC3rD.jpeg" alt=""/>
-                                </div>
-                                <div className="p-5 carousel-item">
-                                    <img className="w-100 h-100" src="https://i.imgur.com/FgLC3rD.jpeg" alt=""/>
-                                </div>
-                                <div className="p-5 carousel-item">
-                                    <img className="w-100 h-100" src="https://i.imgur.com/FgLC3rD.jpeg" alt=""/>
-                                </div>
-                                <div className="p-5 carousel-item">
-                                    <img className="w-100 h-100" src="https://i.imgur.com/FgLC3rD.jpeg" alt=""/>
+                                    <img className="w-100 h-100" src={state.url} alt=""/>
                                 </div>
                             </div>
                             <a className="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -34,8 +40,8 @@ function ProductDetails() {
                     </div>
 
                     <div className="col-lg-7 pb-5">
-                        <h4 className="font-weight-semi-bold mb-5">TÊN SẢN PHẨM</h4>
-                        <h4 className="font-weight-semi-bold mb-4 text-danger">Giá tiền<sup>đ</sup></h4>
+                        <h4 className="font-weight-semi-bold mb-5">{state.product_name}</h4>
+                        <h4 className="font-weight-semi-bold mb-4 text-danger">{state.price}<sup>đ</sup></h4>
                         <div className="border bg-primary border-primary p-4 rounded-top">
                             <h5 className="text-white"><b>ƯU ĐÃI CHỈ CÓ Ở MY KITCHEN</b></h5>
                         </div>
@@ -44,7 +50,7 @@ function ProductDetails() {
                             <h5><i className="fas fa-check text-primary mb-3 mr-1"></i> Đổi trả trong 14 ngày</h5>
                             <h5><i className="fas fa-check text-primary mb-3 mr-1"></i> Tặng voucher -10% cho đơn hàng sau</h5>
                         </div>
-                        <form action="cart-add-controller.php?product_id=<?php echo $product['product_id'] ?>" method="post">
+                        <form action="" method="post">
                             <div className="d-flex align-items-center mb-4 pt-2">
                                 <div className="input-group quantity mr-3" style={{width: '160px'}}>
                                     <div className="input-group-btn">
@@ -67,7 +73,7 @@ function ProductDetails() {
                 <div className="row px-xl-5">
                     <div className="col-md-6 mt-3">
                         <h4 className="mb-3">Mô tả sản phẩm</h4>
-                        <p>Mô tả sản phẩm</p>
+                        <p>{state.description}</p>
                     </div>
                     <div className="col-md-6 mt-3">
                         <h4 className="mb-3">Thông số kỹ thuật</h4>
@@ -86,21 +92,21 @@ function ProductDetails() {
                             </div>
                             <div className="ml-3">
                                 <ul className="list-group list-group-flush">
-                                    <li className="list-group-item px-0">Tên sản phẩm</li>
-                                    <li className="list-group-item px-0">Thương hiệu</li>
-                                    <li className="list-group-item px-0">Nơi sản xuất</li>
-                                    <li className="list-group-item px-0">Kích thước</li>
-                                    <li className="list-group-item px-0">Khối lượng</li>
-                                    <li className="list-group-item px-0">Dung tích</li>
-                                    <li className="list-group-item px-0">Công suất</li>
-                                    <li className="list-group-item px-0">Chất liệu</li>
+                                    <li className="list-group-item px-0">{state.product_name}</li>
+                                    <li className="list-group-item px-0">{state.brand_name}</li>
+                                    <li className="list-group-item px-0">{state.country}</li>
+                                    <li className="list-group-item px-0">{state.size}</li>
+                                    <li className="list-group-item px-0">{state.weight}</li>
+                                    <li className="list-group-item px-0">{state.capacity}</li>
+                                    <li className="list-group-item px-0">{state.wattage}</li>
+                                    <li className="list-group-item px-0">{state.material}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <RelatedProducts />
+            <RelatedProducts category_id={state.category_id}/>
         </React.Fragment>
     )
 }

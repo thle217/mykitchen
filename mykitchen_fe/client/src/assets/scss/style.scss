@@ -3485,7 +3485,7 @@ input[type="button"].btn-block {
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5rem;
-  color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .custom-control-inline {
@@ -9594,4 +9594,8 @@ a.text-dark:hover, a.text-dark:focus {
 
 .dropdown-menu {
   width: 100%;
+}
+
+span.visually-hidden {
+  display: none;
 }

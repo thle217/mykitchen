@@ -1,6 +1,22 @@
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
+import brandAPI from "../../services/brandAPI";
 
 function BrandsCarousel() {
+
+
+    //CALL API
+    const [brandList, setBrandList] = useState([]);
+    useEffect(() => {
+        const getAllBrands = async () => {
+            const res = await brandAPI.getAll();
+            setBrandList(res.data.data);
+        };
+        getAllBrands();
+    }, []);
+
+
+    //ĐỊNH DẠNG SLIDER
     const settings = {
         dots: true,
         infinite: true,
@@ -38,19 +54,20 @@ function BrandsCarousel() {
             },
         ],
     };
+
+
     return (
         <div className="container-fluid py-5">
             <div className="row px-xl-5">
                 <div className="col">
                     <Slider {...settings}>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
-                        <div className="p-2"><img src="https://i.imgur.com/XTVsrjV.jpeg" style={{width: '100%'}} alt=""/></div>
+                        {
+                            brandList.map(brand => {
+                                return (
+                                    <div className="p-2" key={brand.brand_id}><img src={brand.url} style={{width: '100%'}} alt=""/></div>
+                                )
+                            })
+                        }
                     </Slider>
                 </div>
             </div>

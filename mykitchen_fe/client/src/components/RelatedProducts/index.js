@@ -1,10 +1,27 @@
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import ProductCard from "../ProductCard";
+import productAPI from "../../services/productAPI";
 
-function RelatedProducts() {
+function RelatedProducts(props) {
+
+
+    //CALL API
+    const [productList, setProductList] = useState([]);
+    useEffect(() => {
+        const getProducts = async () => {
+            const res = await productAPI.getByCategory(props.category_id);
+            setProductList(res.data.data);
+        };
+
+        getProducts();
+    }, []);
+
+
+    //ĐỊNH DẠNG SLIDER
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         arrows: false,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -39,6 +56,8 @@ function RelatedProducts() {
             },
         ],
     };
+
+    
     return (
         <div className="container-fluid py-5">
             <div className="text-center mb-4">
@@ -47,30 +66,15 @@ function RelatedProducts() {
             <div className="row px-xl-5">
                 <div className="col">
                     <Slider {...settings}>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
-                        <div className="p-2">
-                            <ProductCard />
-                        </div>
+                        {
+                            productList.map(product => {
+                                return (
+                                    <div className="p-2" key={product.product_id}>
+                                        <ProductCard product={product}/>
+                                    </div>
+                                )
+                            })
+                        }
                     </Slider>
                 </div>
             </div>

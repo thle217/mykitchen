@@ -1,6 +1,22 @@
+import { useState, useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
+import productAPI from "../../services/productAPI";
 
 function Shopping() {
+
+
+    //CALL API
+    const [productList, setProductList] = useState([]);
+    useEffect(() => {
+        const getAllProducts = async () => {
+            const res = await productAPI.getAll();
+            setProductList(res.data.data);
+        };
+
+        getAllProducts();
+    }, []);
+
+
     return (
         <div className="container-fluid pt-5 mt-5">
             <div className="row px-xl-5">
@@ -23,31 +39,18 @@ function Shopping() {
                     <div className="row pb-3">
                         <div className="">
                             <div className="row">
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-sm-12">
-                                    <ProductCard />
-                                </div>
+                                {
+                                    productList.map(product => {
+                                        return (
+                                            <div className="col-lg-4 col-md-6 col-sm-12" key={product.product_id}>
+                                                <ProductCard product={product}/>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <div className="col-12 pb-1">
-                            <p>Các nút chuyển trang</p>
                         </div>
                     </div>
                 </div>

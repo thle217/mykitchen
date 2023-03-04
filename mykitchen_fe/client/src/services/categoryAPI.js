@@ -2,7 +2,7 @@ import axios from "axios";
 
 const categoryAPI = {
     getAll: () => {
-        return axios.get(`/api/category/get-all`);
+        return axios.get(`https://be-api-mykitchen.onrender.com/api/category/get-all`);
     }
 }
 

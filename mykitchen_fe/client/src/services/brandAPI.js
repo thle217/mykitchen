@@ -2,7 +2,7 @@ import axios from "axios";
 
 const brandAPI = {
     getAll: () => {
-        return axios.get(`/api/brand/get-all`);
+        return axios.get(`https://be-api-mykitchen.onrender.com/api/brand/get-all`);
     }
 }
 

@@ -4,8 +4,6 @@ import userAPI from "../../../services/userAPI";
 import { useState, useEffect } from "react";
 
 function UserList() {
-
-
     const [listUser, setList] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -56,10 +54,10 @@ function UserList() {
     ];
 
     // XỬ LÝ DELETE
-    // const handleDelete = async (user_id) => {
-    //     await userAPI.delete(user_id);
-    //     getAllUser();
-    // };
+    const handleDelete = async (record) => {
+        await userAPI.delete(record.user_id);
+        getAllUser();
+    };
 
     return (
         <div className="container-fluid pt-4 px-4">
@@ -90,7 +88,7 @@ function UserList() {
                                         list={listUser}
                                         detailsPage={detailsPage}
                                         columns={columns}
-                                        // handleDelete={handleDelete}
+                                        handleDelete={handleDelete}
                                         loading={loading}
                                     />
                                 </div>

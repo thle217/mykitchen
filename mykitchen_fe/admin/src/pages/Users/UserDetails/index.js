@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import axios from "axios";
+import Swal from "sweetalert2";
+import { successDialog } from "../../../components/Dialog";
 import userAPI from "../../../services/userAPI";
+
 function UserDetails() {
     //XỬ LÝ LƯU THÔNG TIN SẢN PHẨM VỪA CHỌN Ở DATATABLE
     const { state } = useLocation();
@@ -14,17 +16,17 @@ function UserDetails() {
     // console.log(user);
     //TẠO STATE CHO CÁC THÔNG TIN
     const init = {
-        role: user ? user.product.role : "",
-        name: "",
-        gender: "Nam",
-        dob: "",
-        phone: "",
-        street: "",
-        ward: "",
-        district: "",
-        city: "",
-        username: "",
-        password: "",
+        role_id: user ? user.role_id : "",
+        user_name: user ? user.user_name : "",
+        gender: user ? user.gender : "",
+        dob: user ? user.dob : "",
+        phone: user ? user.phone : "",
+        street: user ? user.street : "",
+        ward: user ? user.ward : "",
+        district: user ? user.district : "",
+        city: user ? user.city : "",
+        username: user ? user.username : "",
+        password: user ? user.password : "",
     };
 
     const [data, setData] = useState(init);
@@ -38,12 +40,11 @@ function UserDetails() {
     };
     // console.log(">>", data);
 
-    const createUser = async (e) => {
-        e.preventDefault();
-        console.log(data);
-        const res = await userAPI.create(data);
-        console.log(res);
-    };
+    // const createUser = async (e) => {
+    //     console.log(data);
+    //     const res = await userAPI.create(data);
+    //     console.log(res);
+    // };
 
     useEffect(() => {
         const getAllUser = async () => {
@@ -52,6 +53,67 @@ function UserDetails() {
         };
         getAllUser();
     }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        let obj = {
+            role: data.role,
+            name: data.name,
+            gender: data.gender,
+            dob: data.dob,
+            phone: data.phone,
+            street: data.street,
+            ward: data.ward,
+            district: data.district,
+            city: data.city,
+            username: data.username,
+            password: data.password,
+        };
+
+        Swal.fire({
+            title: "BẠN CÓ MUỐN LƯU THÔNG TIN?",
+            confirmButtonText: "Lưu",
+            showCancelButton: true,
+            cancelButtonText: "Hủy",
+            customClass: {
+                title: "fs-5 text-dark",
+                confirmButton: "bg-primary shadow-none",
+                cancelButton: "bg-light shadow-none",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //UPDATE
+                if (user) {
+                    handleUpdate(obj);
+                }
+
+                //CREATE
+                else {
+                    handleCreate(obj);
+                }
+            }
+        });
+    };
+
+    // XỬ LÝ CREATE
+    const handleCreate = async (obj) => {
+        await userAPI.create(obj).then((res) => {
+            if (res.status === 201) {
+                successDialog();
+                // handleClear();
+            }
+        });
+    };
+
+    //XỬ LÝ UPDATE
+    const handleUpdate = async (obj) => {
+        await userAPI.update(user.user_id, obj).then((res) => {
+            if (res.status === 200) {
+                successDialog();
+            }
+        });
+    };
 
     return (
         <div className="container-fluid pt-4 px-4">
@@ -72,7 +134,7 @@ function UserDetails() {
                             echo '<h6 className="text-danger">CHÚ Ý: Vai trò - Username - Password không được trống !</h6>';
                         }
                         ?> */}
-                        <form onSubmit={createUser} method="post">
+                        <form onSubmit={handleSubmit} method="post">
                             <div className="row mb-3">
                                 <div className="col-4">
                                     <label
@@ -81,6 +143,36 @@ function UserDetails() {
                                     >
                                         Vai trò
                                     </label>
+
+                                    {/* <select
+                                        value={
+                                            data.role_id
+                                                ? data.role_id
+                                                : "Chọn vai trò"
+                                        }
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        id="inputRole"
+                                        name="role"
+                                        onChange={handleOnChange}
+                                    >
+                                        <option value="choose">
+                                            Chọn vai trò
+                                        </option>
+                                        {.map((category) => {
+                                            return (
+                                                <option
+                                                    value={
+                                                        category.category_name
+                                                    }
+                                                    key={category.category_id}
+                                                    id={category.category_id}
+                                                >
+                                                    {category.category_name}
+                                                </option>
+                                            );
+                                        })}
+                                    </select> */}
                                     <select
                                         className="form-select"
                                         aria-label="Default select example"
@@ -88,7 +180,15 @@ function UserDetails() {
                                         name="role"
                                         onChange={handleOnChange}
                                     >
-                                        <option>Chọn vai trò</option>
+                                        <option>
+                                            {data.role_id === "1"
+                                                ? "Khách hàng"
+                                                : data.role_id === "2"
+                                                ? "Nhân viên"
+                                                : data.role_id === "3"
+                                                ? "Quản trị viên"
+                                                : "Chọn vai trò"}
+                                        </option>
                                         <option value="1">Khách hàng</option>
                                         <option value="2">Nhân viên</option>
                                         <option value="3">Quản trị viên</option>
@@ -146,6 +246,11 @@ function UserDetails() {
                                             value="Nữ"
                                             name="gender"
                                             onChange={handleOnChange}
+                                            defaultChecked={
+                                                data.gender === "Nữ"
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label
                                             className="form-check-label"
@@ -169,6 +274,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputDob"
                                         name="dob"
+                                        value={data.dob}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -184,6 +290,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputPhone"
                                         name="phone"
+                                        value={data.phone}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -199,6 +306,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputStreet"
                                         name="street"
+                                        value={data.street}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -216,6 +324,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputWard"
                                         name="ward"
+                                        value={data.ward}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -231,6 +340,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputDistrict"
                                         name="district"
+                                        value={data.district}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -246,6 +356,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputCity"
                                         name="city"
+                                        value={data.city}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -263,6 +374,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputUsername"
                                         name="username"
+                                        value={data.username}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -278,6 +390,7 @@ function UserDetails() {
                                         className="form-control"
                                         id="inputPassword"
                                         name="password"
+                                        value={data.password}
                                         onChange={handleOnChange}
                                     />
                                 </div>
@@ -291,6 +404,7 @@ function UserDetails() {
                                 type="submit"
                                 value="LƯU"
                                 className="btn btn-dark user-insert-btn"
+                                onSubmit={handleSubmit}
                             />
                         </form>
                     </div>

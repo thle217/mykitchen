@@ -129,11 +129,6 @@ function UserDetails() {
                         >
                             CHI TIẾT NGƯỜI DÙNG
                         </h6>
-                        {/* <?php
-                        if ($error) {
-                            echo '<h6 className="text-danger">CHÚ Ý: Vai trò - Username - Password không được trống !</h6>';
-                        }
-                        ?> */}
                         <form onSubmit={handleSubmit} method="post">
                             <div className="row mb-3">
                                 <div className="col-4">
@@ -143,36 +138,6 @@ function UserDetails() {
                                     >
                                         Vai trò
                                     </label>
-
-                                    {/* <select
-                                        value={
-                                            data.role_id
-                                                ? data.role_id
-                                                : "Chọn vai trò"
-                                        }
-                                        className="form-select"
-                                        aria-label="Default select example"
-                                        id="inputRole"
-                                        name="role"
-                                        onChange={handleOnChange}
-                                    >
-                                        <option value="choose">
-                                            Chọn vai trò
-                                        </option>
-                                        {.map((category) => {
-                                            return (
-                                                <option
-                                                    value={
-                                                        category.category_name
-                                                    }
-                                                    key={category.category_id}
-                                                    id={category.category_id}
-                                                >
-                                                    {category.category_name}
-                                                </option>
-                                            );
-                                        })}
-                                    </select> */}
                                     <select
                                         className="form-select"
                                         aria-label="Default select example"
@@ -205,7 +170,8 @@ function UserDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputName"
-                                        name="name"
+                                        name="user_name"
+                                        value={data.user_name}
                                         onChange={handleOnChange}
                                     />
                                 </div>

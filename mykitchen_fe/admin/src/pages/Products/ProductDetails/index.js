@@ -7,15 +7,13 @@ import productAPI from "../../../services/productAPI";
 import { successDialog } from "../../../components/Dialog";
 
 function ProductDetails() {
-
-
     //XỬ LÝ LƯU THÔNG TIN SẢN PHẨM VỪA CHỌN Ở DATATABLE
     const { state } = useLocation();
     let product = null;
-    if(state) { //nếu có state thì lưu, không thì giữ nguyên là null
+    if (state) {
+        //nếu có state thì lưu, không thì giữ nguyên là null
         product = state.record;
     }
-
 
     //TẠO STATE CHO CÁC THÔNG TIN
     const initialValues = {
@@ -33,12 +31,11 @@ function ProductDetails() {
         material: product ? product.material : "",
         country: product ? product.country : "",
         description: product ? product.description : "",
-        status: product ? product.status : "", 
-    }
+        status: product ? product.status : "",
+    };
     const [values, setValues] = useState(initialValues);
     const [brandList, setBrandList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
-
 
     //XỬ LÝ LẤY API BRAND - CATEGORY
     useEffect(() => {
@@ -55,18 +52,16 @@ function ProductDetails() {
         getAllCategories();
     }, []);
 
-
     //XỬ LÝ THAY ĐỔI INPUT
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
         setValues({
             ...values,
             [name]: value,
-        })
-    }
+        });
+    };
 
-
-    //XỬ LÝ THAY ĐỔI BRAND - CATEGOTY 
+    //XỬ LÝ THAY ĐỔI BRAND - CATEGOTY
     const handleChangeBrandCategory = (e) => {
         const { id, name } = e.target;
         const index = e.target.selectedIndex;
@@ -74,11 +69,10 @@ function ProductDetails() {
 
         setValues({
             ...values,
-            [id]: el.getAttribute('id'),
-            [name]: el.getAttribute('value')
-        })
-    }
-
+            [id]: el.getAttribute("id"),
+            [name]: el.getAttribute("value"),
+        });
+    };
 
     //XỬ LÝ SUBMIT
     const handleSubmit = (e) => {
@@ -97,25 +91,23 @@ function ProductDetails() {
             description: values.description,
             capacity: values.capacity,
             wattage: values.wattage,
-            url: values.url
-        }
+            url: values.url,
+        };
 
         Swal.fire({
-            title: 'BẠN CÓ MUỐN LƯU THÔNG TIN?',
-            confirmButtonText: 'Lưu',
+            title: "BẠN CÓ MUỐN LƯU THÔNG TIN?",
+            confirmButtonText: "Lưu",
             showCancelButton: true,
-            cancelButtonText: 'Hủy',
+            cancelButtonText: "Hủy",
             customClass: {
-                title: 'fs-5 text-dark',
-                confirmButton: 'bg-primary shadow-none',
-                cancelButton: 'bg-light shadow-none'
-            }
-        })
-        .then(result => {
-            if(result.isConfirmed) {
-
+                title: "fs-5 text-dark",
+                confirmButton: "bg-primary shadow-none",
+                cancelButton: "bg-light shadow-none",
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
                 //UPDATE
-                if(product) {
+                if (product) {
                     handleUpdate(obj);
                 }
 
@@ -125,31 +117,26 @@ function ProductDetails() {
                 }
             }
         });
-    }
-
+    };
 
     //XỬ LÝ CREATE
     const handleCreate = async (obj) => {
-        await productAPI.create(obj)
-        .then(res => {
-            if(res.status === 201) {
+        await productAPI.create(obj).then((res) => {
+            if (res.status === 201) {
                 successDialog();
                 handleClear();
             }
         });
-    }
-
+    };
 
     //XỬ LÝ UPDATE
     const handleUpdate = async (obj) => {
-        await productAPI.update(product.product_id, obj)
-        .then(res => {
-            if(res.status === 200) {
+        await productAPI.update(product.product_id, obj).then((res) => {
+            if (res.status === 200) {
                 successDialog();
             }
         });
-    }
-
+    };
 
     //XỬ LÝ CLEAR INPUT
     const handleClear = () => {
@@ -168,48 +155,68 @@ function ProductDetails() {
             material: "",
             country: "",
             description: "",
-            status: "", 
-        })
-    }
-
+            status: "",
+        });
+    };
 
     return (
         <div className="container-fluid pt-4 px-4">
             <div className="row bg-light rounded justify-content-center mx-0">
                 <div className="col-md">
                     <div className="rounded p-4 mb-4 bg-secondary">
-                        <Link to="/product-list" className="text-dark">Quay lại</Link>
-                        <h6 className="mb-4 text-dark" style={{marginTop: '20px'}}>CHI TIẾT SẢN PHẨM</h6>
+                        <Link to="/product-list" className="text-dark">
+                            Quay lại
+                        </Link>
+                        <h6
+                            className="mb-4 text-dark"
+                            style={{ marginTop: "20px" }}
+                        >
+                            CHI TIẾT SẢN PHẨM
+                        </h6>
                         <form action="" method="post" onSubmit={handleSubmit}>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="brand_id" className="col-form-label">Thương hiệu</label>
+                                    <label
+                                        htmlFor="brand_id"
+                                        className="col-form-label"
+                                    >
+                                        Thương hiệu
+                                    </label>
                                     <select
-                                        value={values.brand_name ? values.brand_name : "choose"}
+                                        value={
+                                            values.brand_name
+                                                ? values.brand_name
+                                                : "choose"
+                                        }
                                         onChange={handleChangeBrandCategory}
                                         className="form-select"
                                         aria-label="Default select example"
                                         id="brand_id"
                                         name="brand_name"
                                     >
-                                        <option value="choose">Chọn thương hiệu</option>
-                                        {
-                                            brandList.map(brand => {
-                                                return (
-                                                    <option
-                                                        value={brand.brand_name}
-                                                        key={brand.brand_id}
-                                                        id={brand.brand_id}
-                                                    >
-                                                        {brand.brand_name}
-                                                    </option>
-                                                )
-                                            })
-                                        }
+                                        <option value="choose">
+                                            Chọn thương hiệu
+                                        </option>
+                                        {brandList.map((brand) => {
+                                            return (
+                                                <option
+                                                    value={brand.brand_name}
+                                                    key={brand.brand_id}
+                                                    id={brand.brand_id}
+                                                >
+                                                    {brand.brand_name}
+                                                </option>
+                                            );
+                                        })}
                                     </select>
                                 </div>
                                 <div className="col-8">
-                                    <label htmlFor="inputName" className="col-form-label">Tên sản phẩm</label>
+                                    <label
+                                        htmlFor="inputName"
+                                        className="col-form-label"
+                                    >
+                                        Tên sản phẩm
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -222,33 +229,49 @@ function ProductDetails() {
                             </div>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="category_id" className="col-form-label">Loại sản phẩm</label>
+                                    <label
+                                        htmlFor="category_id"
+                                        className="col-form-label"
+                                    >
+                                        Loại sản phẩm
+                                    </label>
                                     <select
-                                        value={values.category_name ? values.category_name : "choose"}
+                                        value={
+                                            values.category_name
+                                                ? values.category_name
+                                                : "choose"
+                                        }
                                         onChange={handleChangeBrandCategory}
                                         className="form-select"
                                         aria-label="Default select example"
                                         id="category_id"
                                         name="category_name"
                                     >
-                                        <option value="choose">Chọn loại sản phẩm</option>
-                                        {
-                                            categoryList.map(category => {
-                                                return (
-                                                    <option
-                                                        value={category.category_name}
-                                                        key={category.category_id}
-                                                        id={category.category_id}
-                                                    >
-                                                        {category.category_name}
-                                                    </option>
-                                                ) 
-                                            })
-                                        }
+                                        <option value="choose">
+                                            Chọn loại sản phẩm
+                                        </option>
+                                        {categoryList.map((category) => {
+                                            return (
+                                                <option
+                                                    value={
+                                                        category.category_name
+                                                    }
+                                                    key={category.category_id}
+                                                    id={category.category_id}
+                                                >
+                                                    {category.category_name}
+                                                </option>
+                                            );
+                                        })}
                                     </select>
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputPrice" className="col-form-label">Đơn giá</label>
+                                    <label
+                                        htmlFor="inputPrice"
+                                        className="col-form-label"
+                                    >
+                                        Đơn giá
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -259,7 +282,12 @@ function ProductDetails() {
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputUrl" className="col-form-label">URL Hình</label>
+                                    <label
+                                        htmlFor="inputUrl"
+                                        className="col-form-label"
+                                    >
+                                        URL Hình
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -272,7 +300,12 @@ function ProductDetails() {
                             </div>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="inputSize" className="col-form-label">Kích thước</label>
+                                    <label
+                                        htmlFor="inputSize"
+                                        className="col-form-label"
+                                    >
+                                        Kích thước
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -283,7 +316,12 @@ function ProductDetails() {
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputWeight" className="col-form-label">Trọng lượng</label>
+                                    <label
+                                        htmlFor="inputWeight"
+                                        className="col-form-label"
+                                    >
+                                        Trọng lượng
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -294,7 +332,12 @@ function ProductDetails() {
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputCapacity" className="col-form-label">Dung tích</label>
+                                    <label
+                                        htmlFor="inputCapacity"
+                                        className="col-form-label"
+                                    >
+                                        Dung tích
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -307,7 +350,12 @@ function ProductDetails() {
                             </div>
                             <div className="row mb-3">
                                 <div className="col-4">
-                                    <label htmlFor="inputWattage" className="col-form-label">Công suất</label>
+                                    <label
+                                        htmlFor="inputWattage"
+                                        className="col-form-label"
+                                    >
+                                        Công suất
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -318,7 +366,12 @@ function ProductDetails() {
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputMaterial" className="col-form-label">Chất liệu</label>
+                                    <label
+                                        htmlFor="inputMaterial"
+                                        className="col-form-label"
+                                    >
+                                        Chất liệu
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -329,7 +382,12 @@ function ProductDetails() {
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputCountry" className="col-form-label">Nơi sản xuất</label>
+                                    <label
+                                        htmlFor="inputCountry"
+                                        className="col-form-label"
+                                    >
+                                        Nơi sản xuất
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -342,12 +400,17 @@ function ProductDetails() {
                             </div>
                             <div className="row mb-5">
                                 <div className="col-8">
-                                    <label htmlFor="inputDescription" className="col-sm-2 col-form-label">Mô tả sản phẩm</label>
+                                    <label
+                                        htmlFor="inputDescription"
+                                        className="col-sm-2 col-form-label"
+                                    >
+                                        Mô tả sản phẩm
+                                    </label>
                                     <div className="form-floating">
                                         <textarea
                                             className="form-control"
                                             id="inputDescription"
-                                            style={{height: '200px'}}
+                                            style={{ height: "200px" }}
                                             name="description"
                                             value={values.description}
                                             onChange={handleChangeInput}
@@ -355,7 +418,12 @@ function ProductDetails() {
                                     </div>
                                 </div>
                                 <div className="col-4">
-                                    <label htmlFor="inputStatus" className="col-form-label">Trạng thái</label>
+                                    <label
+                                        htmlFor="inputStatus"
+                                        className="col-form-label"
+                                    >
+                                        Trạng thái
+                                    </label>
                                     <div className="form-check">
                                         <input
                                             className="form-check-input"
@@ -364,10 +432,19 @@ function ProductDetails() {
                                             name="status"
                                             value="Active"
                                             onChange={handleChangeInput}
-                                            defaultChecked={values.status === "Active" || values.status === "" ? true : false}
-
-                                            />
-                                        <label className="form-check-label" htmlFor="status1">Active</label>
+                                            defaultChecked={
+                                                values.status === "Active" ||
+                                                values.status === ""
+                                                    ? true
+                                                    : false
+                                            }
+                                        />
+                                        <label
+                                            className="form-check-label"
+                                            htmlFor="status1"
+                                        >
+                                            Active
+                                        </label>
                                     </div>
                                     <div className="form-check">
                                         <input
@@ -377,9 +454,18 @@ function ProductDetails() {
                                             name="status"
                                             value="Inactive"
                                             onChange={handleChangeInput}
-                                            defaultChecked={values.status === "Inactive" ? true : false}
+                                            defaultChecked={
+                                                values.status === "Inactive"
+                                                    ? true
+                                                    : false
+                                            }
                                         />
-                                        <label className="form-check-label" htmlFor="status2">Inactive</label>
+                                        <label
+                                            className="form-check-label"
+                                            htmlFor="status2"
+                                        >
+                                            Inactive
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -389,13 +475,17 @@ function ProductDetails() {
                                 className="btn btn-light product-insert-btn"
                                 onClick={handleClear}
                             />
-                            <input type="submit" value="LƯU" className="btn btn-dark product-insert-btn"/>
+                            <input
+                                type="submit"
+                                value="LƯU"
+                                className="btn btn-dark product-insert-btn"
+                            />
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default ProductDetails;

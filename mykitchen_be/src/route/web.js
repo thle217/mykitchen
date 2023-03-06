@@ -24,6 +24,10 @@ let initWebRotes = (app) => {
 
   //Brand
   router.get("/api/brand/get-all", brandController.getAllBrands);
+  router.get("/api/brand/get-product/:id", brandController.getBrandById);
+  router.post("/api/brand/create", brandController.createBrand);
+  router.put("/api/brand/update/:id", brandController.updateBrand);
+  router.delete("/api/brand/delete/:id", brandController.deleteBrand);
 
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
@@ -42,7 +46,7 @@ let initWebRotes = (app) => {
   router.get("/api/discounts/get-id/:id", discountsController.getDiscountsById);
   router.post("/api/discounts/create", discountsController.creatDiscounts);
   router.put("/api/discounts/update/:id", discountsController.updateDiscounts);
-  router.delete("/api/discounts/delete/:id",discountsController.deleteDiscounts);
+  router.delete("/api/discounts/delete/:id", discountsController.deleteDiscounts);
 
   return app.use("/", router);
 };

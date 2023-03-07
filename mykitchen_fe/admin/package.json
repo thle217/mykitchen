@@ -53,7 +53,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://be-api-mykitchen.onrender.com",
+
   "devDependencies": {
     "dotenv": "^16.0.3"
   }

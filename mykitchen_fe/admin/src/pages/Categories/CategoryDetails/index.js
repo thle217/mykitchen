@@ -64,7 +64,7 @@ function CategoryDetails() {
     }
     //XỬ LÝ UPDATE
     const handleUpdate = async (obj) => {
-        await categoryAPI.update(category.category_name, obj)
+        await categoryAPI.update(category.category_id, obj)
             .then(res => {
                 if (res.status === 200) {
                     successDialog();

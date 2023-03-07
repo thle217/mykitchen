@@ -31,7 +31,10 @@ let initWebRotes = (app) => {
 
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
-
+  router.get("/api/category/get-id/:id",categoryController.getCategoryById);
+  router.post("/api/category/create", categoryController.createCategory);
+  router.put("/api/category/update/:id",categoryController.updateCaterogy);
+  router.delete("/api/category/delete/:id",categoryController.deleteCaterogy);
   //User
   router.get("/api/user/get-all", userController.getAllUser);
   router.get("/api/user/get-id/:id", userController.getUserById);

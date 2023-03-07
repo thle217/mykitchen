@@ -10,7 +10,6 @@ let getAllBrands = async (req, res) => {
 
 let getBrandById = async (req, res) => {
   const sql = `SELECT * FROM brands join products on brands.brand_id = products.brand_id WHERE brands.brand_id = ${req.params.id}`;
-
   const data = await sequelize.query(sql, {
     type: sequelize.QueryTypes.SELECT,
   });

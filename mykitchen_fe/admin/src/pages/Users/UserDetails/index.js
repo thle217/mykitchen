@@ -143,36 +143,6 @@ function UserDetails() {
                                     >
                                         Vai trò
                                     </label>
-
-                                    {/* <select
-                                        value={
-                                            data.role_id
-                                                ? data.role_id
-                                                : "Chọn vai trò"
-                                        }
-                                        className="form-select"
-                                        aria-label="Default select example"
-                                        id="inputRole"
-                                        name="role"
-                                        onChange={handleOnChange}
-                                    >
-                                        <option value="choose">
-                                            Chọn vai trò
-                                        </option>
-                                        {.map((category) => {
-                                            return (
-                                                <option
-                                                    value={
-                                                        category.category_name
-                                                    }
-                                                    key={category.category_id}
-                                                    id={category.category_id}
-                                                >
-                                                    {category.category_name}
-                                                </option>
-                                            );
-                                        })}
-                                    </select> */}
                                     <select
                                         className="form-select"
                                         aria-label="Default select example"
@@ -180,7 +150,7 @@ function UserDetails() {
                                         name="role"
                                         onChange={handleOnChange}
                                     >
-                                        <option>
+                                        <option value={data.role_id}>
                                             {data.role_id === "1"
                                                 ? "Khách hàng"
                                                 : data.role_id === "2"
@@ -205,7 +175,8 @@ function UserDetails() {
                                         type="text"
                                         className="form-control"
                                         id="inputName"
-                                        name="name"
+                                        name="user_name"
+                                        value={data.user_name}
                                         onChange={handleOnChange}
                                     />
                                 </div>

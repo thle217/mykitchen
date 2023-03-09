@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th3 01, 2023 lúc 03:03 PM
+-- Thời gian đã tạo: Th3 07, 2023 lúc 07:31 AM
 -- Phiên bản máy phục vụ: 5.7.36
 -- Phiên bản PHP: 7.4.26
 
@@ -66,57 +66,6 @@ INSERT INTO `brands` (`brand_id`, `brand_name`, `url`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `brands_categories`
---
-
-DROP TABLE IF EXISTS `brands_categories`;
-CREATE TABLE IF NOT EXISTS `brands_categories` (
-  `brand_category_id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`brand_category_id`),
-  KEY `fk_brands` (`brand_id`),
-  KEY `fk_categories` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `brands_categories`
---
-
-INSERT INTO `brands_categories` (`brand_category_id`, `brand_id`, `category_id`) VALUES
-(1, 1, 12),
-(2, 2, 11),
-(3, 3, 14),
-(4, 4, 1),
-(5, 4, 2),
-(6, 4, 11),
-(7, 5, 4),
-(8, 6, 5),
-(9, 7, 13),
-(10, 8, 2),
-(11, 9, 11),
-(12, 10, 12),
-(13, 10, 13),
-(14, 11, 1),
-(15, 12, 7),
-(16, 13, 9),
-(17, 13, 14),
-(18, 14, 2),
-(19, 14, 13),
-(20, 15, 8),
-(21, 15, 14),
-(22, 16, 10),
-(23, 17, 6),
-(24, 18, 3),
-(25, 19, 2),
-(26, 20, 2),
-(27, 21, 11),
-(28, 21, 13),
-(29, 22, 10);
-
--- --------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `carts`
 --
 
@@ -126,7 +75,14 @@ CREATE TABLE IF NOT EXISTS `carts` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`cart_id`),
   KEY `fk_carts_users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `carts`
+--
+
+INSERT INTO `carts` (`cart_id`, `user_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -144,7 +100,14 @@ CREATE TABLE IF NOT EXISTS `carts_products` (
   PRIMARY KEY (`cart_product_id`),
   KEY `fk_carts_products_carts` (`cart_id`),
   KEY `fk_carts_products_products` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `carts_products`
+--
+
+INSERT INTO `carts_products` (`cart_product_id`, `cart_id`, `product_id`, `quantity`, `price`) VALUES
+(1, 1, 2, 4, 2001);
 
 -- --------------------------------------------------------
 
@@ -271,14 +234,13 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`product_id`),
   KEY `fk_categories_products` (`category_id`),
   KEY `fk_brands_products` (`brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
 INSERT INTO `products` (`product_id`, `brand_id`, `category_id`, `product_name`, `size`, `weight`, `material`, `country`, `price`, `status`, `description`, `capacity`, `wattage`, `url`) VALUES
-(1, 4, 1, 'Bếp ga Electrolux EHG7230BE', '000mm - 000mm - 000mm', '00kg', 'Inox', 'Trung Quốc', 3200000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '4000W', 'https://i.imgur.com/TbsD42c.jpeg'),
 (2, 11, 1, 'Bếp ga RINNAI RV-6DOUBLE GLASS', '000mm - 000mm - 000mm', '00kg', 'Inox', 'Trung Quốc', 2900000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '4000W', 'https://i.imgur.com/BdWXGjo.jpeg'),
 (3, 4, 2, 'Bếp từ Electrolux EHI7023BA', '000mm - 000mm - 000mm', '00kg', 'Kính', 'Nhật Bản', 5190000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '4300W', 'https://i.imgur.com/SIKUdhg.jpeg'),
 (4, 19, 2, 'Bếp từ Hawonkoo CEH-201-IF', '000mm - 000mm - 000mm', '00kg', 'Kính', 'Nhật Bản', 4200000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '4000W', 'https://i.imgur.com/tGBx5d1.jpeg'),
@@ -311,11 +273,7 @@ INSERT INTO `products` (`product_id`, `brand_id`, `category_id`, `product_name`,
 (31, 6, 5, 'Bộ 6 Hộp Bảo Quản Lock&Lock Classic HPL826S6', '000mm - 000mm - 000mm', '00kg', 'Nhựa', 'Hàn Quốc', 241000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '000W', 'https://i.imgur.com/hGmf9yW.jpeg'),
 (32, 5, 4, 'Chảo inox 2 lớp đáy liền Elmich Tri-Max 28cm', '28cm', '00kg', 'inox', 'Việt Nam', 890000, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '000W', 'https://i.imgur.com/9cenXL3.jpeg'),
 (33, 12, 7, 'Muỗng Ăn Inox Rehang Stainless 829B', '000mm - 000mm - 000mm', '00kg', 'Inox', 'Trung Quốc', 17900, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '000W', 'https://i.imgur.com/qIO2ASx.jpeg'),
-(34, 12, 7, 'Nĩa Ăn Inox Rehang 823', '000mm - 000mm - 000mm', '00kg', 'Inox', 'Trung Quốc', 19900, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '000W', 'https://i.imgur.com/oEuQVqp.jpeg'),
-(47, 1, 7, 'test test test', '', '', '', '', 20, '', '', '', '', ''),
-(48, 4, 9, 'test dialog nèeeeeeee', '', '', '', '', 200, '', '', '', '', ''),
-(49, 4, 9, 'test nữa nèee ahihi', '', '', '', 'Nhật Bản', 200, '', '', '', '', ''),
-(54, 3, 5, 'testtest2', '', '', '', '', 202, 'Inactive', '', '', '', '');
+(34, 12, 7, 'Nĩa Ăn Inox Rehang 823', '000mm - 000mm - 000mm', '00kg', 'Inox', 'Trung Quốc', 19900, 'Active', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.', '00L', '000W', 'https://i.imgur.com/oEuQVqp.jpeg');
 
 -- --------------------------------------------------------
 
@@ -375,13 +333,6 @@ INSERT INTO `users` (`user_id`, `role_id`, `user_name`, `gender`, `dob`, `phone`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
-
---
--- Các ràng buộc cho bảng `brands_categories`
---
-ALTER TABLE `brands_categories`
-  ADD CONSTRAINT `fk_brands` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`),
-  ADD CONSTRAINT `fk_categories` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
 
 --
 -- Các ràng buộc cho bảng `carts`

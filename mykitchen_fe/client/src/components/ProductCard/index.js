@@ -1,8 +1,19 @@
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { setProduct } from "../../slices/productSlice";
 
 function ProductCard(props) {
+
+
+    //XỬ LÝ LƯU SẢN PHẨM VỪA CHỌN VÀO STORE
+    const dispatch = useDispatch();
+    const handleSaveToStore = () => {
+        const action = setProduct(props.product);
+        dispatch(action);
+    }
+
 
     return (
         <div className="pb-1 mb-5">
@@ -36,7 +47,12 @@ function ProductCard(props) {
                     >
                         <FontAwesomeIcon icon={faEye} className="text-primary mr-1"/>Xem chi tiết
                     </Link>
-                    <button type="button" value="<?php echo $product['product_id'] ?>" className="btn btn-outline-primary btn-add" style={{backgroundColor: 'transparent'}}>
+                    <button
+                        type="button"
+                        className="btn btn-outline-primary btn-add"
+                        style={{backgroundColor: 'transparent'}}
+                        onClick={handleSaveToStore}
+                    >
                         Thêm vào giỏ
                     </button>
                 </div>

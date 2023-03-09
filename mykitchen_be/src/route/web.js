@@ -4,6 +4,7 @@ import brandController from "../controllers/brandController";
 import categoryController from "../controllers/categoryController";
 import userController from "../controllers/userController";
 import discountsController from "../controllers/discountsController";
+import cartController from "../controllers/cartController";
 
 let router = express.Router();
 
@@ -22,11 +23,14 @@ let initWebRotes = (app) => {
   router.put("/api/product/update/:product_id", productController.updateProduct);
   router.delete("/api/product/delete/:product_id", productController.deleteProduct);
 
+
   //Brand
   router.get("/api/brand/get-all", brandController.getAllBrands);
 
+
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
+
 
   //User
   router.get("/api/user/get-all", userController.getAllUser);
@@ -37,12 +41,23 @@ let initWebRotes = (app) => {
   router.put("/api/user/update/:id", userController.UpdateUser);
   router.post("/api/user/login", userController.loginUser);
 
+
   //Discounts
   router.get("/api/discounts/get-all", discountsController.getAllDiscounts);
   router.get("/api/discounts/get-id/:id", discountsController.getDiscountsById);
   router.post("/api/discounts/create", discountsController.creatDiscounts);
   router.put("/api/discounts/update/:id", discountsController.updateDiscounts);
   router.delete("/api/discounts/delete/:id",discountsController.deleteDiscounts);
+
+
+  //Cart
+  router.get("/api/cart/get-products/:user_id", cartController.getProductsFromCart);
+  router.post("/api/cart/add", cartController.addProductToCart);
+  router.post("/api/cart/create/:user_id", cartController.createCart);
+  router.delete("/api/cart/delete/:product_id", cartController.deleteProductFromCart);
+  router.put("/api/cart/increase", cartController.increaseQuantity);
+  router.put("/api/cart/decrease", cartController.decreaseQuantity);
+
 
   return app.use("/", router);
 };

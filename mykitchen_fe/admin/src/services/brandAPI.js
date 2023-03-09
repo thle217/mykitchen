@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const brandAPI = {
     getAll: () => {
-        return axios.get(`https://be-api-mykitchen.onrender.com/api/brand/get-all`);
+        return axios.get(`${baseURL}/api/brand/get-all`);
     }
 }
 

@@ -1,7 +1,35 @@
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import discountAPI from "../../services/discountAPI";
 
 function Cart() {
+
+
+    //CALL API
+    const [discountList, setDiscountList] = useState([]);
+    useEffect(() => {
+        const getAllDiscounts = async () => {
+            const res = await discountAPI.getAll();
+            setDiscountList(res.data.data);
+        };
+
+        getAllDiscounts();
+
+    }, []);
+
+
+    //XỬ LÝ LẤY DỮ LIỆU SẢN PHẨM TỪ STORE
+    const product = useSelector(state => state.product);
+    console.log('sp bên cart', product);
+
+
+    //XỬ LÝ PUSH SẢN PHẨM VỪA THÊM VÀO LIST
+    const [productList, setProductList] = useState([]);
+    
+
+
     return (
         <div className="container-fluid pt-5">
             <form action="" method="">
@@ -52,11 +80,23 @@ function Cart() {
                         </table>
                     </div>
                     <div className="col-lg-4">
-                        {/**KHÔNG THỂ ĐỂ FORM TRONG FORM => LƯU VOUCHER VÀO STATE*/}
-                        <div className="input-group">
-                            <input type="text" className="form-control p-4" placeholder="Mã voucher"/>
-                            <div className="input-group-append">
-                                <button className="btn btn-primary text-white">Nhập voucher</button>
+                        <div className="card border-secondary mb-5">
+                            <div className="card-header bg-secondary border-0">
+                                <h5 className="font-weight-semi-bold m-0">Mã Khuyến Mãi</h5>
+                            </div>
+                            <div className="card-body">
+                                {
+                                    discountList.map(discounts => {
+                                        return (
+                                            <div className="form-check mb-3" key={discounts.discount_id}>
+                                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDisabled"/>
+                                                <label className="form-check-label" htmlFor="flexCheckDisabled">
+                                                    {discounts.title}
+                                                </label>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <div className="card border-secondary mb-5 mt-5">

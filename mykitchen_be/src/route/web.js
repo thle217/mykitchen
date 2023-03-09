@@ -26,12 +26,23 @@ let initWebRotes = (app) => {
 
   //Brand
   router.get("/api/brand/get-all", brandController.getAllBrands);
+  router.get("/api/brand/get-product/:id", brandController.getBrandById);
+  router.post("/api/brand/create", brandController.createBrand);
+  router.put("/api/brand/update/:id", brandController.updateBrand);
+  router.delete("/api/brand/delete/:id", brandController.deleteBrand);
 
 
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
+<<<<<<< HEAD
 
 
+=======
+  router.get("/api/category/get-id/:id",categoryController.getCategoryById);
+  router.post("/api/category/create", categoryController.createCategory);
+  router.put("/api/category/update/:id",categoryController.updateCaterogy);
+  router.delete("/api/category/delete/:id",categoryController.deleteCaterogy);
+>>>>>>> cef4c4ffa4ac08d4265b3b8bc62e502353b56565
   //User
   router.get("/api/user/get-all", userController.getAllUser);
   router.get("/api/user/get-id/:id", userController.getUserById);
@@ -47,7 +58,7 @@ let initWebRotes = (app) => {
   router.get("/api/discounts/get-id/:id", discountsController.getDiscountsById);
   router.post("/api/discounts/create", discountsController.creatDiscounts);
   router.put("/api/discounts/update/:id", discountsController.updateDiscounts);
-  router.delete("/api/discounts/delete/:id",discountsController.deleteDiscounts);
+  router.delete("/api/discounts/delete/:id", discountsController.deleteDiscounts);
 
 
   //Cart

@@ -10,19 +10,20 @@ function CategoryList() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const getAll = async () => {
+        try{
+            setLoading(true);
+            const response = await categoryAPI.getAll();
+            setList(response.data.data);
+            setLoading(false);
+        }
+        catch(err){
+            throw new Error(err);
+        }
+    };
+
     useEffect(() => {
-        const getAllProducts = async () => {
-            try{
-                setLoading(true);
-                const response = await categoryAPI.getAll();
-                setList(response.data.data);
-                setLoading(false);
-            }
-            catch(err){
-                throw new Error(err);
-            }
-        };
-        getAllProducts(); 
+        getAll(); 
     },[]);
 
 
@@ -41,8 +42,9 @@ function CategoryList() {
 
 
     //XỬ LÝ DELETE
-    const handleDelete = (record) => {
-        console.log('xóa cate', record);
+    const handleDelete =  async  (record) => {
+         await categoryAPI.delete(record.category_id);
+         getAll();
     }
 
 

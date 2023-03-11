@@ -10,7 +10,7 @@ function BrandsCarousel() {
     useEffect(() => {
         const getAllBrands = async () => {
             const res = await brandAPI.getAll();
-            setBrandList(res.data.data);
+            setBrandList(res.data);
         };
         getAllBrands();
     }, []);

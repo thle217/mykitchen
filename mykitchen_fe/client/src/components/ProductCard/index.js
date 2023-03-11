@@ -1,18 +1,31 @@
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { setProduct } from "../../slices/productSlice";
+import cartAPI from "../../services/cartAPI";
+import { successDialog, failDialog } from "../Dialog";
 
 function ProductCard(props) {
 
 
-    //XỬ LÝ LƯU SẢN PHẨM VỪA CHỌN VÀO STORE
-    const dispatch = useDispatch();
-    const handleSaveToStore = () => {
-        const action = setProduct(props.product);
-        dispatch(action);
-    }
+    //XỬ LÝ LƯU SẢN PHẨM VỪA CHỌN VÀO GIỎ HÀNG
+    const handleAddToCart = async () => {
+        let obj = {
+            ...props.product,
+            user_id: 1,
+            quantity: 1,
+            price: props.product.price
+        };
+
+        await cartAPI.add(obj)
+        .then(res => {
+            if(res.status === 200 || res.status === 201) {
+                successDialog();
+            }
+            else if(res.status === 202) {
+                failDialog();
+            }
+        });
+    };
 
 
     return (
@@ -51,7 +64,7 @@ function ProductCard(props) {
                         type="button"
                         className="btn btn-outline-primary btn-add"
                         style={{backgroundColor: 'transparent'}}
-                        onClick={handleSaveToStore}
+                        onClick={handleAddToCart}
                     >
                         Thêm vào giỏ
                     </button>

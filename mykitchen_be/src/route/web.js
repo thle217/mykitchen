@@ -34,15 +34,11 @@ let initWebRotes = (app) => {
 
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
-<<<<<<< HEAD
-
-
-=======
   router.get("/api/category/get-id/:id",categoryController.getCategoryById);
   router.post("/api/category/create", categoryController.createCategory);
   router.put("/api/category/update/:id",categoryController.updateCaterogy);
   router.delete("/api/category/delete/:id",categoryController.deleteCaterogy);
->>>>>>> cef4c4ffa4ac08d4265b3b8bc62e502353b56565
+  
   //User
   router.get("/api/user/get-all", userController.getAllUser);
   router.get("/api/user/get-id/:id", userController.getUserById);
@@ -65,7 +61,7 @@ let initWebRotes = (app) => {
   router.get("/api/cart/get-products/:user_id", cartController.getProductsFromCart);
   router.post("/api/cart/add", cartController.addProductToCart);
   router.post("/api/cart/create/:user_id", cartController.createCart);
-  router.delete("/api/cart/delete/:product_id", cartController.deleteProductFromCart);
+  router.delete("/api/cart/delete", cartController.deleteProductFromCart);
   router.put("/api/cart/increase", cartController.increaseQuantity);
   router.put("/api/cart/decrease", cartController.decreaseQuantity);
 

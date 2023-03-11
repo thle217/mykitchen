@@ -44,7 +44,7 @@ function ProductDetails() {
     useEffect(() => {
         const getAllBrands = async () => {
             const res = await brandAPI.getAll();
-            setBrandList(res.data.data);
+            setBrandList(res.data);
         };
         const getAllCategories = async () => {
             const res = await categoryAPI.getAll();

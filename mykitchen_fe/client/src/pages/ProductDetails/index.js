@@ -6,6 +6,7 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import RelatedProducts from "../../components/RelatedProducts";
 import cartAPI from "../../services/cartAPI";
 import { successDialog } from "../../components/Dialog";
+import { VND } from "../../utils/currency";
 
 function ProductDetails() {
 
@@ -89,7 +90,7 @@ function ProductDetails() {
 
                     <div className="col-lg-7 pb-5">
                         <h4 className="font-weight-semi-bold mb-5">{state.product_name}</h4>
-                        <h4 className="font-weight-semi-bold mb-4 text-danger">{state.price}<sup>đ</sup></h4>
+                        <h4 className="font-weight-semi-bold mb-4 text-danger">{VND.format(state.price)}</h4>
                         <div className="border bg-primary border-primary p-4 rounded-top">
                             <h5 className="text-white"><b>ƯU ĐÃI CHỈ CÓ Ở MY KITCHEN</b></h5>
                         </div>

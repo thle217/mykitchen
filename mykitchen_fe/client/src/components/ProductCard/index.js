@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import cartAPI from "../../services/cartAPI";
 import { successDialog, failDialog } from "../Dialog";
+import { VND } from "../../utils/currency";
 
 function ProductCard(props) {
 
@@ -49,7 +50,7 @@ function ProductCard(props) {
                         <h6 className="text-truncate mb-3 mx-2">{props.product.product_name}</h6>
                     </Link>
                     <div className="justify-content-center">
-                        <h6 className="text-danger"><b>{props.product.price}<sup>đ</sup></b></h6>
+                        <h6 className="text-danger"><b>{VND.format(props.product.price)}</b></h6>
                     </div>
                 </div>
                 <div className="card-footer d-flex justify-content-between bg-light border">

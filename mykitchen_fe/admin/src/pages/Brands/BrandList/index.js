@@ -15,7 +15,7 @@ function BrandList() {
             try{
                 setLoading(true);
                 const response = await brandAPI.getAll();
-                setList(response.data.data);
+                setList(response.data);
                 setLoading(false);
             }
             catch(err){

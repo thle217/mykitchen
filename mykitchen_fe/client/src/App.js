@@ -9,6 +9,7 @@ import OtherPagesLayout from "./layouts/OtherPagesLayout";
 import LoginRegisterLayout from "./layouts/LoginRegisterLayout";
 
 function App() {
+    
     return (
         <Router>
             <div className="App">

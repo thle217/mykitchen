@@ -9,6 +9,9 @@ const productAPI = {
     getById: (product_id) => {
         return axios.get(`${baseURL}/api/product/${product_id}`);
     },
+    getByName: (product_name) => {
+        return axios.get(`${baseURL}/api/product/get-by-name/${product_name}`);
+    },
     create: (obj) => {
         return axios.post(`${baseURL}/api/product/create`, obj);
     },

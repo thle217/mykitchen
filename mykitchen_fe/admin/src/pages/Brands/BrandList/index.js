@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { useEffect, useState } from "react";
 import DataTable from "../../../components/DataTable";
 import brandAPI from "../../../services/brandAPI";
@@ -60,11 +58,6 @@ function BrandList() {
         },
     ];
 
-
-    //XỬ LÝ DELETE
-    // const handleDelete = (record) => {
-    //     console.log('xóa brand', record);
-    // }
     const handleDelete = async (record) => {
         await brandAPI.delete(record.brand_id);
         getAll();
@@ -100,4 +93,3 @@ function BrandList() {
 }
 
 export default BrandList;
->>>>>>> 903fd19d022c8681bad8b413cd273dfb3805f4f1

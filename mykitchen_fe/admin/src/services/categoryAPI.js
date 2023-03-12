@@ -1,9 +1,5 @@
 import axios from "axios";
 
-<<<<<<< HEAD
-=======
-// <<<<<<< HEAD
->>>>>>> 903fd19d022c8681bad8b413cd273dfb3805f4f1
 const baseURL = process.env.REACT_APP_API_URL;
 
 const categoryAPI = {
@@ -19,10 +15,6 @@ const categoryAPI = {
     update: (category_id, obj) => {
         return axios.put(`${baseURL}/api/category/update/${category_id}`, obj);
     },
-<<<<<<< HEAD
-=======
-// >>>>>>> cef4c4ffa4ac08d4265b3b8bc62e502353b56565
->>>>>>> 903fd19d022c8681bad8b413cd273dfb3805f4f1
 }
 
 export default categoryAPI;

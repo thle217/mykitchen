@@ -10,7 +10,22 @@ function BrandList() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const getAll = async () => {
+        try{
+            setLoading(true);
+            const response = await brandAPI.getAll();
+            console.log(">>",response);
+            setList(response.data);
+            setLoading(false);
+        }
+        catch(err){
+            throw new Error(err);
+        }
+    };
+    
     useEffect(() => {
+        getAll(); 
+
         const getAllProducts = async () => {
             try{
                 setLoading(true);
@@ -43,12 +58,10 @@ function BrandList() {
         },
     ];
 
-
-    //XỬ LÝ DELETE
-    const handleDelete = (record) => {
-        console.log('xóa brand', record);
-    }
-
+    const handleDelete = async (record) => {
+        await brandAPI.delete(record.brand_id);
+        getAll();
+    };
 
     return (
         <div className="container-fluid pt-4 px-4">

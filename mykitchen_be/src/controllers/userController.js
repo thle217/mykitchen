@@ -19,7 +19,7 @@ let getUserById = async (req, res) => {
   if (data.length > 0) {
     return res.status(200).json({ data });
   } else {
-    return res.status(404).json({ result: "User not found" });
+    return res.status(200).json({ result: "User not found" });
   }
 };
 
@@ -37,10 +37,10 @@ let loginUser = async (req, res) => {
       const { password, ...data } = user[0];
       return res.status(200).json({ data });
     } else {
-      return res.status(400).json({ result: "Incorrect account or password" });
+      return res.status(200).json({ result: "Incorrect account or password" });
     }
   } else {
-    return res.status(404).json({ result: "User not found" });
+    return res.status(200).json({ result: "User not found" });
   }
 };
 
@@ -50,7 +50,7 @@ let creatUser = async (req, res) => {
     type: sequelize.QueryTypes.SELECT,
   });
   if (user.length > 0) {
-    return res.status(400).json({ result: "User already exists" });
+    return res.status(200).json({ result: "User already exists" });
   } else {
     if (
       req.body.username === undefined ||
@@ -58,15 +58,17 @@ let creatUser = async (req, res) => {
       req.body.email === undefined ||
       req.body.name === undefined
     ) {
-      return res.status(400).json({ result: "incomplete information" });
+      return res.status(200).json({ result: "incomplete information" });
     } else {
       const hashPass = await hashPassword(req.body.password);
       const sql = `INSERT INTO users(role_id, username,password,user_name,email)
             VALUES ('1','${req.body.username}','${hashPass}','${req.body.name}','${req.body.email}')`;
-      await sequelize.query(sql, {
+      const data = await sequelize.query(sql, {
         type: sequelize.QueryTypes.INSERT,
       });
-      return res.status(200).json({ result: "Create successful" });
+      return res
+        .status(200)
+        .json({ result: "Create successful", userId: data[0] });
     }
   }
 };
@@ -77,7 +79,7 @@ let creatAdmin = async (req, res) => {
     type: sequelize.QueryTypes.SELECT,
   });
   if (user.length > 0) {
-    return res.status(400).json({ result: "User already exists" });
+    return res.status(200).json({ result: "User already exists" });
   } else {
     if (
       req.body.role === undefined ||
@@ -92,7 +94,7 @@ let creatAdmin = async (req, res) => {
       req.body.username === undefined ||
       req.body.password === undefined
     ) {
-      return res.status(400).json({ result: "incomplete information" });
+      return res.status(200).json({ result: "incomplete information" });
     } else {
       const hashPass = await hashPassword(req.body.password);
       const sql = `INSERT INTO users(role_id, user_name, gender, dob, phone, street, ward, district, city, username, password) 
@@ -173,10 +175,10 @@ let UpdateUser = async (req, res) => {
     if (update) {
       return res.status(200).json({ result: "Update successful" });
     } else {
-      return res.status(403).json({ result: "Update failed" });
+      return res.status(200).json({ result: "Update failed" });
     }
   } else {
-    return res.status(404).json({ result: "User does not exist" });
+    return res.status(200).json({ result: "User does not exist" });
   }
 };
 
@@ -190,7 +192,7 @@ let DeleteUser = async (req, res) => {
     await sequelize.query(sql);
     return res.status(200).json({ result: "Delete successful" });
   } else {
-    return res.status(404).json({ result: "User does not exist" });
+    return res.status(200).json({ result: "User does not exist" });
   }
 };
 

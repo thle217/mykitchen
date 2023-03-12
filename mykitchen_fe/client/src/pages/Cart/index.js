@@ -1,20 +1,26 @@
+import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
-import Swal from "sweetalert2";
+import { VND } from "../../utils/currency";
+import { failDialog } from "../../components/Dialog";
 import discountAPI from "../../services/discountAPI";
 import cartAPI from "../../services/cartAPI";
-import { VND } from "../../utils/currency";
+import { useSelector } from "react-redux";
 
 function Cart() {
+
+
+    //LẤY THÔNG TIN USER TỪ STORE
+    const user = useSelector(state => state.user);
+
 
     //CALL API
     const [discountList, setDiscountList] = useState([]);
     const [productList, setProductList] = useState([]);
 
     const getAllProducts = async () => {
-        let user_id = 1;
-        const res = await cartAPI.getAll(user_id);
+        const res = await cartAPI.getAll(user.user_id);
         setProductList(res.data.data);
     };
 
@@ -32,7 +38,7 @@ function Cart() {
     //XỬ LÝ TĂNG SỐ LƯỢNG
     const handleIncrease = async (product) => {
         let obj = {
-            user_id: 1,
+            user_id: user.user_id,
             product_id: product.product_id,
             quantity: product.quantity,
             price: product.price
@@ -43,6 +49,9 @@ function Cart() {
             if(res.status === 200) {
                 getAllProducts();
             }
+            else if(res.status === 202) {
+                failDialog();
+            }
         });
     };
 
@@ -50,7 +59,7 @@ function Cart() {
     //XỬ LÝ GIẢM SỐ LƯỢNG
     const handleDecrease = async (product) => {
         let obj = {
-            user_id: 1,
+            user_id: user.user_id,
             product_id: product.product_id,
             quantity: product.quantity,
             price: product.price
@@ -81,7 +90,7 @@ function Cart() {
         .then( async (result) => {
             if (result.isConfirmed) {
                 let obj = {
-                    user_id: 1,
+                    user_id: user.user_id,
                     product_id: product_id
                 };
         

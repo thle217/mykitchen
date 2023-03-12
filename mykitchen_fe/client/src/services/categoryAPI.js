@@ -6,6 +6,7 @@ const categoryAPI = {
     getAll: () => {
         return axios.get(`${baseURL}/api/category/get-all`);
     }
+    
 }
 
 export default categoryAPI;

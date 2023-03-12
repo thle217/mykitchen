@@ -145,7 +145,7 @@ function UserDetails() {
                                         name="role"
                                         onChange={handleOnChange}
                                     >
-                                        <option>
+                                        <option value={data.role_id}>
                                             {data.role_id === "1"
                                                 ? "Khách hàng"
                                                 : data.role_id === "2"

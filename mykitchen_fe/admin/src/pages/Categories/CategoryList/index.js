@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { successDialog } from "../../../components/Dialog";
 import DataTable from "../../../components/DataTable";
 import categoryAPI from "../../../services/categoryAPI";
 import CategoryDetails from "../CategoryDetails";
 
 function CategoryList() {
+
+
+    //LẤY DỮ LIỆU CHỌN CATEGORY TỪ STORE
+    const category = useSelector(state => state.common);
 
 
     //CALL API
@@ -41,10 +47,34 @@ function CategoryList() {
     ];
 
 
+    //XỬ LÝ CREATE
+    const handleCreate = async (obj) => {
+        await categoryAPI.create(obj)
+        .then(res => {
+            if (res.status === 200) {
+                successDialog();
+                getAll();
+            }
+        });
+    }
+
+
+    //XỬ LÝ UPDATE
+    const handleUpdate = async (obj) => {
+        await categoryAPI.update(category.category_id, obj)
+        .then(res => {
+            if (res.status === 200) {
+                successDialog();
+                getAll();
+            }
+        });
+    }
+
+
     //XỬ LÝ DELETE
-    const handleDelete =  async  (record) => {
-         await categoryAPI.delete(record.category_id);
-         getAll();
+    const handleDelete = async (record) => {
+        await categoryAPI.delete(record.category_id);
+        getAll();
     }
 
 
@@ -68,7 +98,10 @@ function CategoryList() {
                                     />
                                 </div>
                             </div>
-                            <CategoryDetails />
+                            <CategoryDetails
+                                handleCreate={handleCreate}
+                                handleUpdate={handleUpdate}
+                            />
                         </div>
                     </div>
                 </div>

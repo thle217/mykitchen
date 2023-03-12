@@ -25,16 +25,20 @@ const publicRoutes = [
         isLoginRegisterLayout: true
     },
     {
-        path: "/account",
-        page: Account
-    },
-    {
         path: "/shopping",
         page: Shopping
     },
     {
         path: "/product-details",
         page: ProductDetails
+    }
+];
+
+const privateRoutes = [
+    ...publicRoutes,
+    {
+        path: "/account",
+        page: Account
     },
     {
         path: "/cart",
@@ -43,6 +47,7 @@ const publicRoutes = [
     {
         path: "/checkout",
         page: Checkout
+<<<<<<< HEAD
     },
     {
         path: "/search/",
@@ -51,6 +56,9 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
+=======
+    }
+>>>>>>> 558598f69f2ad732bd4886b65fa80dd19dfda07c
 ];
 
 export { publicRoutes, privateRoutes };

@@ -3,8 +3,6 @@ import Slider from "react-slick";
 import brandAPI from "../../services/brandAPI";
 
 function BrandsCarousel() {
-
-
     //CALL API
     const [brandList, setBrandList] = useState([]);
     useEffect(() => {
@@ -14,7 +12,6 @@ function BrandsCarousel() {
         };
         getAllBrands();
     }, []);
-
 
     //ĐỊNH DẠNG SLIDER
     const settings = {
@@ -55,19 +52,22 @@ function BrandsCarousel() {
         ],
     };
 
-
     return (
         <div className="container-fluid py-5">
             <div className="row px-xl-5">
                 <div className="col">
                     <Slider {...settings}>
-                        {
-                            brandList.map(brand => {
-                                return (
-                                    <div className="p-2" key={brand.brand_id}><img src={brand.url} style={{width: '100%'}} alt=""/></div>
-                                )
-                            })
-                        }
+                        {brandList.map((brand) => {
+                            return (
+                                <div className="p-2" key={brand.brand_id}>
+                                    <img
+                                        src={brand.url}
+                                        style={{ width: "100%" }}
+                                        alt=""
+                                    />
+                                </div>
+                            );
+                        })}
                     </Slider>
                 </div>
             </div>

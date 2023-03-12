@@ -2,62 +2,69 @@ import { useEffect, useState } from "react";
 import DataTable from "../../../components/DataTable";
 import brandAPI from "../../../services/brandAPI";
 import BrandDetails from "../BrandDetails";
+import { successDialog } from "../../../components/Dialog";
+import { useSelector } from "react-redux";
 
 function BrandList() {
-
+    const brand = useSelector((state) => state.common);
 
     //CALL API
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const getAll = async () => {
-        try{
+        try {
             setLoading(true);
             const response = await brandAPI.getAll();
-            console.log(">>",response);
             setList(response.data);
             setLoading(false);
-        }
-        catch(err){
+        } catch (err) {
             throw new Error(err);
         }
     };
-    
+
     useEffect(() => {
-        getAll(); 
+        getAll();
+    }, []);
 
-        const getAllProducts = async () => {
-            try{
-                setLoading(true);
-                const response = await brandAPI.getAll();
-                setList(response.data);
-                setLoading(false);
+    const handleCreate = async (obj) => {
+        await brandAPI.create(obj).then((res) => {
+            if (res.status === 200) {
+                successDialog();
+                getAll();
             }
-            catch(err){
-                throw new Error(err);
+        });
+    };
+    const handleUpdate = async (obj) => {
+        await brandAPI.update(brand.brand_id, obj).then((res) => {
+            if (res.status === 200) {
+                successDialog();
+                getAll();
             }
-        };
-        getAllProducts(); 
-    },[]);
-
+        });
+    };
 
     //ĐỊNH DẠNG DATATABLE
     const columns = [
         {
             title: "ID",
             dataIndex: "brand_id",
-            align: "center"
+            align: "center",
         },
         {
             title: "Tên thương hiệu",
-            dataIndex: "brand_name"
+            dataIndex: "brand_name",
         },
         {
             title: "URL hình",
-            dataIndex: "url"
+            dataIndex: "url",
         },
     ];
 
+    //XỬ LÝ DELETE
+    // const handleDelete = (record) => {
+    //     console.log('xóa brand', record);
+    // }
     const handleDelete = async (record) => {
         await brandAPI.delete(record.brand_id);
         getAll();
@@ -83,13 +90,16 @@ function BrandList() {
                                     />
                                 </div>
                             </div>
-                            <BrandDetails />
+                            <BrandDetails
+                                handleCreate={handleCreate}
+                                handleUpdate={handleUpdate}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default BrandList;

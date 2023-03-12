@@ -129,11 +129,6 @@ function UserDetails() {
                         >
                             CHI TIẾT NGƯỜI DÙNG
                         </h6>
-                        {/* <?php
-                        if ($error) {
-                            echo '<h6 className="text-danger">CHÚ Ý: Vai trò - Username - Password không được trống !</h6>';
-                        }
-                        ?> */}
                         <form onSubmit={handleSubmit} method="post">
                             <div className="row mb-3">
                                 <div className="col-4">

@@ -1,13 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import userAPI from "../../services/userAPI";
+import { toast } from "react-toastify";
+import {useDispatch} from 'react-redux'
+import {login} from "../../slices/userSlice";
 function LoginForm() {
     const init = {
         username: "",
         password: "",
     };
+    const dispatch=useDispatch()
 
+    const navigate = useNavigate();
     const [data, setData] = useState(init);
+    const [err, setErr] = useState("");
+
     const handleOnChange = (e) => {
         const { value, name } = e.target;
         setData({
@@ -15,7 +22,7 @@ function LoginForm() {
             [name]: value,
         });
     };
-    console.log(">>>>", data);
+    // console.log(">>>>", data);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,9 +32,26 @@ function LoginForm() {
             password: data.password,
         };
 
-        let a = await userAPI.login(obj);
+        if (data.username === "" || data.password === "") {
+            setErr("Vui lòng nhập đầy đủ thông tin !");
+        } else {
+            let a = await userAPI.login(obj);
+            if (a.data.result === "User not found") {
+                setErr("Tài khoản không tồn tại !");
+            } else {
+                if (a.data.result === "Incorrect account or password") {
+                    setErr("Mật khẩu không chính xác");
+                } else {
+                    console.log(a.data);
+                    toast.success("Đăng nhập thành công");
+                    dispatch(login(a.data));
+                    navigate("/");
 
-        console.log(">>> data ne", a);
+                }
+            }
+        }
+
+        // console.log(a.data.result);
     };
     return (
         <form onSubmit={handleSubmit} method="post">
@@ -55,6 +79,7 @@ function LoginForm() {
                         onChange={handleOnChange}
                     />
                 </div>
+                <span style={{ color: "red" }}>{err}</span>
                 <div className="form-input pt-30">
                     <input
                         type="submit"

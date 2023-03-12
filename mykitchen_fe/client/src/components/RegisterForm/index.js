@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import userAPI from "../../services/userAPI";
-
 
 function RegisterForm() {
     // console.log(user);
@@ -13,11 +13,10 @@ function RegisterForm() {
         password: "",
         repassword: "",
     };
-    
-    const navigate=useNavigate();
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState(init);
-    const [err, setErr] = useState("");
 
     const handleOnChange = (e) => {
         const { value, name } = e.target;
@@ -36,12 +35,12 @@ function RegisterForm() {
             data.password === "" ||
             data.repassword === ""
         ) {
-            setErr("Vui lòng nhập đủ thông tin");
+            toast.error("Vui lòng nhập đầy đủ thông tin");
         } else {
-            if (data.password !== data.repassword) {
-                setErr("Mật không không khớp");
+            if (data.password !== data.repassword) {  
+                toast.error("Mật khẩu không khớp");
+              
             } else {
-                setErr("");
                 let obj = {
                     name: data.name,
                     username: data.username,
@@ -51,8 +50,8 @@ function RegisterForm() {
 
                 let a = await userAPI.register(obj);
                 console.log(">>>>data", a);
-                navigate("/")
-
+                toast.success("Đăng ký thành công");
+                navigate("/login");
             }
         }
     };
@@ -115,7 +114,6 @@ function RegisterForm() {
                         onChange={handleOnChange}
                     />
                 </div>
-                <p style={{color:"red"}}>{err}</p>
                 <div className="form-input pt-30">
                     <input
                         type="submit"

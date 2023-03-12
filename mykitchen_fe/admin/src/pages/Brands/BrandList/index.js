@@ -10,19 +10,21 @@ function BrandList() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const getAll = async () => {
+        try{
+            setLoading(true);
+            const response = await brandAPI.getAll();
+            console.log(">>",response);
+            setList(response.data);
+            setLoading(false);
+        }
+        catch(err){
+            throw new Error(err);
+        }
+    };
+    
     useEffect(() => {
-        const getAllProducts = async () => {
-            try{
-                setLoading(true);
-                const response = await brandAPI.getAll();
-                setList(response.data.data);
-                setLoading(false);
-            }
-            catch(err){
-                throw new Error(err);
-            }
-        };
-        getAllProducts(); 
+        getAll(); 
     },[]);
 
 

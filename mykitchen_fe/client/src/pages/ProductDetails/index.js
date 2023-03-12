@@ -1,14 +1,20 @@
 import React from "react";
+import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import RelatedProducts from "../../components/RelatedProducts";
-import cartAPI from "../../services/cartAPI";
 import { successDialog } from "../../components/Dialog";
 import { VND } from "../../utils/currency";
+import RelatedProducts from "../../components/RelatedProducts";
+import cartAPI from "../../services/cartAPI";
 
 function ProductDetails() {
+
+
+    const user = useSelector(state => state.user);
+    const navigate = useNavigate();
 
 
     //LẤY THÔNG TIN SẢN PHẨM VỪA CHỌN
@@ -46,25 +52,51 @@ function ProductDetails() {
     };
 
 
+    //DIALOG THÔNG BÁO ĐĂNG NHẬP
+    const loginDialog = () => {
+        Swal.fire({
+            title: "Bạn cần đăng nhập",
+            confirmButtonText: "Đăng nhập",
+            showCancelButton: true,
+            cancelButtonText: "Hủy",
+            customClass: {
+                title: "fs-5 text-dark",
+                confirmButton: "bg-primary shadow-none",
+                cancelButton: "bg-secondary shadow-none text-dark",
+            },
+        })
+        .then( async (result) => {
+            if (result.isConfirmed) {
+                navigate("/login");
+            }
+        });
+    };
+
+
     //XỬ LÝ THÊM VÀO GIỎ HÀNG
     const handleAddToCart = async (e) => {
         e.preventDefault();
-        let obj = {
-            ...state,
-            user_id: 1,
-            quantity: quantity,
-            price: state.price
+        if(user.user_id) {
+            let obj = {
+                ...state,
+                user_id: user.user_id,
+                quantity: quantity,
+                price: state.price
+            }
+    
+            await cartAPI.add(obj)
+            .then(res => {
+                if(res.status === 200 || res.status === 201) {
+                    successDialog();
+                }
+                else if(res.status === 202) {
+                    setIsHidden(false);
+                }
+            });
         }
-
-        await cartAPI.add(obj)
-        .then(res => {
-            if(res.status === 200 || res.status === 201) {
-                successDialog();
-            }
-            else if(res.status === 202) {
-                setIsHidden(false);
-            }
-        });
+        else {
+            loginDialog();
+        }
     };
 
 

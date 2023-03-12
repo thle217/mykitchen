@@ -3,6 +3,9 @@ import axios from "axios";
 const baseURL = process.env.REACT_APP_API_URL;
 
 const cartAPI = {
+    create: (user_id) => {
+        return axios.post(`${baseURL}/api/cart/create/${user_id}`);
+    },
     getAll: (user_id) => {
         return axios.get(`${baseURL}/api/cart/get-products/${user_id}`);
     },

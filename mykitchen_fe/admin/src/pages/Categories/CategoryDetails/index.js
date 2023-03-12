@@ -1,13 +1,13 @@
+import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { successDialog } from "../../../components/Dialog";
-import Swal from "sweetalert2";
-import categoryAPI from "../../../services/categoryAPI";
-function CategoryDetails() {
 
+function CategoryDetails(props) {
+    
 
-    //XỬ LÝ LẤY DỮ LIỆU TỪ STORE VÀ TẠO STATE CHỨA
+    //XỬ LÝ LẤY DỮ LIỆU TỪ STORE, LẤY HÀM TỪ PROPS VÀ TẠO STATE CHỨA
     const category = useSelector(state => state.common);
+    const { handleCreate, handleUpdate } = props;
     const [name, setName] = useState("");
     
 
@@ -22,56 +22,42 @@ function CategoryDetails() {
         setName(e.target.value);
     };
 
+
+    //XỬ LÝ SUBMIT
     const handleSubmit = (e) => {
         e.preventDefault();
         let obj = {
            category_name: name,
         }
 
-    Swal.fire({
-        title: 'BẠN CÓ MUỐN LƯU THÔNG TIN?',
-        confirmButtonText: 'Lưu',
-        showCancelButton: true,
-        cancelButtonText: 'Hủy',
-        customClass: {
-            title: 'fs-5 text-dark',
-            confirmButton: 'bg-primary shadow-none',
-            cancelButton: 'bg-light shadow-none',
-        }
-    })
-    .then(result => {
-        if (result.isConfirmed) {
-
-            //UPDATE
-            if (category) {
-                handleUpdate(obj);
+        Swal.fire({
+            title: 'BẠN CÓ MUỐN LƯU THÔNG TIN?',
+            confirmButtonText: 'Lưu',
+            showCancelButton: true,
+            cancelButtonText: 'Hủy',
+            customClass: {
+                title: 'fs-5 text-dark',
+                confirmButton: 'bg-primary shadow-none',
+                cancelButton: 'bg-light shadow-none',
             }
+        })
+        .then(result => {
+            if (result.isConfirmed) {
 
-            //CREATE
-            else {
-                handleCreate(obj);
+                //UPDATE
+                if (category.category_id) {
+                    handleUpdate(obj);
+                }
+
+                //CREATE
+                else {
+                    handleCreate(obj);
+                }
             }
-        }
-    });
-      //XỬ LÝ CREATE
-    const handleCreate = async (obj) => {
-        await categoryAPI.create(obj)
-            .then(res => {
-                if (res.status === 201) {
-                    successDialog();
-                }
-            });
-    }
-    //XỬ LÝ UPDATE
-    const handleUpdate = async (obj) => {
-        await categoryAPI.update(category.category_id, obj)
-            .then(res => {
-                if (res.status === 200) {
-                    successDialog();
-                }
-            });
-    }
-    }
+        });
+    };
+
+
     return (
         <div className="col-md-5 mt-4">
             <form action="" method="post" onSubmit={handleSubmit}>

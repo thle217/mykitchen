@@ -27,6 +27,7 @@ function BrandDetails() {
     };
 
     const handleCreate = async (e) => {
+        e.preventDefault();
         console.log(data);
         const res = await brandAPI.getAll();
         console.log(res);

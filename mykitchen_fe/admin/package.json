@@ -53,13 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-<<<<<<< HEAD
-
-  },
-
-  "devDependencies": {
-    "dotenv": "^16.0.3"
-=======
->>>>>>> 7cf43e8762801711c671f46e412b5b22411945ac
   }
 }

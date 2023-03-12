@@ -1,13 +1,14 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { setInfo } from "../../../slices/commonSlice";
 
 function BrandDetails(props) {
     //GOI PROPS
     const handleCreate = props.handleCreate;
     const handleUpdate = props.handleUpdate;
     //XỬ LÝ LẤY DỮ LIỆU TỪ STORE VÀ TẠO STATE CHỨA
-
+    const dispatch = useDispatch();
     const brand = useSelector((state) => state.common);
     const [name, setName] = useState("");
     const [url, setUrl] = useState("");
@@ -59,6 +60,8 @@ function BrandDetails(props) {
     const handleReset = () => {
         setName("");
         setUrl("");
+        const action = setInfo("");
+        dispatch(action);
     };
 
     console.log("name", name);

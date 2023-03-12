@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import cartAPI from "../../services/cartAPI";
 import { successDialog, failDialog } from "../Dialog";
 import { VND } from "../../utils/currency";
+import cartAPI from "../../services/cartAPI";
 
 function ProductCard(props) {
     //XỬ LÝ LƯU SẢN PHẨM VỪA CHỌN VÀO GIỎ HÀNG

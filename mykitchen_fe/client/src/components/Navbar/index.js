@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { Carousel, Dropdown, DropdownButton } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import PageHeader from "../PageHeader";
-import categoryAPI from "../../services/categoryAPI";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/userSlice";
+import PageHeader from "../PageHeader";
+import categoryAPI from "../../services/categoryAPI";
 
 function Navbar(props) {
+
+
     const { login, name } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    
     //CALL API
     const [categoryList, setCategoryList] = useState([]);
     useEffect(() => {
@@ -20,15 +25,21 @@ function Navbar(props) {
         getAllCategories();
     }, []);
 
+
     //XỬ LÝ DROPDOWN
     const [isDropdownShow, setIsDropdownShow] = useState(true);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
     const handleDropdownShow = () => setIsDropdownShow(!isDropdownShow);
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
+
+    //XỬ LÝ ĐĂNG XUẤT
     const handlelogOut = (e) => {
         dispatch(logout());
+        navigate("/");
     };
+
+
     return (
         <>
             <div className="container-fluid mb-5">

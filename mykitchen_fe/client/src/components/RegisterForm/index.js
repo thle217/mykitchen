@@ -2,9 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import userAPI from "../../services/userAPI";
+import cartAPI from "../../services/cartAPI";
 
 function RegisterForm() {
-    // console.log(user);
+
     //TẠO STATE CHO CÁC THÔNG TIN
     const init = {
         name: "",
@@ -48,10 +49,14 @@ function RegisterForm() {
                     password: data.password,
                 };
 
-                let a = await userAPI.register(obj);
-                console.log(">>>>data", a);
-                toast.success("Đăng ký thành công");
-                navigate("/login");
+                await userAPI.register(obj)
+                .then(async res => {
+                    if(res.status === 200) {
+                        await cartAPI.create(res.data.userId);
+                        toast.success("Đăng ký thành công");
+                        navigate("/login");
+                    }
+                })
             }
         }
     };

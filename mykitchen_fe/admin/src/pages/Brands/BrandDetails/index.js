@@ -28,7 +28,6 @@ function BrandDetails() {
         url: url,
     };
 
-<<<<<<< HEAD
     const handleSubmit = (e) => {
         e.preventDefault();
         let obj = {
@@ -71,51 +70,7 @@ function BrandDetails() {
                 successDialog();
             }
         });
-=======
-    const handleCreate = async (e) => {
-        e.preventDefault();
-        const res = await brandAPI.create(data);
-        console.log(res);
->>>>>>> 903fd19d022c8681bad8b413cd273dfb3805f4f1
-    };
-    const handleUpdate = async (obj) => {
-        await brandAPI.update(brand.brand_id, obj).then((res) => {
-            if (res.status === 200) {
-                successDialog();
-            }
-        });
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let obj = {
-            brand_name: data.brand_name,
-            url: data.url,
-        };
 
-        Swal.fire({
-            title: "BẠN CÓ MUỐN LƯU THÔNG TIN?",
-            confirmButtonText: "Lưu",
-            showCancelButton: true,
-            cancelButtonText: "Hủy",
-            customClass: {
-                title: "fs-5 text-dark",
-                confirmButton: "bg-primary shadow-none",
-                cancelButton: "bg-light shadow-none",
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                //UPDATE
-                if (brand) {
-                    handleUpdate(obj);
-                }
-
-                //CREATE
-                else {
-                    handleCreate(obj);
-                }
-            }
-        });
-    };
     return (
         <div className="col-md-5 mt-4">
             <form onSubmit={handleSubmit} method="post">

@@ -1,12 +1,14 @@
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { setInfo } from "../../../slices/commonSlice";
 
 function CategoryDetails(props) {
     
 
     //XỬ LÝ LẤY DỮ LIỆU TỪ STORE, LẤY HÀM TỪ PROPS VÀ TẠO STATE CHỨA
     const category = useSelector(state => state.common);
+    const dispatch = useDispatch();
     const { handleCreate, handleUpdate } = props;
     const [name, setName] = useState("");
     
@@ -58,6 +60,14 @@ function CategoryDetails(props) {
     };
 
 
+    //XỬ LÝ CLEAR INPUT
+    const handleReset = () => {
+        setName("");
+        const action = setInfo("");
+        dispatch(action);
+    }
+
+
     return (
         <div className="col-md-5 mt-4">
             <form action="" method="post" onSubmit={handleSubmit}>
@@ -71,7 +81,13 @@ function CategoryDetails(props) {
                     onChange={handleOnChange}
                 />
                 <div className="float-end">
-                    <button type="reset" className="btn-cancel btn btn-light mt-4 px-4 mx-2">HỦY</button>
+                    <button
+                        type="reset"
+                        className="btn-cancel btn btn-light mt-4 px-4 mx-2"
+                        onClick={handleReset}
+                    >
+                        HỦY
+                    </button>
                     <button type="submit" className="btn-save btn btn-dark mt-4 px-4" name="txt-category-id">LƯU</button>
                 </div>
             </form>

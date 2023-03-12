@@ -14,7 +14,7 @@ function ProductCard(props) {
     const navigate = useNavigate();
 
 
-    //DIALOG THÔNG BÁO ĐĂNG NHẬP TRƯỚC KHI THÊM VÀO GIỎ
+    //DIALOG THÔNG BÁO ĐĂNG NHẬP
     const loginDialog = () => {
         Swal.fire({
             title: "Bạn cần đăng nhập",

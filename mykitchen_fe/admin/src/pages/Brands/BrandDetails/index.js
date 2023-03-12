@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import brandAPI from "../../../services/brandAPI";
 import Swal from "sweetalert2";
-import { successDialog } from "../../../components/Dialog";
 
-function BrandDetails() {
+function BrandDetails(props) {
+    //GOI PROPS
+    const handleCreate = props.handleCreate;
+    const handleUpdate = props.handleUpdate;
     //XỬ LÝ LẤY DỮ LIỆU TỪ STORE VÀ TẠO STATE CHỨA
+
     const brand = useSelector((state) => state.common);
     const [name, setName] = useState("");
     const [url, setUrl] = useState("");
@@ -23,30 +25,13 @@ function BrandDetails() {
     const handleOnChangeUrl = (e) => {
         setUrl(e.target.value);
     };
-    const data = {
-        brand_name: name,
-        url: url,
-    };
 
-    const handleCreate = async (e) => {
-        e.preventDefault();
-        const res = await brandAPI.create(data);
-        console.log(res);
-    };
-    const handleUpdate = async (obj) => {
-        await brandAPI.update(brand.brand_id, obj).then((res) => {
-            if (res.status === 200) {
-                successDialog();
-            }
-        });
-    };
     const handleSubmit = (e) => {
         e.preventDefault();
         let obj = {
-            brand_name: data.brand_name,
-            url: data.url,
+            brand_name: name,
+            url: url,
         };
-
         Swal.fire({
             title: "BẠN CÓ MUỐN LƯU THÔNG TIN?",
             confirmButtonText: "Lưu",
@@ -60,10 +45,9 @@ function BrandDetails() {
         }).then((result) => {
             if (result.isConfirmed) {
                 //UPDATE
-                if (brand) {
+                if (brand.brand_id) {
                     handleUpdate(obj);
                 }
-
                 //CREATE
                 else {
                     handleCreate(obj);
@@ -71,6 +55,14 @@ function BrandDetails() {
             }
         });
     };
+
+    const handleReset = () => {
+        setName("");
+        setUrl("");
+    };
+
+    console.log("name", name);
+
     return (
         <div className="col-md-5 mt-4">
             <form onSubmit={handleSubmit} method="post">
@@ -100,6 +92,7 @@ function BrandDetails() {
                     <button
                         type="reset"
                         className="btn-cancel btn btn-light mt-4 px-4 mx-2"
+                        onClick={handleReset}
                     >
                         HỦY
                     </button>

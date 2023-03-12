@@ -6,7 +6,7 @@ const commonSlice = createSlice({
     initialState: {},
     reducers: {
         setInfo(state, action) {
-            return action.payload
+            return action.payload;
         },
     },
 });

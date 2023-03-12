@@ -12,25 +12,6 @@ import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-<<<<<<< HEAD
-    
-    return (
-        <Router>
-            <div className="App">
-                <Routes>
-                    {
-                        publicRoutes.map((route, index) => {
-                            const Page = route.page;
-                            let Layout = OtherPagesLayout;
-                            
-                            if(route.isHomePageLayout) {
-                                Layout = HomePageLayout;
-                            }
-                            if(route.isLoginRegisterLayout) {
-                                Layout = LoginRegisterLayout;
-                            }
-=======
->>>>>>> 558598f69f2ad732bd4886b65fa80dd19dfda07c
 
     const user = useSelector(state => state.user);
 

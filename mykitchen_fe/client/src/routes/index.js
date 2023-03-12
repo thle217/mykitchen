@@ -31,7 +31,11 @@ const publicRoutes = [
     {
         path: "/product-details",
         page: ProductDetails
-    }
+    },
+    {
+        path: "/search",
+        page: ProductSearchList
+    },
 ];
 
 const privateRoutes = [
@@ -47,18 +51,7 @@ const privateRoutes = [
     {
         path: "/checkout",
         page: Checkout
-<<<<<<< HEAD
     },
-    {
-        path: "/search/",
-        page: ProductSearchList
-    },
-];
-
-const privateRoutes = [
-=======
-    }
->>>>>>> 558598f69f2ad732bd4886b65fa80dd19dfda07c
 ];
 
 export { publicRoutes, privateRoutes };

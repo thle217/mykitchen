@@ -13,28 +13,16 @@ let initWebRotes = (app) => {
         res.send("backend mykitchen");
     });
 
-<<<<<<< HEAD
-  //Product
-  router.get("/api/product/get-all", productController.getAllProducts);
-  router.get("/api/product/:product_id", productController.getProductById);
-  router.get("/api/product/get-by-name/:product_name", productController.getProductsByname);
-  router.get("/api/get-popular", productController.getPopularProducts);
-  router.get("/api/get-latest", productController.getLatestProducts);
-  router.get("/api/product/get-by-category/:category_id", productController.getProductsByCategory);
-  router.post("/api/product/create", productController.createProduct);
-  router.put("/api/product/update/:product_id", productController.updateProduct);
-  router.delete("/api/product/delete/:product_id", productController.deleteProduct);
-=======
     //Product
     router.get("/api/product/get-all", productController.getAllProducts);
     router.get("/api/product/:product_id", productController.getProductById);
+    router.get("/api/product/get-by-name/:product_name", productController.getProductsByname);
     router.get("/api/get-popular", productController.getPopularProducts);
     router.get("/api/get-latest", productController.getLatestProducts);
-    router.get("/api/product/get-by-category/:category_id",productController.getProductsByCategory);
+    router.get("/api/product/get-by-category/:category_id", productController.getProductsByCategory);
     router.post("/api/product/create", productController.createProduct);
     router.put("/api/product/update/:product_id", productController.updateProduct);
     router.delete("/api/product/delete/:product_id", productController.deleteProduct);
->>>>>>> 558598f69f2ad732bd4886b65fa80dd19dfda07c
 
     //Brand
     router.get("/api/brand/get-all", brandController.getAllBrands);

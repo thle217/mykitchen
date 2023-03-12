@@ -22,7 +22,7 @@ let createBrand = async (req, res) => {
     type: sequelize.QueryTypes.SELECT,
   });
   if (brand.length > 0) {
-    res.status(400).json({ result: "brand already exists" });
+    res.status(200).json({ result: "brand already exists" });
   } else {
     if (req.body.brand_name !== undefined) {
       const sql = `INSERT INTO brands VALUES (DEFAULT,'${req.body.brand_name}','${req.body.url}')`;
@@ -31,7 +31,7 @@ let createBrand = async (req, res) => {
       });
       return res.status(200).json({ result: "Create successful" });
     } else {
-      return res.status(400).json({ result: "incomplete information" });
+      return res.status(200).json({ result: "incomplete information" });
     }
   }
 };
@@ -57,7 +57,7 @@ let updateBrand = async (req, res) => {
         return res.status(200).json({ result: "Update successful" });
       else return res.status(200).json({ result: "Update failed" });
     } else {
-      return res.status(400).json({ result: "incomplete information" });
+      return res.status(200).json({ result: "incomplete information" });
     }
   }
 };

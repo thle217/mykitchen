@@ -18,9 +18,7 @@ let initWebRotes = (app) => {
     router.get("/api/product/:product_id", productController.getProductById);
     router.get("/api/get-popular", productController.getPopularProducts);
     router.get("/api/get-latest", productController.getLatestProducts);
-    router.get(
-        "/api/product/get-by-category/:category_id",
-        productController.getProductsByCategory
+    router.get("/api/product/get-by-category/:category_id",productController.getProductsByCategory
     );
     router.post("/api/product/create", productController.createProduct);
     router.put(
@@ -44,10 +42,7 @@ let initWebRotes = (app) => {
     router.get("/api/category/get-id/:id", categoryController.getCategoryById);
     router.post("/api/category/create", categoryController.createCategory);
     router.put("/api/category/update/:id", categoryController.updateCaterogy);
-    router.delete(
-        "/api/category/delete/:id",
-        categoryController.deleteCaterogy
-    );
+    router.delete("/api/category/delete/:id",categoryController.deleteCaterogy);
     //User
     router.get("/api/user/get-all", userController.getAllUser);
     router.get("/api/user/get-id/:id", userController.getUserById);
@@ -73,7 +68,6 @@ let initWebRotes = (app) => {
         discountsController.deleteDiscounts
     );
 
-<<<<<<< HEAD
     //Cart
     router.get(
         "/api/cart/get-products/:user_id",
@@ -89,7 +83,7 @@ let initWebRotes = (app) => {
     router.put("/api/cart/decrease", cartController.decreaseQuantity);
 
     return app.use("/", router);
-=======
+
   //Category
   router.get("/api/category/get-all", categoryController.getAllCategories);
   router.get("/api/category/get-id/:id",categoryController.getCategoryById);
@@ -125,7 +119,7 @@ let initWebRotes = (app) => {
 
 
   return app.use("/", router);
->>>>>>> 7cf43e8762801711c671f46e412b5b22411945ac
+
 };
 
 export default initWebRotes;

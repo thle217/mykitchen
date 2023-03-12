@@ -24,9 +24,8 @@ function BrandList() {
     };
     
     useEffect(() => {
-<<<<<<< HEAD
         getAll(); 
-=======
+
         const getAllProducts = async () => {
             try{
                 setLoading(true);
@@ -39,7 +38,6 @@ function BrandList() {
             }
         };
         getAllProducts(); 
->>>>>>> 7cf43e8762801711c671f46e412b5b22411945ac
     },[]);
 
 
@@ -62,10 +60,13 @@ function BrandList() {
 
 
     //XỬ LÝ DELETE
-    const handleDelete = (record) => {
-        console.log('xóa brand', record);
-    }
-
+    // const handleDelete = (record) => {
+    //     console.log('xóa brand', record);
+    // }
+    const handleDelete = async (record) => {
+        await brandAPI.delete(record.brand_id);
+        getAll();
+    };
 
     return (
         <div className="container-fluid pt-4 px-4">

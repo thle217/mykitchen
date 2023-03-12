@@ -200,7 +200,7 @@ function DiscountDetails() {
                                             id="inputDescription"
                                             style={{ height: '100px' }}
                                             name="description"
-                                            value={values.description}
+                                            value={values.description || ""}
                                             onChange={handleChangeInput}
                                         ></textarea>
                                     </div>

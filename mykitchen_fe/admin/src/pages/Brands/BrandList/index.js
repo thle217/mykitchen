@@ -24,7 +24,22 @@ function BrandList() {
     };
     
     useEffect(() => {
+<<<<<<< HEAD
         getAll(); 
+=======
+        const getAllProducts = async () => {
+            try{
+                setLoading(true);
+                const response = await brandAPI.getAll();
+                setList(response.data);
+                setLoading(false);
+            }
+            catch(err){
+                throw new Error(err);
+            }
+        };
+        getAllProducts(); 
+>>>>>>> 7cf43e8762801711c671f46e412b5b22411945ac
     },[]);
 
 

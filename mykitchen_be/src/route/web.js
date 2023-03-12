@@ -73,6 +73,7 @@ let initWebRotes = (app) => {
         discountsController.deleteDiscounts
     );
 
+<<<<<<< HEAD
     //Cart
     router.get(
         "/api/cart/get-products/:user_id",
@@ -88,6 +89,43 @@ let initWebRotes = (app) => {
     router.put("/api/cart/decrease", cartController.decreaseQuantity);
 
     return app.use("/", router);
+=======
+  //Category
+  router.get("/api/category/get-all", categoryController.getAllCategories);
+  router.get("/api/category/get-id/:id",categoryController.getCategoryById);
+  router.post("/api/category/create", categoryController.createCategory);
+  router.put("/api/category/update/:id",categoryController.updateCaterogy);
+  router.delete("/api/category/delete/:id",categoryController.deleteCaterogy);
+  
+  //User
+  router.get("/api/user/get-all", userController.getAllUser);
+  router.get("/api/user/get-id/:id", userController.getUserById);
+  router.post("/api/user/create", userController.creatUser);
+  router.post("/api/user/create-admin", userController.creatAdmin);
+  router.delete("/api/user/delete/:id", userController.DeleteUser);
+  router.put("/api/user/update/:id", userController.UpdateUser);
+  router.post("/api/user/login", userController.loginUser);
+
+
+  //Discounts
+  router.get("/api/discounts/get-all", discountsController.getAllDiscounts);
+  router.get("/api/discounts/get-id/:id", discountsController.getDiscountsById);
+  router.post("/api/discounts/create", discountsController.creatDiscounts);
+  router.put("/api/discounts/update/:id", discountsController.updateDiscounts);
+  router.delete("/api/discounts/delete/:id", discountsController.deleteDiscounts);
+
+
+  //Cart
+  router.get("/api/cart/get-products/:user_id", cartController.getProductsFromCart);
+  router.post("/api/cart/add", cartController.addProductToCart);
+  router.post("/api/cart/create/:user_id", cartController.createCart);
+  router.delete("/api/cart/delete", cartController.deleteProductFromCart);
+  router.put("/api/cart/increase", cartController.increaseQuantity);
+  router.put("/api/cart/decrease", cartController.decreaseQuantity);
+
+
+  return app.use("/", router);
+>>>>>>> 7cf43e8762801711c671f46e412b5b22411945ac
 };
 
 export default initWebRotes;

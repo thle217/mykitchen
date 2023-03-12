@@ -7,13 +7,15 @@ import productAPI from "../../../services/productAPI";
 import { successDialog } from "../../../components/Dialog";
 
 function ProductDetails() {
+
+
     //XỬ LÝ LƯU THÔNG TIN SẢN PHẨM VỪA CHỌN Ở DATATABLE
     const { state } = useLocation();
     let product = null;
-    if (state) {
-        //nếu có state thì lưu, không thì giữ nguyên là null
+    if (state) { //nếu có state thì lưu, không thì giữ nguyên là null
         product = state.record;
     }
+
 
     //TẠO STATE CHO CÁC THÔNG TIN
     const initialValues = {
@@ -37,11 +39,12 @@ function ProductDetails() {
     const [brandList, setBrandList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
 
+
     //XỬ LÝ LẤY API BRAND - CATEGORY
     useEffect(() => {
         const getAllBrands = async () => {
             const res = await brandAPI.getAll();
-            setBrandList(res.data.data);
+            setBrandList(res.data);
         };
         const getAllCategories = async () => {
             const res = await categoryAPI.getAll();
@@ -52,6 +55,7 @@ function ProductDetails() {
         getAllCategories();
     }, []);
 
+
     //XỬ LÝ THAY ĐỔI INPUT
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -60,6 +64,7 @@ function ProductDetails() {
             [name]: value,
         });
     };
+
 
     //XỬ LÝ THAY ĐỔI BRAND - CATEGOTY
     const handleChangeBrandCategory = (e) => {
@@ -73,6 +78,7 @@ function ProductDetails() {
             [name]: el.getAttribute("value"),
         });
     };
+
 
     //XỬ LÝ SUBMIT
     const handleSubmit = (e) => {
@@ -104,7 +110,8 @@ function ProductDetails() {
                 confirmButton: "bg-primary shadow-none",
                 cancelButton: "bg-light shadow-none",
             },
-        }).then((result) => {
+        })
+        .then((result) => {
             if (result.isConfirmed) {
                 //UPDATE
                 if (product) {
@@ -119,6 +126,7 @@ function ProductDetails() {
         });
     };
 
+
     //XỬ LÝ CREATE
     const handleCreate = async (obj) => {
         await productAPI.create(obj).then((res) => {
@@ -129,6 +137,7 @@ function ProductDetails() {
         });
     };
 
+
     //XỬ LÝ UPDATE
     const handleUpdate = async (obj) => {
         await productAPI.update(product.product_id, obj).then((res) => {
@@ -137,6 +146,7 @@ function ProductDetails() {
             }
         });
     };
+
 
     //XỬ LÝ CLEAR INPUT
     const handleClear = () => {
@@ -158,6 +168,7 @@ function ProductDetails() {
             status: "",
         });
     };
+
 
     return (
         <div className="container-fluid pt-4 px-4">

@@ -59,7 +59,11 @@ let getProductsFromCart = async (req, res) => {
     const cart = await getCartInfo(req.params.user_id);
 
     if(cart.result) {
-        const sql = `SELECT * FROM carts_products WHERE cart_id = '${cart.data.cart_id}'`;
+        const sql = `SELECT products.product_id, products.product_name, products.price,
+        products.url, carts_products.quantity, carts_products.price as subtotal
+        FROM products JOIN carts_products ON products.product_id = carts_products.product_id
+        WHERE cart_id = '${cart.data.cart_id}'`;
+
         const products = await sequelize.query(sql, {type: QueryTypes.SELECT});
         return res.status(200).json({
             data: products
@@ -89,15 +93,16 @@ let addProductToCart = async (req, res) => {
             //SẢN PHẨM ĐÃ TỒN TẠI TRONG GIỎ
             if(product.length > 0) {
                 const quantity = parseInt(req.body.quantity) + parseInt(product[0].quantity);
+                const price = parseInt(req.body.price) * quantity;
     
                 //SỐ LƯỢNG VƯỢT GIỚI HẠN
                 if(quantity > 10) {
-                    return res.status(400).json({
-                        message: 'Sản phẩm đã đạt giới hạn số lượng hơn 10'
+                    return res.status(202).json({
+                        message: 'Sản phẩm đã đạt số lượng tối đa'
                     });
                 }
                 else {
-                    const sql2 = `UPDATE carts_products SET quantity = '${quantity}', price = '${req.body.price}'
+                    const sql2 = `UPDATE carts_products SET quantity = '${quantity}', price = '${price}'
                     WHERE cart_id = '${cart.data.cart_id}' AND product_id = '${req.body.product_id}'`;
 
                     await sequelize.query(sql2, {type: QueryTypes.UPDATE});
@@ -107,17 +112,18 @@ let addProductToCart = async (req, res) => {
                 }
             }
             else {
-                const quantiy = parseInt(req.body.quantity);
+                const quantity = parseInt(req.body.quantity);
+                const price = parseInt(req.body.price) * quantity;
 
-                if(quantiy > 10) {
-                    return res.status(400).json({
-                        message: 'Sản phẩm đã đạt giới hạn số lượng hơn 10'
+                if(quantity > 10) {
+                    return res.status(202).json({
+                        message: 'Sản phẩm đã đạt số lượng tối đa'
                     });
                 }
                 else {
                     const sql3 = `INSERT INTO carts_products
                     VALUES(DEFAULT, '${cart.data.cart_id}', '${req.body.product_id}',
-                    '${quantiy}', '${req.body.price}')`;
+                    '${quantity}', '${price}')`;
 
                     await sequelize.query(sql3, {type: QueryTypes.INSERT});
                     return res.status(201).json({
@@ -149,12 +155,12 @@ let deleteProductFromCart = async (req, res) => {
 
         //NẾU SẢN PHẨM CÓ TRONG HỆ THỐNG
         if(isValidProduct) {
-            const sql1 = `SELECT * FROM carts_products WHERE product_id = '${req.params.product_id}'`;
+            const sql1 = `SELECT * FROM carts_products WHERE product_id = '${req.body.product_id}'`;
             const product = await sequelize.query(sql1, {type: QueryTypes.SELECT});
     
             if(product.length > 0){
                 const sql2 = `DELETE FROM carts_products
-                WHERE cart_id = '${cart.data.cart_id}' AND product_id = '${req.params.product_id}'`;
+                WHERE cart_id = '${cart.data.cart_id}' AND product_id = '${req.body.product_id}'`;
 
                 await sequelize.query(sql2, {type: QueryTypes.DELETE});
                 return res.status(200).json({
@@ -193,7 +199,9 @@ let increaseQuantity = async (req, res) => {
             //KIỂM TRA SỐ LƯỢNG CHƯA == 10
             if(parseInt(req.body.quantity) < 10) {
                 const newQuantity = parseInt(req.body.quantity) + 1;
-                const sql1 = `UPDATE carts_products SET quantity = '${newQuantity}', price = '${req.body.price}'
+                const price = parseInt(req.body.price) * newQuantity;
+
+                const sql1 = `UPDATE carts_products SET quantity = '${newQuantity}', price = '${price}'
                 WHERE cart_id = '${cart.data.cart_id}' AND product_id = '${req.body.product_id}'`;
     
                 await sequelize.query(sql1, {type: QueryTypes.UPDATE});
@@ -202,7 +210,7 @@ let increaseQuantity = async (req, res) => {
                 });
             }
             else {
-                return res.status(400).json({
+                return res.status(202).json({
                     message: 'Sản phẩm đã đạt giới hạn số lượng tối đa'
                 });
             }
@@ -233,7 +241,9 @@ let decreaseQuantity = async (req, res) => {
             //KIỂM TRA SỐ LƯỢNG CHƯA == 1
             if(parseInt(req.body.quantity) > 1) {
                 const newQuantity = parseInt(req.body.quantity) - 1;
-                const sql1 = `UPDATE carts_products SET quantity = '${newQuantity}', price = '${req.body.price}'
+                const price = parseInt(req.body.price) * newQuantity;
+
+                const sql1 = `UPDATE carts_products SET quantity = '${newQuantity}', price = '${price}'
                 WHERE cart_id = '${cart.data.cart_id}' AND product_id = '${req.body.product_id}'`;
 
                 await sequelize.query(sql1, {type: QueryTypes.UPDATE});
@@ -242,7 +252,7 @@ let decreaseQuantity = async (req, res) => {
                 });
             }
             else {
-                return res.status(400).json({
+                return res.status(202).json({
                     message: 'Sản phẩm đã đạt số lượng tối thiểu'
                 });
             }

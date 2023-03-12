@@ -52,7 +52,7 @@ let creatUser = async (req, res) => {
         type: sequelize.QueryTypes.SELECT,
     });
     if (user.length > 0) {
-        return res.status(400).json({ result: "User already exists" });
+        return res.status(200).json({ result: "User already exists" });
     } else {
         if (
             req.body.username === undefined ||
@@ -60,7 +60,7 @@ let creatUser = async (req, res) => {
             req.body.email === undefined ||
             req.body.name === undefined
         ) {
-            return res.status(400).json({ result: "incomplete information" });
+            return res.status(200).json({ result: "incomplete information" });
         } else {
             const hashPass = await hashPassword(req.body.password);
             const sql = `INSERT INTO users(role_id, username,password,user_name,email)
@@ -79,7 +79,7 @@ let creatAdmin = async (req, res) => {
         type: sequelize.QueryTypes.SELECT,
     });
     if (user.length > 0) {
-        return res.status(400).json({ result: "User already exists" });
+        return res.status(200).json({ result: "User already exists" });
     } else {
         if (
             req.body.role === undefined ||
@@ -94,7 +94,7 @@ let creatAdmin = async (req, res) => {
             req.body.username === undefined ||
             req.body.password === undefined
         ) {
-            return res.status(400).json({ result: "incomplete information" });
+            return res.status(200).json({ result: "incomplete information" });
         } else {
             const hashPass = await hashPassword(req.body.password);
             const sql = `INSERT INTO users(role_id, user_name, gender, dob, phone, street, ward, district, city, username, password) 

@@ -3,12 +3,12 @@ function Search() {
      //CALL API
      
 
+     const navigate = useNavigate();
      const handleSubmit = event => {
        event.preventDefault();
-       const navigate = useNavigate();
        navigate('/');
        
-       keyword = document.getElementById("search-box").value
+       const keyword = document.getElementById("search-box").value
 
        
      };

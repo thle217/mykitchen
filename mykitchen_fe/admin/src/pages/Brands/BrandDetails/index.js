@@ -70,6 +70,7 @@ function BrandDetails() {
                 successDialog();
             }
         });
+    }
 
     return (
         <div className="col-md-5 mt-4">

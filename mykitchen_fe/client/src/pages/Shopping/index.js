@@ -1,21 +1,35 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ProductCard from "../../components/ProductCard";
 import productAPI from "../../services/productAPI";
 
 function Shopping() {
 
-
-    //CALL API
     const [productList, setProductList] = useState([]);
+    const keyword = useSelector(state => state.keyword);
+
     useEffect(() => {
-        const getAllProducts = async () => {
-            const res = await productAPI.getAll();
-            setProductList(res.data.data);
-        };
+        window.scrollTo(0, 0);
+        
+        //LẤY DANH SÁCH SẢN PHẨM SAU KHI TÌM KIẾM
+        if(keyword) {
+            const getProductByName = async () => {
+                const res = await productAPI.getByName(keyword);
+                setProductList(res.data.data);
+            };
+    
+            getProductByName();
+        }
 
-        getAllProducts();
-    }, []);
-
+        //LẤY TẤT CẢ SẢN PHẨM
+        else {
+            const getAllProducts = async () => {
+                const res = await productAPI.getAll();
+                setProductList(res.data.data);
+            };
+            getAllProducts();
+        }
+    }, [keyword]);
 
     return (
         <div className="container-fluid pt-5 mt-5">

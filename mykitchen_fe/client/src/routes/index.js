@@ -6,7 +6,6 @@ import Shopping from "../pages/Shopping";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
-import ProductSearchList from "../pages/ProductSearchList";
 
 const publicRoutes = [
     {
@@ -31,11 +30,7 @@ const publicRoutes = [
     {
         path: "/product-details",
         page: ProductDetails
-    },
-    {
-        path: "/search",
-        page: ProductSearchList
-    },
+    }
 ];
 
 const privateRoutes = [
@@ -51,7 +46,7 @@ const privateRoutes = [
     {
         path: "/checkout",
         page: Checkout
-    },
+    }
 ];
 
 export { publicRoutes, privateRoutes };

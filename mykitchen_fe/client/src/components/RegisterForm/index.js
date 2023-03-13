@@ -36,10 +36,10 @@ function RegisterForm() {
             data.password === "" ||
             data.repassword === ""
         ) {
-            toast.error("Vui lòng nhập đầy đủ thông tin");
+            toast.error("Vui lòng nhập đầy đủ thông tin", {autoClose: 2000, hideProgressBar: false});
         } else {
             if (data.password !== data.repassword) {  
-                toast.error("Mật khẩu không khớp");
+                toast.error("Mật khẩu không khớp", {autoClose: 2000, hideProgressBar: false});
               
             } else {
                 let obj = {
@@ -53,8 +53,8 @@ function RegisterForm() {
                 .then(async res => {
                     if(res.status === 200) {
                         await cartAPI.create(res.data.userId);
-                        toast.success("Đăng ký thành công");
                         navigate("/login");
+                        toast.success("Đăng ký thành công", {autoClose: 2000, hideProgressBar: false});
                     }
                 })
             }

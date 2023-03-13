@@ -128,8 +128,9 @@ function Navbar(props) {
                                     <div className="navbar-nav ml-auto py-0">
                                         <Dropdown>
                                             <Dropdown.Toggle
-                                                variant="outline-dark"
+                                                color="white"
                                                 id="dropdown-basic"
+                                                className="text-white"
                                             >
                                                 {name}
                                             </Dropdown.Toggle>

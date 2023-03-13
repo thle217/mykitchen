@@ -42,10 +42,9 @@ function LoginForm() {
                 if (a.data.result === "Incorrect account or password") {
                     setErr("Mật khẩu không chính xác");
                 } else {
-                    toast.success("Đăng nhập thành công");
                     dispatch(login(a.data));
                     navigate("/");
-
+                    toast.success("Đăng nhập thành công", {autoClose: 1000, hideProgressBar: false});
                 }
             }
         }

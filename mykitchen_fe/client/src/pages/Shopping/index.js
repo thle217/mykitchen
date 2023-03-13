@@ -6,6 +6,7 @@ import productAPI from "../../services/productAPI";
 function Shopping() {
 
     const [productList, setProductList] = useState([]);
+    const [notFound, setNotFound] = useState(false);
     const keyword = useSelector(state => state.keyword);
 
     useEffect(() => {
@@ -15,7 +16,15 @@ function Shopping() {
         if(keyword) {
             const getProductByName = async () => {
                 const res = await productAPI.getByName(keyword);
-                setProductList(res.data.data);
+                if(res.data.data.length === 0) {
+                    setNotFound(true);
+                }
+                else {
+                    if(notFound) {
+                        setNotFound(false);
+                    }
+                    setProductList(res.data.data);
+                }
             };
     
             getProductByName();
@@ -54,6 +63,10 @@ function Shopping() {
                         <div className="">
                             <div className="row">
                                 {
+                                    notFound
+                                    ?
+                                    <h3 className="text-muted">Không tìm thấy sản phẩm</h3>
+                                    :
                                     productList.map(product => {
                                         return (
                                             <div className="col-lg-4 col-md-6 col-sm-12" key={product.product_id}>

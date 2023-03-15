@@ -10,7 +10,7 @@ function Shopping() {
     const keyword = useSelector(state => state.keyword);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
         
         //LẤY DANH SÁCH SẢN PHẨM SAU KHI TÌM KIẾM
         if(keyword) {

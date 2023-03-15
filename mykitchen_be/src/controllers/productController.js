@@ -101,6 +101,37 @@ let getProductsByCategory = async (req, res) => {
     }
 }
 
+
+//GET BY BRAND
+let getProductsByBrand = async (req, res) => {
+
+    const sql1 = `SELECT * FROM brands WHERE brand_id = '${req.params.brand_id}'`;
+    const brand = await sequelize.query(sql1, {type: QueryTypes.SELECT});
+
+    if(brand.length > 0) {
+
+        const sql2 = `SELECT products.product_id, products.brand_id, products.category_id, product_name, size, weight,
+        material, country, price, status, description, capacity, wattage, products.url, brand_name, category_name
+        FROM brands JOIN products ON brands.brand_id = products.brand_id
+        JOIN categories ON products.category_id = categories.category_id
+        WHERE brands.brand_id = '${req.params.brand_id}'
+        ORDER BY products.product_id ASC`;
+    
+        const products = await sequelize.query(sql2, {type: QueryTypes.SELECT});
+    
+        return res.status(200).json({
+            data: products
+        });
+    }
+    else {
+        return res.status(404).json({
+            message: 'Không tìm thấy loại sản phẩm'
+        });
+    }
+}
+
+
+//GET BY NAME
 let getProductsByname = async (req, res) => {
     const sql = `SELECT products.product_id, products.brand_id, products.category_id, product_name, size, weight,
     material, country, price, status, description, capacity, wattage, products.url, brand_name, category_name
@@ -271,6 +302,7 @@ module.exports = {
     getPopularProducts,
     getLatestProducts,
     getProductsByCategory,
+    getProductsByBrand,
     getProductsByname,
     createProduct,
     updateProduct,

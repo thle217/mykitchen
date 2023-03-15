@@ -23,8 +23,8 @@ function ProductDetails() {
 
     //SCROLL MÀN HÌNH LÊN ĐẦU TRANG
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [state])
 
 
     //XỬ LÝ TĂNG SỐ LƯỢNG

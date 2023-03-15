@@ -15,16 +15,6 @@ function Footer() {
                     <p className="mb-2">Lưu Đình Vọng - DH51904922</p>
                 </div>
             </div>
-            <div className="row border-top border-light mx-xl-5 py-4">
-                <div className="col-md-12 px-xl-0">
-                    <p className="mb-md-0 text-center text-md-left text-dark" style={{textAlign: 'center !important'}}>
-                        &copy; <p className="text-dark font-weight-semi-bold">HN Kitchen</p>. All Rights Reserved. Designed
-                        by
-                        <p className="text-dark font-weight-semi-bold">HTML Codex</p><br/>
-                        Distributed By ThemeWagon
-                    </p>
-                </div>
-            </div>
         </div>
     )
 }

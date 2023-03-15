@@ -40,6 +40,13 @@ function Navbar(props) {
     };
 
 
+    //XỬ LÝ CHỌN LOẠI SẢN PHẨM
+    const handleClickCategory = (category) => {
+        console.log('click nè', category);
+        navigate("/shopping");
+    };
+
+
     return (
         <>
             <div className="container-fluid mb-5">
@@ -55,8 +62,8 @@ function Navbar(props) {
                                 {categoryList.map((category) => {
                                     return (
                                         <Dropdown.Item
-                                            href="#/action-1"
                                             key={category.category_id}
+                                            onClick={() => handleClickCategory(category)}
                                         >
                                             {category.category_name}
                                         </Dropdown.Item>
@@ -71,8 +78,8 @@ function Navbar(props) {
                                 {categoryList.map((category) => {
                                     return (
                                         <Dropdown.Item
-                                            href="#/action-1"
                                             key={category.category_id}
+                                            onClick={() => handleClickCategory(category)}
                                         >
                                             {category.category_name}
                                         </Dropdown.Item>

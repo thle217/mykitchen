@@ -12,7 +12,6 @@ function UserDetails() {
         //nếu có state thì lưu, không thì giữ nguyên là null
         user = state.record;
     }
-
     // console.log(user);
     //TẠO STATE CHO CÁC THÔNG TIN
     const init = {
@@ -38,13 +37,6 @@ function UserDetails() {
             [name]: value,
         });
     };
-    // console.log(">>", data);
-
-    // const createUser = async (e) => {
-    //     console.log(data);
-    //     const res = await userAPI.create(data);
-    //     console.log(res);
-    // };
 
     useEffect(() => {
         const getAllUser = async () => {
@@ -58,8 +50,8 @@ function UserDetails() {
         e.preventDefault();
 
         let obj = {
-            role: data.role,
-            name: data.name,
+            role: data.role_id,
+            name: data.user_name,
             gender: data.gender,
             dob: data.dob,
             phone: data.phone,
@@ -70,7 +62,6 @@ function UserDetails() {
             username: data.username,
             password: data.password,
         };
-
         Swal.fire({
             title: "BẠN CÓ MUỐN LƯU THÔNG TIN?",
             confirmButtonText: "Lưu",
@@ -99,7 +90,7 @@ function UserDetails() {
     // XỬ LÝ CREATE
     const handleCreate = async (obj) => {
         await userAPI.create(obj).then((res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 successDialog();
                 // handleClear();
             }
@@ -142,21 +133,42 @@ function UserDetails() {
                                         className="form-select"
                                         aria-label="Default select example"
                                         id="inputRole"
-                                        name="role"
+                                        name="role_id"
                                         onChange={handleOnChange}
                                     >
-                                        <option value={data.role_id}>
-                                            {data.role_id === "1"
-                                                ? "Khách hàng"
-                                                : data.role_id === "2"
-                                                ? "Nhân viên"
-                                                : data.role_id === "3"
-                                                ? "Quản trị viên"
-                                                : "Chọn vai trò"}
-                                        </option>
-                                        <option value="1">Khách hàng</option>
-                                        <option value="2">Nhân viên</option>
-                                        <option value="3">Quản trị viên</option>
+                                        {user ? (
+                                            <>
+                                                <option value={user.role_id}>
+                                                    {user.role_id === 1
+                                                        ? "Khách hàng"
+                                                        : user.role_id === 2
+                                                        ? "Nhân viên"
+                                                        : "Quản trị viên"}
+                                                </option>
+                                                <option value="1">
+                                                    Khách hàng
+                                                </option>
+                                                <option value="2">
+                                                    Nhân viên
+                                                </option>
+                                                <option value="3">
+                                                    Quản trị viên
+                                                </option>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <option>Chọn vai trò</option>
+                                                <option value="1">
+                                                    Khách hàng
+                                                </option>
+                                                <option value="2">
+                                                    Nhân viên
+                                                </option>
+                                                <option value="3">
+                                                    Quản trị viên
+                                                </option>
+                                            </>
+                                        )}
                                     </select>
                                 </div>
                                 <div className="col-4">

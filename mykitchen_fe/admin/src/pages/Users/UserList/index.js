@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataTable";
 import userAPI from "../../../services/userAPI";
 import { useState, useEffect } from "react";
-
+import Swal from "sweetalert2";
 function UserList() {
     const [listUser, setList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -55,7 +55,21 @@ function UserList() {
 
     // XỬ LÝ DELETE
     const handleDelete = async (record) => {
-        await userAPI.delete(record.user_id);
+        const a = await userAPI.delete(record.user_id);
+        if (a.status === 201) {
+            Swal.fire({
+                icon: "error",
+                text: "Tài khoản đang có giỏ hàng không thể xóa!",
+            });
+        } else {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Xóa thành công",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
         getAllUser();
     };
 

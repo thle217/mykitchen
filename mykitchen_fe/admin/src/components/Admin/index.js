@@ -1,7 +1,37 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { logout } from "../../slices/userSlice";
 
 function Admin() {
+
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const navigate  = useNavigate();
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "BẠN CÓ MUỐN ĐĂNG XUẤT?",
+            confirmButtonText: "Đăng xuất",
+            showCancelButton: true,
+            cancelButtonText: "Hủy",
+            customClass: {
+                title: "fs-5 text-dark",
+                confirmButton: "bg-primary shadow-none",
+                cancelButton: "bg-light shadow-none",
+            },
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                dispatch(logout());
+                navigate("/");
+            }
+        });
+    };
+
+
     return (
         <div className="navbar-nav align-items-center ms-auto">
             <div className="nav-item dropdown">
@@ -18,13 +48,10 @@ function Admin() {
                         <Nav>
                             <NavDropdown
                                 id="nav-dropdown-dark-example"
-                                title="Tên"
+                                title={user.name}
                                 menuVariant="light"
                             >
-                                <NavDropdown.Item href="#action/3.2">
-                                    Quản lý thông tin
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">
+                                <NavDropdown.Item onClick={handleLogout}>
                                     Đăng xuất
                                 </NavDropdown.Item>
                             </NavDropdown>

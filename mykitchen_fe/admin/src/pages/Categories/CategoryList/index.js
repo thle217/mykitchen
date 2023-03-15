@@ -4,6 +4,7 @@ import { successDialog } from "../../../components/Dialog";
 import DataTable from "../../../components/DataTable";
 import categoryAPI from "../../../services/categoryAPI";
 import CategoryDetails from "../CategoryDetails";
+import { deleteSuccess } from "../../../components/Dialog";
 
 function CategoryList() {
 
@@ -73,8 +74,13 @@ function CategoryList() {
 
     //XỬ LÝ DELETE
     const handleDelete = async (record) => {
-        await categoryAPI.delete(record.category_id);
-        getAll();
+        await categoryAPI.delete(record.category_id)
+        .then(res => {
+            if(res.status === 200) {
+                deleteSuccess();
+                getAll();
+            }
+        })
     }
 
 

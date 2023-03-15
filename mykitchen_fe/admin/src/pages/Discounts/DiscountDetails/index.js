@@ -154,6 +154,7 @@ function DiscountDetails() {
                                         className="form-control"
                                         id="inputPercent"
                                         name="percent"
+                                        placeholder="ví dụ: 10"
                                         value={values.percent}
                                         onChange={handleChangeInput}
                                     />
@@ -166,6 +167,7 @@ function DiscountDetails() {
                                         className="form-control"
                                         id="inputCondition"
                                         name="condition"
+                                        placeholder="ví dụ: 500000"
                                         value={values.condition}
                                         onChange={handleChangeInput}
                                     />

@@ -64,7 +64,6 @@ function BrandDetails(props) {
         dispatch(action);
     };
 
-    console.log("name", name);
 
     return (
         <div className="col-md-5 mt-4">

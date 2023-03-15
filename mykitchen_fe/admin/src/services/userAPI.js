@@ -18,6 +18,9 @@ const userAPI = {
     delete: (user_id) => {
         return axios.delete(`${baseURL}/api/user/delete/${user_id}`);
     },
+    login: (obj) => {
+        return axios.post(`${baseURL}/api/user/login`, obj);
+    }
 };
 
 export default userAPI;

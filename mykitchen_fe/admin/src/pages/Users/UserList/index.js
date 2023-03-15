@@ -3,6 +3,8 @@ import DataTable from "../../../components/DataTable";
 import userAPI from "../../../services/userAPI";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { deleteSuccess } from "../../../components/Dialog";
+
 function UserList() {
     const [listUser, setList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -62,13 +64,7 @@ function UserList() {
                 text: "Tài khoản đang có giỏ hàng không thể xóa!",
             });
         } else {
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Xóa thành công",
-                showConfirmButton: false,
-                timer: 1500,
-            });
+            deleteSuccess();
         }
         getAllUser();
     };

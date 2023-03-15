@@ -13,14 +13,14 @@ import DiscountDetails from "../pages/Discounts/DiscountDetails";
 
 const publicRoutes = [
     {
-        path: '/login',
+        path: '/',
         page: Login
     }
 ]
 
-const privateRoutes = [
+const staffRoutes = [
     {
-        path: '/',
+        path: '/home',
         page: Home,
         isMainLayout: true
     },
@@ -44,15 +44,6 @@ const privateRoutes = [
         page: ProductDetails
     },
     {
-        path: '/user-list',
-        page: UserList,
-        isMainLayout: true
-    },
-    {
-        path: '/user-details',
-        page: UserDetails
-    },
-    {
         path: '/order-list',
         page: OrderList,
         isMainLayout: true
@@ -60,6 +51,19 @@ const privateRoutes = [
     {
         path: '/order-details',
         page: OrderDetails
+    }
+]
+
+const adminRoutes = [
+    ...staffRoutes,
+    {
+        path: '/user-list',
+        page: UserList,
+        isMainLayout: true
+    },
+    {
+        path: '/user-details',
+        page: UserDetails
     },
     {
         path: '/discount-list',
@@ -74,5 +78,6 @@ const privateRoutes = [
 
 export {
     publicRoutes,
-    privateRoutes
+    staffRoutes,
+    adminRoutes
 };

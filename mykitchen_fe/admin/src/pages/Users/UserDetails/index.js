@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { successDialog } from "../../../components/Dialog";
@@ -12,7 +12,7 @@ function UserDetails() {
         //nếu có state thì lưu, không thì giữ nguyên là null
         user = state.record;
     }
-    // console.log(user);
+
     //TẠO STATE CHO CÁC THÔNG TIN
     const init = {
         role_id: user ? user.role_id : "",
@@ -37,14 +37,6 @@ function UserDetails() {
             [name]: value,
         });
     };
-
-    useEffect(() => {
-        const getAllUser = async () => {
-            const res = await userAPI.getAll();
-            console.log(">>", res.data);
-        };
-        getAllUser();
-    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -92,7 +84,6 @@ function UserDetails() {
         await userAPI.create(obj).then((res) => {
             if (res.status === 200) {
                 successDialog();
-                // handleClear();
             }
         });
     };

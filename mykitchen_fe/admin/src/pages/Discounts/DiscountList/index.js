@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataTable";
 import discountAPI from "../../../services/discountAPI";
+import { deleteSuccess } from "../../../components/Dialog";
 
 function DiscountList() {
 
@@ -29,8 +30,13 @@ function DiscountList() {
 
     //XỬ LÝ DELETE
     const handleDelete = async (record) => {
-        await discountAPI.delete(record.discount_id);
-        getAll();
+        await discountAPI.delete(record.discount_id)
+        .then(res => {
+            if(res.status === 200) {
+                deleteSuccess();
+                getAll();
+            }
+        })
     }
 
 

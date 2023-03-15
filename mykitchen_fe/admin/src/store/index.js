@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import commonSlice from "../slices/commonSlice";
+import userSlice from '../slices/userSlice';
 
 const rootReducer = {
-    common: commonSlice
+    common: commonSlice,
+    user: userSlice
 };
 
 const store = configureStore({

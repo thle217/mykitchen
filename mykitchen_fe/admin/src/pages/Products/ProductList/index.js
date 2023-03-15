@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataTable";
 import productAPI from "../../../services/productAPI";
+import { deleteSuccess } from "../../../components/Dialog";
 
 function ProductList() {
 
@@ -56,8 +57,13 @@ function ProductList() {
 
     //XỬ LÝ DELETE
     const handleDelete = async (record) => {
-        await productAPI.delete(record.product_id);
-        getAllProducts();
+        await productAPI.delete(record.product_id)
+        .then(res => {
+            if(res.status === 204) {
+                deleteSuccess();
+                getAllProducts();
+            }
+        })
     }
 
 

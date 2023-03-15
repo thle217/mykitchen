@@ -125,7 +125,7 @@ let getProductsByBrand = async (req, res) => {
     }
     else {
         return res.status(404).json({
-            message: 'Không tìm thấy loại sản phẩm'
+            message: 'Không tìm thấy thương hiệu'
         });
     }
 }

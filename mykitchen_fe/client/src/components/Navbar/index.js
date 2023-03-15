@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/userSlice";
 import PageHeader from "../PageHeader";
 import categoryAPI from "../../services/categoryAPI";
+import { setCategory } from "../../slices/categorySlice";
 
 function Navbar(props) {
 
@@ -42,7 +43,7 @@ function Navbar(props) {
 
     //XỬ LÝ CHỌN LOẠI SẢN PHẨM
     const handleClickCategory = (category) => {
-        console.log('click nè', category);
+        dispatch(setCategory(category));
         navigate("/shopping");
     };
 

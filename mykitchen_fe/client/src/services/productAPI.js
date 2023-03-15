@@ -20,6 +20,9 @@ const productAPI = {
     },
     getByCategory: (category_id) => {
         return axios.get(`${baseURL}/api/product/get-by-category/${category_id}`);
+    },
+    getByBrand: (brand_id) => {
+        return axios.get(`${baseURL}/api/product/get-by-brand/${brand_id}`);
     }
 }
 

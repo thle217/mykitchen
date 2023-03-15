@@ -8,13 +8,15 @@ function Shopping() {
     const [productList, setProductList] = useState([]);
     const [notFound, setNotFound] = useState(false);
     const keyword = useSelector(state => state.keyword);
+    const category = useSelector(state => state.category);
+    const brand = useSelector(state => state.brand);
 
     useEffect(() => {
         window.scrollTo({top: 0, behavior: 'smooth'});
         
         //LẤY DANH SÁCH SẢN PHẨM SAU KHI TÌM KIẾM
         if(keyword) {
-            const getProductByName = async () => {
+            const getProductsByName = async () => {
                 const res = await productAPI.getByName(keyword);
                 if(res.data.data.length === 0) {
                     setNotFound(true);
@@ -27,7 +29,27 @@ function Shopping() {
                 }
             };
     
-            getProductByName();
+            getProductsByName();
+        }
+
+        //LẤY DANH SÁCH THEO LOẠI
+        else if(category) {
+            const getProductsByCategory = async () => {
+                const res = await productAPI.getByCategory(category.category_id);
+                setProductList(res.data.data);
+            };
+
+            getProductsByCategory();
+        }
+
+        //LẤY DANH SÁCH THEO THƯƠNG HIỆU
+        else if(brand) {
+            const getProductsByBrand = async () => {
+                const res = await productAPI.getByBrand(brand.brand_id);
+                setProductList(res.data.data);
+            };
+
+            getProductsByBrand(); 
         }
 
         //LẤY TẤT CẢ SẢN PHẨM
@@ -38,7 +60,7 @@ function Shopping() {
             };
             getAllProducts();
         }
-    }, [keyword]);
+    }, [keyword || category || brand]);
 
     return (
         <div className="container-fluid pt-5 mt-5">

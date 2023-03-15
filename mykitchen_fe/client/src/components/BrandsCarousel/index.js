@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import brandAPI from "../../services/brandAPI";
+import { setBrand } from "../../slices/brandSlice";
 
 function BrandsCarousel() {
+
+
     //CALL API
     const [brandList, setBrandList] = useState([]);
     useEffect(() => {
@@ -13,6 +18,7 @@ function BrandsCarousel() {
         getAllBrands();
     }, []);
 
+
     //ĐỊNH DẠNG SLIDER
     const settings = {
         dots: true,
@@ -20,7 +26,7 @@ function BrandsCarousel() {
         arrows: false,
         autoplay: true,
         autoplaySpeed: 3000,
-        speed: 3000,
+        speed: 5000,
         slidesToShow: 6,
         slidesToScroll: 6,
         initialSlide: 0,
@@ -52,6 +58,17 @@ function BrandsCarousel() {
         ],
     };
 
+
+    //XỬ LÝ CHỌN THƯƠNG HIỆU
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleClickBrand = (brand) => {
+        dispatch(setBrand(brand));
+        navigate("/shopping");
+    };
+
+
     return (
         <div className="container-fluid py-5">
             <div className="row px-xl-5">
@@ -64,6 +81,7 @@ function BrandsCarousel() {
                                         src={brand.url}
                                         style={{ width: "100%" }}
                                         alt=""
+                                        onClick={() => handleClickBrand(brand)}
                                     />
                                 </div>
                             );

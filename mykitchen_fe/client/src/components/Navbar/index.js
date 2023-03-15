@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Carousel, Dropdown, DropdownButton, Nav } from "react-bootstrap";
+import { Carousel, Dropdown, DropdownButton } from "react-bootstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/userSlice";

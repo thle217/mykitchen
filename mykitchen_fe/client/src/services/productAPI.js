@@ -4,7 +4,7 @@ const baseURL = process.env.REACT_APP_API_URL;
 
 const productAPI = {
     getAll: () => {
-        return axios.get(`${baseURL}/api/product/get-all`);
+        return axios.get(`${baseURL}/api/product/get-active`);
     },
     getById: (product_id) => {
         return axios.get(`${baseURL}/api/product/${product_id}`);

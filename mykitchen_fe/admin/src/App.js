@@ -10,7 +10,6 @@ import SubLayout from "./layouts/SubLayout";
 function App() {
 
     const user = useSelector(state => state.user);
-    console.log('user bên app', user);
 
     return (
         <Router>

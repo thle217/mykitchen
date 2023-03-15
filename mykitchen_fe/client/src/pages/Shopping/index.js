@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../../components/ProductCard";
 import productAPI from "../../services/productAPI";
 
@@ -33,23 +33,23 @@ function Shopping() {
         }
 
         //LẤY DANH SÁCH THEO LOẠI
-        else if(category) {
+        else if(category.category_id) {
             const getProductsByCategory = async () => {
                 const res = await productAPI.getByCategory(category.category_id);
                 setProductList(res.data.data);
             };
-
+            
             getProductsByCategory();
         }
 
         //LẤY DANH SÁCH THEO THƯƠNG HIỆU
-        else if(brand) {
+        else if(brand.brand_id) {
             const getProductsByBrand = async () => {
                 const res = await productAPI.getByBrand(brand.brand_id);
                 setProductList(res.data.data);
             };
-
-            getProductsByBrand(); 
+            
+            getProductsByBrand();
         }
 
         //LẤY TẤT CẢ SẢN PHẨM

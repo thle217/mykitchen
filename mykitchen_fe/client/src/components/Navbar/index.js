@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Carousel, Dropdown, DropdownButton } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Carousel, Dropdown, DropdownButton, Nav } from "react-bootstrap";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../slices/userSlice";
 import PageHeader from "../PageHeader";
 import categoryAPI from "../../services/categoryAPI";
 import { setCategory } from "../../slices/categorySlice";
+import { setBrand } from "../../slices/brandSlice";
 
 function Navbar(props) {
 
@@ -46,6 +47,13 @@ function Navbar(props) {
         dispatch(setCategory(category));
         navigate("/shopping");
     };
+
+
+    //XỬ LÝ CHỌN "MUA SẮM" -> HIỂN THỊ TẤT CẢ
+    const handleClickShopping = () => {
+        dispatch(setCategory({}));
+        dispatch(setBrand({}));
+    }
 
 
     return (
@@ -119,18 +127,19 @@ function Navbar(props) {
                                 id="navbarCollapse"
                             >
                                 <div className="navbar-nav mr-auto py-0">
-                                    <Link
+                                    <NavLink
                                         to="/"
-                                        className="nav-item nav-link active"
-                                    >
-                                        Trang chủ
-                                    </Link>
-                                    <Link
-                                        to="/shopping"
                                         className="nav-item nav-link"
                                     >
+                                        Trang chủ
+                                    </NavLink>
+                                    <NavLink
+                                        to="/shopping"
+                                        className="nav-item nav-link"
+                                        onClick={handleClickShopping}
+                                    >
                                         Mua sắm
-                                    </Link>
+                                    </NavLink>
                                 </div>
                                 {login ? (
                                     <div className="navbar-nav ml-auto py-0">

@@ -20,6 +20,25 @@ let getAllProducts = async (req, res) => {
 };
 
 
+//GET ALL ACTIVE
+let getAllActive = async (req, res) => {
+
+    const sql = `SELECT products.product_id, products.brand_id, products.category_id, product_name, size, weight,
+    material, country, price, status, description, capacity, wattage, products.url, brand_name, category_name
+    FROM brands JOIN products ON brands.brand_id = products.brand_id
+    JOIN categories ON products.category_id = categories.category_id
+    WHERE products.status = 'Active'
+    ORDER BY products.product_id ASC
+    `;
+
+    const products = await sequelize.query(sql, {type: QueryTypes.SELECT});
+
+    return res.status(200).json({
+        data: products
+    });
+};
+
+
 //GET BY ID
 let getProductById = async (req, res) => {
 
@@ -298,6 +317,7 @@ let deleteProduct = async (req, res) => {
 
 module.exports = {
     getAllProducts,
+    getAllActive,
     getProductById,
     getPopularProducts,
     getLatestProducts,

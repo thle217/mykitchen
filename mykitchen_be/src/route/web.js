@@ -15,6 +15,7 @@ let initWebRotes = (app) => {
 
     //Product
     router.get("/api/product/get-all", productController.getAllProducts);
+    router.get("/api/product/get-active", productController.getAllActive);
     router.get("/api/product/:product_id", productController.getProductById);
     router.get("/api/product/get-by-name/:product_name", productController.getProductsByname);
     router.get("/api/get-popular", productController.getPopularProducts);

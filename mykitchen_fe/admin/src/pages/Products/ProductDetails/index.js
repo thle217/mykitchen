@@ -33,7 +33,7 @@ function ProductDetails() {
         material: product ? product.material : "",
         country: product ? product.country : "",
         description: product ? product.description : "",
-        status: product ? product.status : "",
+        status: product ? product.status : 'Active',
     };
     const [values, setValues] = useState(initialValues);
     const [brandList, setBrandList] = useState([]);

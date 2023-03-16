@@ -32,7 +32,10 @@ function SearchInput() {
                     value={value}
                     onChange={handleChangeValue}
                 />
-                <div className="input-group-append">
+                <div
+                    className="input-group-append"
+                    hidden={value ===""?true:false}
+                >
                     <span className="input-group-text bg-primary">
                         <button
                             type="submit"

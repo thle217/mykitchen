@@ -5,6 +5,7 @@ import BrandDetails from "../BrandDetails";
 import { successDialog } from "../../../components/Dialog";
 import { useSelector } from "react-redux";
 import { deleteSuccess } from "../../../components/Dialog";
+import Swal from "sweetalert2";
 
 function BrandList() {
     const brand = useSelector((state) => state.common);
@@ -64,13 +65,22 @@ function BrandList() {
 
     //XỬ LÝ DELETE
     const handleDelete = async (record) => {
-        await brandAPI.delete(record.brand_id)
-        .then(res => {
-            if(res.status === 200) {
+        await brandAPI.delete(record.brand_id).then((res) => {
+            if (res.status === 202) {
+                Swal.fire({
+                    icon: "error",
+                    text: "Không có thương hiệu!",
+                });
+            } else if (res.status === 201) {
+                Swal.fire({
+                    icon: "error",
+                    text: "Thương hiệu có sản phẩm!",
+                });
+            } else {
                 deleteSuccess();
                 getAll();
             }
-        })
+        });
     };
 
     return (
